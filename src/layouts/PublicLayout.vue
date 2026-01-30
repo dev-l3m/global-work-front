@@ -49,6 +49,16 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 
+function goToLogin() {
+  router.push('/connexion?role=client')
+  mobileMenu.value = false
+}
+
+function goToContact() {
+  router.push('/contactez-nous')
+  mobileMenu.value = false
+}
+
 const year = new Date().getFullYear()
 </script>
 
@@ -593,10 +603,7 @@ const year = new Date().getFullYear()
             block
             size="large"
             class="mb-3 text-none font-weight-bold"
-            @click="
-              router.push('/connexion?role=client')
-              mobileMenu = false
-            "
+            @click="goToLogin"
           >
             ESPACE CLIENT
           </v-btn>
@@ -606,10 +613,7 @@ const year = new Date().getFullYear()
             block
             size="large"
             class="text-none font-weight-bold"
-            @click="
-              router.push('/contactez-nous')
-              mobileMenu = false
-            "
+            @click="goToContact"
           >
             CONTACTEZ-NOUS
           </v-btn>
@@ -849,7 +853,7 @@ const year = new Date().getFullYear()
 .nav-right {
   flex-shrink: 0;
   display: flex;
-  gap: 0;
+  gap: 8px;
 }
 
 .cta-btn {
