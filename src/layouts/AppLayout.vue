@@ -11,6 +11,14 @@ const { mobile } = useDisplay()
 
 const drawerOpen = ref(false)
 
+/** Sur desktop le drawer est toujours visible ; sur mobile il suit drawerOpen. */
+const drawerModel = computed({
+  get: () => (mobile.value ? drawerOpen.value : true),
+  set: (v: boolean) => {
+    if (mobile.value) drawerOpen.value = v
+  },
+})
+
 const title = computed(() => {
   if (route.name === 'client') return 'Espace client'
   if (route.name === 'collaborateur') return 'Espace collaborateur'
@@ -34,7 +42,7 @@ function handleLogout() {
 
 <template>
   <v-app class="app-layout-dashboard">
-    <v-navigation-drawer :permanent="!mobile" v-model="drawerOpen" class="dashboard-drawer">
+    <v-navigation-drawer :permanent="!mobile" v-model="drawerModel" class="dashboard-drawer">
       <div class="drawer-content d-flex flex-column h-100">
         <v-list density="comfortable" nav class="flex-grow-0">
           <v-list-item class="mb-2" title="Global Work Hub" subtitle="Portail" />
