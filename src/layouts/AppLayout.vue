@@ -25,6 +25,11 @@ function onLogout() {
 function closeDrawer() {
   if (mobile.value) drawerOpen.value = false
 }
+
+function handleLogout() {
+  closeDrawer()
+  onLogout()
+}
 </script>
 
 <template>
@@ -74,10 +79,7 @@ function closeDrawer() {
             variant="outlined"
             color="error"
             class="text-none"
-            @click="
-              onLogout()
-              closeDrawer()
-            "
+            @click="handleLogout"
           >
             Déconnexion
           </v-btn>
