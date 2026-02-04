@@ -55,6 +55,8 @@ const formData = ref({
   website: '',
   // Étape 2
   contactName: '',
+  sex: '' as '' | 'femme' | 'homme',
+  countryOfOrigin: '',
   contactFunction: '',
   contactPhone: '',
   // Étape 3
@@ -281,8 +283,13 @@ const activitySectors = ['Services', 'BTP', 'Commerce', 'Santé', 'Formation', '
 // Tailles d'entreprise
 const companySizes = ['1-5', '6-20', '21-50', '+50 salariés', 'Autre']
 
-// Services Global Work Hub (liste complète)
+// Services Global Work Hub (liste détaillée + option Autre)
 const gwhServices = [
+  'Recrutement international',
+  'Partage salarial (EOR)',
+  'Gestion de co',
+  'RH et administratif',
+  'Accompagnement / Conseil',
   'Administration / Services publics',
   'Architecture / Urbanisme / Design',
   'Art / Culture / Audiovisuel / Média',
@@ -304,7 +311,7 @@ const gwhServices = [
   'Sécurité / Défense / Protection',
   'Social / Humanitaire / ONG',
   'Sport / Bien-être / Loisirs',
-  'Autre secteur',
+  'Autre',
 ]
 
 const canProceed = computed(() => selectedType.value !== null)
@@ -336,12 +343,22 @@ function validateStep(step: number): boolean {
     if (!formData.value.contactName.trim()) {
       errors.value.contactName = 'Le nom complet du contact est obligatoire'
     }
+    if (!formData.value.sex) {
+      errors.value.sex = 'Le sexe est obligatoire'
+    }
+    if (!formData.value.countryOfOrigin) {
+      errors.value.countryOfOrigin = "Le pays d'origine est obligatoire"
+    }
   } else if (step === 3) {
     if (!formData.value.serviceInterest) {
       errors.value.serviceInterest = 'Veuillez sélectionner un service'
     }
-    if (formData.value.serviceInterest === 'Autre secteur' && !formData.value.otherService.trim()) {
-      errors.value.otherService = "Veuillez préciser l'autre service"
+    if (
+      (formData.value.serviceInterest === 'Autre' ||
+        formData.value.serviceInterest === 'Autre secteur') &&
+      !formData.value.otherService.trim()
+    ) {
+      errors.value.otherService = 'Veuillez préciser votre demande'
     }
     if (formData.value.hasPartner === null) {
       errors.value.hasPartner = 'Veuillez répondre à cette question'
@@ -424,13 +441,19 @@ async function submit() {
 
   try {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    // await registerUser({ ...formData.value, type: registrationType.value })
+    // TODO: Appel API inscription + envoi mail depuis contact@globalworkhub.com
+    // TODO: Réception demande sur gestiondeprojets@l3m-holding.fr
     router.push('/connexion?registered=true')
   } catch (err) {
     errors.value.submit = err instanceof Error ? err.message : 'Une erreur est survenue'
   } finally {
     isLoading.value = false
   }
+}
+
+function signUpWithGoogle() {
+  // TODO: Intégration Google Sign-In (OAuth) pour l'inscription
+  router.push('/connexion?signup=google')
 }
 
 const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100)
@@ -505,7 +528,7 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                 @click="nextStep"
                 style="padding: 16px 32px; font-size: 16px"
               >
-                SUIVANT
+                Suivant
                 <v-icon icon="mdi-arrow-right" class="ml-2" />
               </v-btn>
             </div>
@@ -673,6 +696,43 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                     />
                   </v-col>
 
+                  <v-col cols="12" md="6">
+                    <v-select
+                      v-model="formData.sex"
+                      label="Sexe *"
+                      :items="[
+                        { title: 'Femme', value: 'femme' },
+                        { title: 'Homme', value: 'homme' },
+                      ]"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-account-outline"
+                      :error-messages="errors.sex"
+                      required
+                    >
+                      <template #prepend-item>
+                        <v-list-item title="— Choisir —" disabled />
+                        <v-divider />
+                      </template>
+                    </v-select>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <v-select
+                      v-model="formData.countryOfOrigin"
+                      label="Pays d'origine *"
+                      :items="countries"
+                      variant="outlined"
+                      prepend-inner-icon="mdi-earth"
+                      :error-messages="errors.countryOfOrigin"
+                      required
+                    >
+                      <template #prepend-item>
+                        <v-list-item title="— Choisir un pays —" disabled />
+                        <v-divider />
+                      </template>
+                    </v-select>
+                  </v-col>
+
                   <v-col cols="12">
                     <v-text-field
                       v-model="formData.contactFunction"
@@ -708,14 +768,15 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                       required
                     >
                       <template #prepend-item>
-                        <v-list-item title="—Veuillez choisir une option—" disabled />
+                        <v-list-item title="— Veuillez choisir une option —" disabled />
                         <v-divider />
                       </template>
                     </v-select>
                     <v-text-field
-                      v-if="formData.serviceInterest === 'Autre secteur'"
+                      v-if="formData.serviceInterest === 'Autre'"
                       v-model="formData.otherService"
-                      label="Autre service"
+                      label="Précisez votre demande"
+                      placeholder="Décrivez votre besoin si aucune option ne correspond"
                       variant="outlined"
                       :error-messages="errors.otherService"
                       class="mt-2"
@@ -781,7 +842,9 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                   </v-col>
 
                   <v-col cols="12">
-                    <div class="text-subtitle-2 font-weight-medium mb-3">Conditions</div>
+                    <div class="text-subtitle-2 font-weight-medium mb-3">
+                      Conditions d'utilisation
+                    </div>
                     <v-checkbox
                       v-model="formData.acceptTerms"
                       color="primary"
@@ -795,7 +858,7 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                             class="text-primary text-decoration-none"
                             target="_blank"
                           >
-                            Conditions générales d'utilisation
+                            conditions générales d'utilisation
                           </router-link>
                           et la
                           <router-link
@@ -803,8 +866,9 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                             class="text-primary text-decoration-none"
                             target="_blank"
                           >
-                            Politique de confidentialité
+                            politique de confidentialité
                           </router-link>
+                          de Global Work Hub.
                         </span>
                       </template>
                     </v-checkbox>
@@ -814,15 +878,30 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
                   </v-col>
 
                   <v-col cols="12">
-                    <div class="text-subtitle-2 font-weight-medium mb-3">Autorisations</div>
+                    <div class="text-subtitle-2 font-weight-medium mb-3">Newsletter et contact</div>
                     <v-checkbox v-model="formData.acceptContact" color="primary">
                       <template #label>
                         <span>
-                          J'autorise Global Work Hub à me contacter dans le cadre de mon inscription
-                          et des services proposés.
+                          J'accepte de recevoir les actualités et les communications commerciales de
+                          Global Work Hub (newsletter, offres, informations sur les services).
                         </span>
                       </template>
                     </v-checkbox>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-divider class="my-4" />
+                    <div class="text-body-2 text-medium-emphasis mb-3">Ou créer un compte avec</div>
+                    <v-btn
+                      variant="outlined"
+                      size="large"
+                      block
+                      class="google-signup-button text-none"
+                      @click="signUpWithGoogle"
+                    >
+                      <v-icon icon="mdi-google" class="mr-2" />
+                      S'inscrire avec Google
+                    </v-btn>
                   </v-col>
 
                   <v-col cols="12">
@@ -948,5 +1027,18 @@ const progressPercentage = computed(() => (currentStep.value / totalSteps) * 100
 
 .register-button:disabled {
   opacity: 0.6;
+}
+
+.google-signup-button {
+  border-radius: 12px;
+  border: 2px solid rgba(107, 90, 224, 0.2);
+  text-transform: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.google-signup-button:hover {
+  border-color: rgba(107, 90, 224, 0.4);
+  background: rgba(107, 90, 224, 0.05);
 }
 </style>

@@ -98,7 +98,7 @@ const benefits = [
       <v-btn
         color="primary"
         size="large"
-        class="text-none font-weight-bold"
+        class="text-none font-weight-bold gestion-cta-btn"
         prepend-icon="mdi-arrow-right"
         href="#contact"
       >
@@ -129,5 +129,11 @@ const benefits = [
 .benefit-card:hover {
   transform: translateX(8px);
   box-shadow: 0 8px 24px rgba(255, 122, 60, 0.15);
+}
+
+@media (max-width: 599px) {
+  .gestion-cta-btn {
+    font-size: 0.875rem !important;
+  }
 }
 </style>

@@ -73,7 +73,7 @@ const phases = [
       <v-btn
         color="primary"
         size="large"
-        class="text-none font-weight-bold"
+        class="text-none font-weight-bold ecosystem-cta-btn"
         prepend-icon="mdi-arrow-right"
         href="#contact"
       >
@@ -94,5 +94,11 @@ const phases = [
 .phase-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(107, 90, 224, 0.15);
+}
+
+@media (max-width: 599px) {
+  .ecosystem-cta-btn {
+    font-size: 0.875rem !important;
+  }
 }
 </style>

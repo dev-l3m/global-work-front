@@ -60,7 +60,7 @@ const benefits = [
       <v-btn
         color="primary"
         size="x-large"
-        class="text-none font-weight-bold"
+        class="text-none font-weight-bold rhadmin-cta-btn"
         prepend-icon="mdi-phone"
         href="#contact"
         style="padding: 16px 32px; font-size: 16px"
@@ -111,5 +111,11 @@ const benefits = [
   transform: translateY(-16px);
   box-shadow: 0 24px 80px rgba(107, 90, 224, 0.25);
   border-color: rgba(107, 90, 224, 0.3);
+}
+
+@media (max-width: 599px) {
+  .rhadmin-cta-btn {
+    font-size: 0.875rem !important;
+  }
 }
 </style>

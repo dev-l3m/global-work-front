@@ -29,7 +29,8 @@ onMounted(() => {
             profils internationaux hautement qualifiés, sélectionnés, encadrés et prêts à rejoindre
             vos équipes.
           </div>
-          <div class="d-flex ga-3 mt-8 flex-wrap">
+          <!-- 3 CTAs principaux (affichage type site référence) -->
+          <div class="hero-ctas">
             <v-btn
               color="secondary"
               size="large"
@@ -44,7 +45,17 @@ onMounted(() => {
               color="white"
               size="large"
               class="text-none hero-cta-secondary"
-              href="#pourquoi"
+              href="/recrutement"
+            >
+              <v-icon icon="mdi-account-search" class="mr-2" />
+              Découvrir nos services
+            </v-btn>
+            <v-btn
+              variant="outlined"
+              color="white"
+              size="large"
+              class="text-none hero-cta-secondary"
+              href="/pourquoi-global-work-hub"
             >
               Pourquoi Global Work Hub
               <v-icon icon="mdi-arrow-right" class="ml-2" />
@@ -211,6 +222,13 @@ onMounted(() => {
 .hero-cta-secondary:hover {
   background-color: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2rem;
 }
 
 .hero-badges {

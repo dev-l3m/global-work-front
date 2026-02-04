@@ -4,142 +4,149 @@ import type { RouteLocationNormalized } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const routes = [
+  // ——— Public (accueil, pourquoi, témoignages) ———
   {
     path: '/',
     name: 'landing',
-    component: () => import('@/views/LandingView.vue'),
+    component: () => import('@/views/public/LandingView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/pourquoi-global-work-hub',
     name: 'why',
-    component: () => import('@/views/WhyGlobalWorkHubView.vue'),
+    component: () => import('@/views/public/WhyGlobalWorkHubView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/ce-quon-dit-sur-nous',
     name: 'testimonials',
-    component: () => import('@/views/TestimonialsView.vue'),
+    component: () => import('@/views/public/TestimonialsView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— À propos ———
   {
     path: '/notre-mission',
     name: 'mission',
-    component: () => import('@/views/MissionView.vue'),
+    component: () => import('@/views/about/MissionView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/notre-methode',
     name: 'methode',
-    component: () => import('@/views/MethodeView.vue'),
+    component: () => import('@/views/about/MethodeView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Services ———
   {
     path: '/recrutement',
     name: 'recrutement',
-    component: () => import('@/views/RecrutementView.vue'),
+    component: () => import('@/views/services/RecrutementView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/partage-salarial',
     name: 'partage-salarial',
-    component: () => import('@/views/PartageSalarialView.vue'),
+    component: () => import('@/views/services/PartageSalarialView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/gestion-de-co',
     name: 'gestion-de-co',
-    component: () => import('@/views/GestionCoView.vue'),
+    component: () => import('@/views/services/GestionCoView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/rh-et-administratif',
     name: 'rh-admin',
-    component: () => import('@/views/RHAdminView.vue'),
+    component: () => import('@/views/services/RHAdminView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/accompagnement-conseil',
     name: 'conseil',
-    component: () => import('@/views/ConseilView.vue'),
+    component: () => import('@/views/services/ConseilView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Ressources (blog, FAQ, légal) ———
   {
     path: '/blog-conseils',
     name: 'blog',
-    component: () => import('@/views/BlogView.vue'),
+    component: () => import('@/views/resources/BlogView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/faq',
     name: 'faq',
-    component: () => import('@/views/FAQView.vue'),
+    component: () => import('@/views/resources/FAQView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/politique-de-confidentialite',
     name: 'privacy',
-    component: () => import('@/views/PrivacyView.vue'),
+    component: () => import('@/views/resources/PrivacyView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/conditions-tarification',
     name: 'tarification',
-    component: () => import('@/views/TarificationView.vue'),
+    component: () => import('@/views/resources/TarificationView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/structure-securite',
     name: 'structure',
-    component: () => import('@/views/StructureView.vue'),
+    component: () => import('@/views/resources/StructureView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/mentions-legales',
     name: 'legal',
-    component: () => import('@/views/LegalView.vue'),
+    component: () => import('@/views/resources/LegalView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/conditions-generales-utilisation',
     name: 'cgu',
-    component: () => import('@/views/CGUView.vue'),
+    component: () => import('@/views/resources/CGUView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/politique-de-protection-des-donnees-personnelles',
     name: 'rgpd',
-    component: () => import('@/views/RGDPView.vue'),
+    component: () => import('@/views/resources/RGDPView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Contact ———
   {
     path: '/contactez-nous',
     name: 'contact',
-    component: () => import('@/views/ContactView.vue'),
+    component: () => import('@/views/contact/ContactView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Auth (connexion / inscription) ———
   {
     path: '/inscription',
     name: 'register',
-    component: () => import('@/views/RegisterView.vue'),
+    component: () => import('@/views/auth/RegisterView.vue'),
     meta: { layout: 'public' },
   },
   {
     path: '/connexion',
     name: 'login',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/views/auth/LoginView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Tableaux de bord (espaces connectés) ———
   {
     path: '/espace-client',
     name: 'client',
-    component: () => import('@/views/ClientDashboardView.vue'),
+    component: () => import('@/views/dashboard/ClientDashboardView.vue'),
     meta: { requiresAuth: true, role: 'client', layout: 'app' },
   },
   {
     path: '/espace-collaborateur',
     name: 'collaborateur',
-    component: () => import('@/views/CollaborateurDashboardView.vue'),
+    component: () => import('@/views/dashboard/CollaborateurDashboardView.vue'),
     meta: { requiresAuth: true, role: 'collaborateur', layout: 'app' },
   },
 ]

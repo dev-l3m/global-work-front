@@ -45,80 +45,108 @@ const services = [
 ]
 
 const hoveredIndex = ref<number | null>(null)
+
+function scrollToService(index: number) {
+  const el = document.getElementById(`service-${index}`)
+  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 </script>
 
 <template>
-  <v-container id="services" class="py-16">
-    <div class="text-center mb-12">
-      <div class="text-overline text-primary font-weight-bold mb-2">Nos services</div>
-      <div class="text-h4 text-md-h3 font-weight-bold mb-4">
-        Un recrutement international à 360°
+  <section id="services" class="services-section-block">
+    <v-container class="py-16">
+      <div class="text-center mb-8">
+        <div class="text-overline text-primary font-weight-bold mb-2">Nos services</div>
+        <div class="text-h4 text-md-h3 font-weight-bold mb-4">
+          Un recrutement international à 360°
+        </div>
+        <div class="text-body-1 text-medium-emphasis mx-auto mb-6" style="max-width: 700px">
+          De la recherche de talents à leur gestion quotidienne : nous pilotons vos ressources
+          humaines à l'international. Concentrez-vous sur votre croissance, nous gérons le reste.
+        </div>
+        <!-- Barre secteurs / vitrine (affichage type vitrines) -->
+        <div class="secteurs-bar d-flex flex-wrap justify-center align-center ga-2">
+          <span class="text-body-2 font-weight-bold secteurs-label">Tous nos services</span>
+          <v-icon size="18" class="secteurs-sep">mdi-circle-small</v-icon>
+          <v-chip
+            v-for="(service, idx) in services"
+            :key="idx"
+            size="small"
+            variant="tonal"
+            color="primary"
+            class="secteurs-chip"
+            @click="scrollToService(idx)"
+          >
+            {{ service.title }}
+          </v-chip>
+        </div>
       </div>
-      <div class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 700px">
-        De la recherche de talents à leur gestion quotidienne : nous pilotons vos ressources
-        humaines à l'international. Concentrez-vous sur votre croissance, nous gérons le reste.
-      </div>
-    </div>
 
-    <v-row>
-      <v-col
-        v-for="(service, index) in services"
-        :key="index"
-        cols="12"
-        sm="6"
-        lg="4"
-        class="service-col"
-        v-scroll-animation="{
-          animation: 'fadeInUp',
-          delay: index * 0.1,
-          threshold: 0.1,
-        }"
-        @mouseenter="hoveredIndex = index"
-        @mouseleave="hoveredIndex = null"
-      >
-        <v-card
-          class="pa-6 service-card"
-          variant="outlined"
-          :class="{ 'service-card-hovered': hoveredIndex === index }"
+      <v-row>
+        <v-col
+          v-for="(service, index) in services"
+          :key="index"
+          cols="12"
+          sm="6"
+          lg="4"
+          class="service-col"
+          v-scroll-animation="{
+            animation: 'fadeInUp',
+            delay: index * 0.1,
+            threshold: 0.1,
+          }"
+          @mouseenter="hoveredIndex = index"
+          @mouseleave="hoveredIndex = null"
         >
-          <div class="d-flex align-center ga-3 mb-4">
-            <v-avatar :color="service.color" variant="tonal" size="56">
-              <v-icon :icon="service.icon" size="28" />
-            </v-avatar>
-            <div class="text-h6 font-weight-bold">{{ service.title }}</div>
-          </div>
-          <div class="text-body-2 text-medium-emphasis mb-4">{{ service.description }}</div>
-          <v-divider class="mb-4" />
-          <div class="d-flex flex-wrap ga-2">
-            <v-chip
-              v-for="(feature, idx) in service.features"
-              :key="idx"
-              size="small"
-              :color="service.color"
-              variant="tonal"
-            >
-              {{ feature }}
-            </v-chip>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-card
+            :id="`service-${index}`"
+            class="pa-6 service-card"
+            variant="outlined"
+            :class="{ 'service-card-hovered': hoveredIndex === index }"
+          >
+            <div class="d-flex align-center ga-3 mb-4">
+              <v-avatar :color="service.color" variant="tonal" size="56">
+                <v-icon :icon="service.icon" size="28" />
+              </v-avatar>
+              <div class="text-h6 font-weight-bold">{{ service.title }}</div>
+            </div>
+            <div class="text-body-2 text-medium-emphasis mb-4">{{ service.description }}</div>
+            <v-divider class="mb-4" />
+            <div class="d-flex flex-wrap ga-2">
+              <v-chip
+                v-for="(feature, idx) in service.features"
+                :key="idx"
+                size="small"
+                :color="service.color"
+                variant="tonal"
+              >
+                {{ feature }}
+              </v-chip>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
 
-    <div class="text-center mt-8">
-      <v-btn
-        color="primary"
-        size="large"
-        class="text-none font-weight-bold"
-        prepend-icon="mdi-arrow-right"
-        href="/notre-methode"
-      >
-        Voir tous nos services détaillés
-      </v-btn>
-    </div>
-  </v-container>
+      <div class="text-center mt-8">
+        <v-btn
+          color="primary"
+          size="large"
+          class="text-none font-weight-bold"
+          prepend-icon="mdi-arrow-right"
+          href="/recrutement"
+        >
+          Voir tous nos services détaillés
+        </v-btn>
+      </div>
+    </v-container>
+  </section>
 </template>
 
 <style scoped>
+.services-section-block {
+  background: rgba(255, 255, 255, 0.7);
+}
+
 .service-col {
   animation: fadeInUp 0.6s ease-out both;
 }
@@ -177,6 +205,30 @@ const hoveredIndex = ref<number | null>(null)
 .service-card > * {
   position: relative;
   z-index: 1;
+}
+
+.secteurs-bar {
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(107, 90, 224, 0.06);
+  border: 1px solid rgba(107, 90, 224, 0.12);
+}
+
+.secteurs-label {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.secteurs-sep {
+  color: rgba(107, 90, 224, 0.5);
+}
+
+.secteurs-chip {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.secteurs-chip:hover {
+  transform: scale(1.05);
 }
 
 @keyframes fadeInUp {

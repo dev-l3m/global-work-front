@@ -79,16 +79,20 @@ const solution = {
         }"
       >
         <v-card class="pa-6 benefit-card" elevation="2">
-          <v-avatar
-            :color="index === 0 ? 'error' : index === 1 ? 'info' : 'success'"
-            variant="tonal"
-            size="56"
-            class="mb-4"
-          >
-            <v-icon :icon="item.icon" size="28" />
-          </v-avatar>
-          <div class="text-h6 font-weight-bold mb-2">{{ item.title }}</div>
-          <div class="text-body-2 text-medium-emphasis">{{ item.description }}</div>
+          <div class="benefit-card-header">
+            <v-avatar
+              :color="index === 0 ? 'error' : index === 1 ? 'info' : 'success'"
+              variant="tonal"
+              size="56"
+              class="mb-4"
+            >
+              <v-icon :icon="item.icon" size="28" />
+            </v-avatar>
+            <div class="text-h6 font-weight-bold mb-2">{{ item.title }}</div>
+          </div>
+          <div class="text-body-2 text-medium-emphasis benefit-card-description">
+            {{ item.description }}
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -127,5 +131,14 @@ const solution = {
 .benefit-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 599px) {
+  .benefit-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 </style>

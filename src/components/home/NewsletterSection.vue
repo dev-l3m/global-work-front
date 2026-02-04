@@ -4,13 +4,54 @@ import { ref } from 'vue'
 const email = ref('')
 const isSubmitting = ref(false)
 
+// Snackbar (top right)
+const snackbar = ref(false)
+const snackbarMessage = ref('')
+const snackbarColor = ref<'success' | 'warning' | 'error'>('success')
+
+// Simule les emails déjà inscrits (en prod = réponse API)
+const subscribedEmails = ref<Set<string>>(new Set())
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function isEmailValid(value: string): boolean {
+  return emailRegex.test(value.trim())
+}
+
 function handleSubscribe() {
-  if (!email.value) return
+  const value = email.value.trim()
+
+  if (!value) {
+    snackbarMessage.value = "L'adresse email est obligatoire."
+    snackbarColor.value = 'error'
+    snackbar.value = true
+    return
+  }
+
+  if (!isEmailValid(value)) {
+    snackbarMessage.value = 'Veuillez saisir une adresse email valide.'
+    snackbarColor.value = 'error'
+    snackbar.value = true
+    return
+  }
+
+  const emailLower = value.toLowerCase()
+  if (subscribedEmails.value.has(emailLower)) {
+    snackbarMessage.value = 'Cet email est déjà inscrit à notre newsletter.'
+    snackbarColor.value = 'warning'
+    snackbar.value = true
+    return
+  }
+
   isSubmitting.value = true
-  // TODO: Implement newsletter subscription
+  // TODO: Appel API newsletter
   setTimeout(() => {
-    isSubmitting.value = false
+    subscribedEmails.value.add(emailLower)
+    snackbarMessage.value = 'Inscription réussie. Vous recevrez nos prochaines actualités.'
+    snackbarColor.value = 'success'
+    snackbar.value = true
     email.value = ''
+    isSubmitting.value = false
   }, 1000)
 }
 </script>
@@ -32,6 +73,9 @@ function handleSubscribe() {
         variant="outlined"
         type="email"
         :disabled="isSubmitting"
+        hide-details
+        clearable
+        @keydown.enter="handleSubscribe"
       />
       <v-btn
         color="primary"
@@ -48,6 +92,17 @@ function handleSubscribe() {
         En vous abonnant, vous acceptez notre politique de confidentialité.
       </div>
     </v-card>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      location="top right"
+      multi-line
+      :timeout="4000"
+      transition="scroll-y-transition"
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
   </div>
 </template>
 

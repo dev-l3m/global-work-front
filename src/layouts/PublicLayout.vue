@@ -33,6 +33,9 @@ const isDropdownItemActive = (to: string) => {
     return route.hash === hash || (route.path === '/' && route.hash === hash)
   }
   if (to === '/') return route.path === '/'
+  // Connexion et inscription : un seul actif selon la page (pas les deux)
+  if (to === '/connexion') return route.path === '/connexion'
+  if (to === '/inscription') return route.path === '/inscription'
   return route.path === to || route.path.startsWith(to)
 }
 
@@ -324,7 +327,10 @@ const year = new Date().getFullYear()
               <v-btn
                 variant="text"
                 class="nav-link"
-                :class="{ 'nav-link-active': menuCompte || route.path === '/connexion' }"
+                :class="{
+                  'nav-link-active':
+                    menuCompte || route.path === '/connexion' || route.path === '/inscription',
+                }"
                 v-bind="props"
               >
                 <span class="nav-link-text">Mon compte</span>
@@ -342,10 +348,10 @@ const year = new Date().getFullYear()
                 Se connecter
               </v-list-item>
               <v-list-item
-                to="/connexion?role=client"
+                to="/inscription"
                 :class="[
                   'dropdown-item',
-                  { 'dropdown-item-active': isDropdownItemActive('/connexion') },
+                  { 'dropdown-item-active': isDropdownItemActive('/inscription') },
                 ]"
               >
                 S'inscrire
@@ -361,7 +367,7 @@ const year = new Date().getFullYear()
             class="cta-btn cta-btn-left text-none font-weight-bold"
             @click="router.push('/inscription')"
           >
-            ESPACE CLIENT
+            Espace client
           </v-btn>
           <v-btn
             color="secondary"
@@ -369,7 +375,7 @@ const year = new Date().getFullYear()
             class="cta-btn cta-btn-right text-none font-weight-bold"
             @click="router.push('/contactez-nous')"
           >
-            CONTACTEZ-NOUS
+            Contactez-nous
           </v-btn>
         </div>
       </div>
@@ -562,13 +568,18 @@ const year = new Date().getFullYear()
           <!-- Mon compte -->
           <v-list-group
             value="compte"
-            :class="{ 'mobile-group-active': route.path === '/connexion' }"
+            :class="{
+              'mobile-group-active': route.path === '/connexion' || route.path === '/inscription',
+            }"
           >
             <template #activator="{ props }">
               <v-list-item
                 v-bind="props"
                 class="mobile-menu-item"
-                :class="{ 'mobile-menu-item-active': route.path === '/connexion' }"
+                :class="{
+                  'mobile-menu-item-active':
+                    route.path === '/connexion' || route.path === '/inscription',
+                }"
               >
                 <v-list-item-title>Mon compte</v-list-item-title>
               </v-list-item>
@@ -584,8 +595,11 @@ const year = new Date().getFullYear()
               <v-list-item-title class="mobile-sub-item">Se connecter</v-list-item-title>
             </v-list-item>
             <v-list-item
-              :to="'/connexion?role=client'"
-              class="mobile-menu-item"
+              :to="'/inscription'"
+              :class="[
+                'mobile-menu-item',
+                { 'mobile-menu-item-active': isDropdownItemActive('/inscription') },
+              ]"
               @click="mobileMenu = false"
             >
               <v-list-item-title class="mobile-sub-item">S'inscrire</v-list-item-title>
@@ -605,7 +619,7 @@ const year = new Date().getFullYear()
             class="mb-3 text-none font-weight-bold"
             @click="goToLogin"
           >
-            ESPACE CLIENT
+            Espace client
           </v-btn>
           <v-btn
             color="secondary"
@@ -615,7 +629,7 @@ const year = new Date().getFullYear()
             class="text-none font-weight-bold"
             @click="goToContact"
           >
-            CONTACTEZ-NOUS
+            Contactez-nous
           </v-btn>
         </div>
       </div>
@@ -648,7 +662,7 @@ const year = new Date().getFullYear()
                     class="footer-contact-btn text-none font-weight-bold"
                     @click="router.push('/contactez-nous')"
                   >
-                    CONTACTEZ-NOUS
+                    Contactez-nous
                   </v-btn>
                 </div>
               </div>
@@ -732,42 +746,46 @@ const year = new Date().getFullYear()
 <style scoped>
 :deep(.v-application) {
   background: linear-gradient(
-    180deg,
-    rgba(247, 244, 255, 1) 0%,
-    rgba(255, 255, 255, 0.95) 30%,
-    rgba(255, 255, 255, 0.98) 60%,
-    rgba(247, 244, 255, 0.9) 100%
+    165deg,
+    #f8f6ff 0%,
+    #ffffff 25%,
+    #faf8ff 50%,
+    #ffffff 75%,
+    #f5f2ff 100%
   ) !important;
   min-height: 100vh;
 }
 
 .app-gradient {
   background: linear-gradient(
-    180deg,
-    rgba(247, 244, 255, 1) 0%,
-    rgba(255, 255, 255, 0.95) 30%,
-    rgba(255, 255, 255, 0.98) 60%,
-    rgba(247, 244, 255, 0.9) 100%
+    165deg,
+    #f8f6ff 0%,
+    #ffffff 25%,
+    #faf8ff 50%,
+    #ffffff 75%,
+    #f5f2ff 100%
   ) !important;
 }
 
 .main-gradient {
   background: linear-gradient(
     180deg,
-    rgba(247, 244, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.5) 20%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(247, 244, 255, 0.5) 80%,
-    rgba(247, 244, 255, 0.8) 100%
+    rgba(248, 246, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.9) 22%,
+    rgba(250, 248, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.85) 78%,
+    rgba(245, 242, 255, 0.7) 100%
   ) !important;
   min-height: calc(100vh - 72px);
 }
 
 .app-bar-modern {
   background: linear-gradient(
-    90deg,
-    rgba(247, 244, 255, 0.95) 0%,
-    rgba(107, 90, 224, 0.98) 35%,
+    105deg,
+    #f5f2ff 0%,
+    #8e7ce8 28%,
+    #6b5ae0 45%,
+    #5346c4 70%,
     #3f3d56 100%
   ) !important;
   backdrop-filter: blur(10px);
@@ -780,10 +798,12 @@ const year = new Date().getFullYear()
 
 .app-bar-scrolled {
   background: linear-gradient(
-    90deg,
-    rgba(247, 244, 255, 0.85) 0%,
-    rgba(107, 90, 224, 0.88) 35%,
-    rgba(63, 61, 86, 0.85) 100%
+    105deg,
+    rgba(245, 242, 255, 0.92) 0%,
+    rgba(142, 124, 232, 0.95) 28%,
+    rgba(107, 90, 224, 0.96) 45%,
+    rgba(83, 70, 196, 0.94) 70%,
+    rgba(63, 61, 86, 0.92) 100%
   ) !important;
   backdrop-filter: blur(20px);
 }
@@ -879,12 +899,7 @@ const year = new Date().getFullYear()
 }
 
 .footer-modern {
-  background: linear-gradient(
-    180deg,
-    rgba(63, 61, 86, 0.98) 0%,
-    rgba(45, 43, 66, 0.95) 50%,
-    rgba(35, 33, 56, 1) 100%
-  );
+  background: linear-gradient(175deg, #3d3b52 0%, #35334a 35%, #2d2b42 60%, #252338 100%);
   color: white;
   padding: 0;
   position: relative;
@@ -899,7 +914,12 @@ const year = new Date().getFullYear()
   left: -50%;
   width: 200%;
   height: 100%;
-  background: radial-gradient(circle at 30% 20%, rgba(107, 90, 224, 0.15) 0%, transparent 50%);
+  background: radial-gradient(
+    ellipse 80% 60% at 25% 15%,
+    rgba(107, 90, 224, 0.2) 0%,
+    rgba(107, 90, 224, 0.06) 40%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -910,7 +930,12 @@ const year = new Date().getFullYear()
   right: -30%;
   width: 150%;
   height: 100%;
-  background: radial-gradient(circle at 70% 80%, rgba(255, 122, 60, 0.1) 0%, transparent 50%);
+  background: radial-gradient(
+    ellipse 60% 80% at 75% 85%,
+    rgba(255, 122, 60, 0.15) 0%,
+    rgba(255, 122, 60, 0.04) 45%,
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -959,7 +984,7 @@ const year = new Date().getFullYear()
 }
 
 .footer-contact-btn {
-  background: linear-gradient(135deg, #ff7a3c 0%, #ff6b35 100%) !important;
+  background: linear-gradient(135deg, #ff8550 0%, #ff7a3c 35%, #ff6b35 100%) !important;
   color: white !important;
   padding: 16px 36px;
   border-radius: 10px;
@@ -1018,7 +1043,7 @@ const year = new Date().getFullYear()
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, #6b5ae0 0%, #ff7a3c 100%);
+  background: linear-gradient(90deg, #8e7ce8 0%, #ff7a3c 100%);
   border-radius: 2px;
   transition: width 0.3s ease;
 }

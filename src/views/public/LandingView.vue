@@ -5,6 +5,7 @@ import {
   StatsSection,
   WhySection,
   ServicesSection,
+  TalentsShowcaseSection,
   TestimonialsSection,
   ContactSection,
 } from '@/components/home'
@@ -18,6 +19,8 @@ import {
     <WhySection />
     <v-divider />
     <ServicesSection />
+    <v-divider />
+    <TalentsShowcaseSection />
     <v-divider />
     <TestimonialsSection />
     <v-divider />

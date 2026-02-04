@@ -73,38 +73,45 @@ function animateValue(value: string, key: string) {
 </script>
 
 <template>
-  <v-container id="stats-section" class="py-8">
-    <v-row no-gutters class="stats-row">
-      <v-col
-        v-for="(stat, index) in stats"
-        :key="index"
-        cols="12"
-        md="4"
-        :class="['pr-md-4 mb-4 mb-md-0', { 'stats-card': true }]"
-        :style="{ animationDelay: `${index * 0.1}s` }"
-      >
-        <v-card
-          class="pa-6 stats-card-inner"
-          :variant="index === 0 ? 'tonal' : 'outlined'"
-          :color="index === 0 ? stat.color : undefined"
+  <section id="stats-section" class="stats-section-block">
+    <v-container class="py-8">
+      <v-row no-gutters class="stats-row">
+        <v-col
+          v-for="(stat, index) in stats"
+          :key="index"
+          cols="12"
+          md="4"
+          :class="['pr-md-4 mb-4 mb-md-0', { 'stats-card': true }]"
+          :style="{ animationDelay: `${index * 0.1}s` }"
         >
-          <div class="d-flex align-center ga-3 mb-3">
-            <v-avatar :color="stat.color" variant="tonal" size="48">
-              <v-icon :icon="stat.icon" size="24" />
-            </v-avatar>
-            <div class="text-overline font-weight-bold">{{ stat.label }}</div>
-          </div>
-          <div class="text-h3 font-weight-bold mt-2 stats-value">
-            {{ (animatedValues[stat.label] as string) || stat.value }}
-          </div>
-          <div class="text-body-2 text-medium-emphasis mt-2">{{ stat.description }}</div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+          <v-card
+            class="pa-6 stats-card-inner"
+            :variant="index === 0 ? 'tonal' : 'outlined'"
+            :color="index === 0 ? stat.color : undefined"
+          >
+            <div class="d-flex align-center ga-3 mb-3">
+              <v-avatar :color="stat.color" variant="tonal" size="48">
+                <v-icon :icon="stat.icon" size="24" />
+              </v-avatar>
+              <div class="text-overline font-weight-bold">{{ stat.label }}</div>
+            </div>
+            <div class="text-h3 font-weight-bold mt-2 stats-value">
+              {{ (animatedValues[stat.label] as string) || stat.value }}
+            </div>
+            <div class="text-body-2 text-medium-emphasis mt-2">{{ stat.description }}</div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </section>
 </template>
 
 <style scoped>
+.stats-section-block {
+  position: relative;
+  z-index: 2;
+}
+
 .stats-row {
   margin-top: -60px;
   position: relative;

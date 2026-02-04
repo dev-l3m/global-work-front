@@ -83,11 +83,16 @@ const features = [
         }"
       >
         <v-card class="pa-6 feature-card" variant="outlined" elevation="2">
-          <v-avatar color="primary" variant="tonal" size="56" class="mb-4">
-            <v-icon :icon="feature.icon" size="28" />
-          </v-avatar>
-          <div class="text-h6 font-weight-bold mb-3">{{ feature.title }}</div>
-          <div class="text-body-2 text-medium-emphasis" style="line-height: 1.7">
+          <div class="feature-card-header">
+            <v-avatar color="primary" variant="tonal" size="56" class="mb-4">
+              <v-icon :icon="feature.icon" size="28" />
+            </v-avatar>
+            <div class="text-h6 font-weight-bold mb-3">{{ feature.title }}</div>
+          </div>
+          <div
+            class="text-body-2 text-medium-emphasis feature-card-description"
+            style="line-height: 1.7"
+          >
             {{ feature.description }}
           </div>
         </v-card>
@@ -119,5 +124,14 @@ const features = [
 .feature-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(107, 90, 224, 0.15);
+}
+
+@media (max-width: 599px) {
+  .feature-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 }
 </style>

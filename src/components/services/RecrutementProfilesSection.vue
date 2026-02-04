@@ -57,7 +57,7 @@ const profiles = [
       <v-btn
         color="primary"
         size="large"
-        class="text-none font-weight-bold"
+        class="text-none font-weight-bold recrutement-cta-btn"
         prepend-icon="mdi-send"
         href="#contact"
       >
@@ -78,5 +78,11 @@ const profiles = [
 .profile-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(107, 90, 224, 0.15);
+}
+
+@media (max-width: 599px) {
+  .recrutement-cta-btn {
+    font-size: 0.875rem !important;
+  }
 }
 </style>

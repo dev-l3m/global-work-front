@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
+const showComingSoonDialog = ref(false)
+
 const articles = [
   {
     title: '5 avantages du recrutement international pour les PME',
@@ -43,14 +47,19 @@ const articles = [
         }"
       >
         <v-card class="pa-6 article-card h-100" elevation="2">
-          <div class="d-flex align-center ga-3 mb-3">
-            <v-avatar :color="article.color" variant="tonal" size="48">
-              <v-icon :icon="article.icon" size="24" />
-            </v-avatar>
-            <div class="text-overline text-primary font-weight-bold">Article</div>
-          </div>
-          <div class="text-subtitle-1 font-weight-bold" style="line-height: 1.5">
-            {{ article.title }}
+          <div class="article-card-header">
+            <div class="article-card-header-row d-flex align-center ga-3 mb-3">
+              <v-avatar :color="article.color" variant="tonal" size="48">
+                <v-icon :icon="article.icon" size="24" />
+              </v-avatar>
+              <div class="text-overline text-primary font-weight-bold">Article</div>
+            </div>
+            <div
+              class="text-subtitle-1 font-weight-bold article-card-title"
+              style="line-height: 1.5"
+            >
+              {{ article.title }}
+            </div>
           </div>
           <v-btn
             variant="text"
@@ -58,12 +67,28 @@ const articles = [
             class="mt-4 text-none"
             prepend-icon="mdi-arrow-right"
             size="small"
+            @click="showComingSoonDialog = true"
           >
             Lire l'article
           </v-btn>
         </v-card>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="showComingSoonDialog" max-width="400" persistent>
+      <v-card class="pa-6 coming-soon-dialog">
+        <div class="coming-soon-dialog-content">
+          <v-icon icon="mdi-cog" size="48" color="primary" class="mb-4" />
+          <div class="text-h6 font-weight-bold mb-2">Fonctionnalité en cours de développement</div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            La lecture des articles sera bientôt disponible.
+          </p>
+          <v-btn color="primary" variant="flat" @click="showComingSoonDialog = false">
+            Fermer
+          </v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -78,5 +103,25 @@ const articles = [
   transform: translateY(-8px);
   box-shadow: 0 12px 40px rgba(107, 90, 224, 0.15);
   border-left-width: 6px;
+}
+
+/* Mobile : centrer l'en-tête de la carte */
+@media (max-width: 599px) {
+  .article-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .article-card-header-row {
+    justify-content: center;
+  }
+}
+
+.coming-soon-dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 </style>

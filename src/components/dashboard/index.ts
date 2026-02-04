@@ -1,0 +1,11 @@
+export { default as ClientDashboardHeader } from './ClientDashboardHeader.vue'
+export { default as ClientDashboardStats } from './ClientDashboardStats.vue'
+export { default as ClientDashboardQuickActions } from './ClientDashboardQuickActions.vue'
+export { default as ClientDashboardDemandes } from './ClientDashboardDemandes.vue'
+export { default as ClientDashboardAccountCard } from './ClientDashboardAccountCard.vue'
+
+export { default as CollaborateurDashboardHeader } from './CollaborateurDashboardHeader.vue'
+export { default as CollaborateurDashboardStats } from './CollaborateurDashboardStats.vue'
+export { default as CollaborateurDashboardMissions } from './CollaborateurDashboardMissions.vue'
+export { default as CollaborateurDashboardFormations } from './CollaborateurDashboardFormations.vue'
+export { default as CollaborateurDashboardQuickActions } from './CollaborateurDashboardQuickActions.vue'
