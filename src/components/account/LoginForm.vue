@@ -162,7 +162,7 @@ const roleOptions: { label: string; value: UserRole; icon: string }[] = [
           </v-btn>
         </v-form>
 
-        <v-alert
+        <!-- <v-alert
           type="info"
           variant="tonal"
           density="compact"
@@ -172,7 +172,7 @@ const roleOptions: { label: string; value: UserRole; icon: string }[] = [
             <strong>Mode démo :</strong> L'email et le mot de passe suffisent (à remplacer par votre
             API).
           </div>
-        </v-alert>
+        </v-alert> -->
       </v-card-text>
     </v-card>
 
