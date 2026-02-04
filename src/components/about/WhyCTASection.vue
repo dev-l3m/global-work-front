@@ -22,7 +22,7 @@ defineProps<{
           size="large"
           class="text-none font-weight-bold"
           prepend-icon="mdi-send"
-          :href="buttonHref || '#contact'"
+          :href="buttonHref || '/contactez-nous'"
         >
           {{ buttonText || 'Contactez-nous' }}
         </v-btn>

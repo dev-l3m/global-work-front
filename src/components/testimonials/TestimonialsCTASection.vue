@@ -18,7 +18,7 @@
               size="large"
               class="text-none font-weight-bold"
               prepend-icon="mdi-send"
-              href="#contact"
+              href="/contactez-nous"
             >
               Contactez-nous
             </v-btn>
@@ -28,7 +28,7 @@
               size="large"
               class="text-none"
               prepend-icon="mdi-calendar-clock"
-              href="#contact"
+              href="/contactez-nous"
             >
               Demander une démo
             </v-btn>
