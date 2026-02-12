@@ -3,9 +3,17 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --gwh-bg: #f0eef8;
+  --gwh-primary: #6b5ae0;
+  --gwh-primary-soft: #eeeafe;
+  --gwh-accent: #ff7a3c;
+  --gwh-accent-soft: #fff1ea;
+  --gwh-text: #0b0f19;
+  --gwh-text-secondary: #5b6270;
+
+  color-scheme: light;
+  color: #0b0f19;
+  background-color: #f0eef8;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,19 +23,18 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--gwh-primary);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #5a4bc9;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f0eef8;
 }
 
 h1 {
@@ -59,36 +66,19 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
+  background-color: #f0eef8;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* One-page landing: scroll offset for fixed header (72px + 8px) */
+.landing-section-anchor,
+#services,
+#specialites,
+#resultats,
+#contact {
+  scroll-margin-top: 80px;
 }
 
-/* Remove default Vuetify app-bar background */
 .v-app-bar.v-toolbar {
   background: transparent !important;
-}
-
-/* Ensure app-bar-modern gradient is always applied */
-.v-app-bar.app-bar-modern {
-  background: linear-gradient(
-    90deg,
-    rgba(247, 244, 255, 0.95) 0%,
-    rgba(107, 90, 224, 0.98) 35%,
-    #3f3d56 100%
-  ) !important;
 }

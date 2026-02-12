@@ -26,9 +26,9 @@ defineProps<{
 .hero-structure-section {
   background: linear-gradient(
     180deg,
-    rgba(247, 244, 255, 0.5) 0%,
+    rgba(240, 238, 248, 0.5) 0%,
     rgba(255, 255, 255, 0.8) 50%,
-    rgba(247, 244, 255, 0.5) 100%
+    rgba(240, 238, 248, 0.5) 100%
   );
   border-radius: 0 0 40px 40px;
   margin-bottom: 24px;

@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
+const props = withDefaults(
+  defineProps<{
+    heroImage?: string
+    heroAlt?: string
+  }>(),
+  {
+    heroImage:
+      'https://private-us-east-1.manuscdn.com/sessionFile/sVFzcOhWixDoUdpSw4fAiC/sandbox/LLFgvOCLVC8lmgtDTndQIK-img-2_1770738748000_na1fn_Z2xvYmFsLW5ldHdvcms.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvc1ZGemNPaFdpeERvVWRwU3c0ZkFpQy9zYW5kYm94L0xMRmd2T0NMVkM4bG1ndERUbmRRSUstaW1nLTJfMTc3MDczODc0ODAwMF9uYTFmbl9aMnh2WW1Gc0xXNWxkSGR2Y21zLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=K~w5L3aHlEJlEOpIijW3luQa2OGR6t7EjEUvSfNI6OUfbOGYOHSCPkfWBAXq1xeYA~HkCe5CK5nLLB~8fW8OHPNguHVXJGPM~SzbMUHuOpmG7BMWyp2NHzNpUeWZbOWLc2P0bfGJ2HH0FMDp1lOnDx0vXnZynkxvaiJJsADMyo2wRtPajKZQnKPkRzKRQ6odS7EtqFTNuYfnwoeYEPzIrNe3UMj4cGRZ8vz8G2lMtuSPuE~z4MW7JOAljsjyDJ-IsiRbCYgNnE4YRZRzLAW3T3qJ2c714PeIcKNoB~6pACraa84tQilic0-YJT877uuoq7h0290~q7Q4qdYVUJLQUA__',
+    heroAlt: 'Réseau global et talents internationaux - Global Work Hub',
+  }
+)
+
 const isVisible = ref(false)
 
 onMounted(() => {
@@ -8,116 +20,65 @@ onMounted(() => {
     isVisible.value = true
   }, 100)
 })
+
+const stats = [
+  { value: '100%', label: 'Taux de renouvellement', color: 'oklch(50% 0.2 290)' },
+  { value: '200+', label: 'Talents déployés', color: 'oklch(71% 0.13 47.81)' },
+  { value: '15+', label: 'Pays actifs', color: 'oklch(60% 0.2 240)' },
+  { value: 'FR/EN/AR', label: 'Support multilingue', color: 'oklch(49% 0.19 288.58)' },
+]
 </script>
 
 <template>
   <section class="hero">
-    <div class="hero-gradient" />
-    <div class="hero-pattern" />
-    <v-container class="py-16 hero-content">
+    <div class="hero-bg" aria-hidden="true" />
+    <v-container class="hero-content py-16">
       <v-row align="center">
         <v-col cols="12" md="7" :class="{ 'fade-in-up': isVisible }">
-          <div class="text-overline text-secondary font-weight-bold hero-overline">
-            Bienvenue sur Global Work Hub
-          </div>
-          <h1 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold mt-3 hero-title">
-            Recrutement international avec accompagnement RH intégré
-          </h1>
-          <div class="text-body-1 text-medium-emphasis mt-4 hero-subtitle">
-            Vous cherchez des talents fiables&nbsp;? Nous avons la solution globale. Chez
-            <strong>Global Work Hub</strong>, nous mettons en relation les entreprises avec des
-            profils internationaux hautement qualifiés, sélectionnés, encadrés et prêts à rejoindre
-            vos équipes.
-          </div>
-          <!-- 3 CTAs principaux (affichage type site référence) -->
+          <span class="hero-pill">Recrutement international d'équipes encadrées</span>
+          <h1 class="hero-title">Le monde est votre vivier de talents</h1>
+          <p class="hero-subtitle">
+            Nous transformons votre vision en équipes performantes, partout dans le monde. Global
+            Work Hub connecte les entreprises aux meilleurs professionnels internationaux,
+            sélectionnés, encadrés et prêts à performer dès le premier jour.
+          </p>
+          <p class="hero-tagline">
+            Une approche simple, rapide et ultra-compétitive qui booste vos performances sans
+            exploser vos coûts.
+          </p>
           <div class="hero-ctas">
-            <v-btn
-              color="secondary"
-              size="large"
-              class="text-none font-weight-bold hero-cta-primary"
-              href="#contact"
-            >
-              <v-icon icon="mdi-send" class="mr-2" />
-              Envoyer votre demande
+            <v-btn href="#contact" size="large" class="hero-cta-primary text-none font-weight-bold">
+              <v-icon icon="mdi-phone-in-talk" start />
+              Parler à un expert
             </v-btn>
             <v-btn
-              variant="outlined"
-              color="white"
-              size="large"
-              class="text-none hero-cta-secondary"
               href="/recrutement"
+              size="large"
+              variant="outlined"
+              class="hero-cta-secondary text-none font-weight-medium"
             >
-              <v-icon icon="mdi-account-search" class="mr-2" />
+              <v-icon icon="mdi-account-search" start />
               Découvrir nos services
             </v-btn>
-            <v-btn
-              variant="outlined"
-              color="white"
-              size="large"
-              class="text-none hero-cta-secondary"
-              href="/pourquoi-global-work-hub"
-            >
-              Pourquoi Global Work Hub
-              <v-icon icon="mdi-arrow-right" class="ml-2" />
-            </v-btn>
           </div>
-          <div class="d-flex ga-6 mt-10 text-body-2 text-high-emphasis hero-badges flex-wrap">
-            <div class="badge-item">
-              <span class="badge-dot" />
-              Stabilité, conformité et qualité
-            </div>
-            <div class="badge-item">
-              <span class="badge-dot" />
-              Solution RH complète
-            </div>
-            <div class="badge-item">
-              <span class="badge-dot" />
-              Talents engagés dans +15 pays
+          <div class="hero-stats">
+            <div v-for="(stat, i) in stats" :key="i" class="hero-stat">
+              <span class="hero-stat-value" :style="{ color: stat.color }">{{ stat.value }}</span>
+              <span class="hero-stat-label">{{ stat.label }}</span>
             </div>
           </div>
         </v-col>
-        <v-col cols="12" md="5" :class="{ 'fade-in-right': isVisible }">
-          <v-card class="pa-6 hero-card" elevation="10">
-            <div class="d-flex align-center ga-2 mb-2">
-              <v-icon icon="mdi-shield-check" color="primary" size="24" />
-              <div class="text-subtitle-1 font-weight-bold">Espace sécurisé</div>
-            </div>
-            <div class="text-body-2 text-medium-emphasis mb-4">
-              Accédez à votre espace client ou collaborateur pour suivre vos demandes, missions et
-              documents.
-            </div>
-            <v-row>
-              <v-col cols="12">
-                <v-btn
-                  block
-                  color="secondary"
-                  size="large"
-                  class="mb-2 text-none font-weight-bold"
-                  to="/connexion?role=client"
-                >
-                  <v-icon icon="mdi-briefcase" class="mr-2" />
-                  Espace client
-                </v-btn>
-              </v-col>
-              <v-col cols="12">
-                <v-btn
-                  block
-                  variant="tonal"
-                  color="primary"
-                  size="large"
-                  class="text-none"
-                  to="/connexion?role=collaborateur"
-                >
-                  <v-icon icon="mdi-account-group" class="mr-2" />
-                  Espace collaborateur
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-divider class="my-4" />
-            <div class="text-caption text-medium-emphasis text-center">
-              Vous n'avez pas encore de compte&nbsp;?
-              <a href="#contact" class="text-primary text-decoration-none">Contactez-nous</a>
-              pour ouvrir votre espace Global Work Hub.
+        <v-col cols="12" md="5" :class="{ 'fade-in-right': isVisible }" class="hero-col-img">
+          <v-card class="hero-card" elevation="0">
+            <div class="hero-card-img-wrap">
+              <v-img
+                :src="props.heroImage"
+                :alt="props.heroAlt"
+                cover
+                aspect-ratio="16/10"
+                class="hero-card-img"
+                loading="lazy"
+              />
             </div>
           </v-card>
         </v-col>
@@ -128,47 +89,84 @@ onMounted(() => {
 
 <style scoped>
 .hero {
+  --bg-main: #f0eef8;
+  --bg-soft: #f5f6fa;
+  --primary: #6b5ae0;
+  --primary-soft: #eeeafe;
+  --accent: #ff7a3c;
+  --accent-soft: #fff1ea;
+  --hero-primary: var(--primary);
+  --hero-primary-light: #8e6be8;
+  --hero-primary-soft: var(--primary-soft);
+  --hero-accent-soft: var(--accent-soft);
+  --hero-text: #0b0f19;
+  --hero-text-secondary: #5b6270;
+  --hero-text-muted: #8a90a2;
+  --hero-outline: #a5a0c4;
+  --hero-shadow: 0 24px 60px rgba(11, 18, 40, 0.15);
+  --hero-shadow-hover: 0 30px 80px rgba(11, 18, 40, 0.2);
+}
+
+@supports (color: oklch(0.5 0.1 0)) {
+  .hero {
+    --bg-main: oklch(99% 0.002 290);
+    --bg-soft: oklch(96% 0.005 290);
+    --primary: oklch(62% 0.19 285);
+    --primary-soft: oklch(90% 0.05 285);
+    --accent: oklch(72% 0.19 45);
+    --accent-soft: oklch(92% 0.06 45);
+  }
+}
+
+.hero {
   position: relative;
   overflow: hidden;
-  color: #ffffff;
+  background: var(--bg-main);
   min-height: 90vh;
   display: flex;
   align-items: center;
 }
 
-.hero-gradient {
+.hero::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #6b5ae0 0%, #8e6be8 35%, #ff7a3c 100%);
-  animation: gradient-shift 15s ease infinite;
+  z-index: 0.5;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.35) 100%);
 }
 
-.hero-pattern {
+.hero-bg {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
-  background-size: 40px 40px;
-  opacity: 0.3;
-  animation: pattern-move 20s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--bg-main);
+  background-image: url('/assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.25) 100%);
 }
 
-@keyframes pattern-move {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(40px, 40px);
-  }
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 15% 20%, var(--primary-soft) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 85% 15%, var(--accent-soft) 0%, transparent 50%);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.7;
 }
 
 .hero-content {
@@ -176,125 +174,198 @@ onMounted(() => {
   z-index: 1;
 }
 
-.hero-overline {
-  letter-spacing: 2px;
-  opacity: 0.9;
+.hero-pill {
+  display: inline-block;
+  padding: 8px 18px;
+  background: var(--hero-primary-soft);
+  color: var(--hero-primary);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
 }
 
 .hero-title {
-  line-height: 1.2;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  font-size: 4rem !important;
+  font-size: clamp(2rem, 5vw, 4.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--hero-text);
+  margin: 0 0 1.25rem;
 }
 
-@media (max-width: 960px) {
+@media (min-width: 960px) {
   .hero-title {
-    font-size: 2.5rem !important;
+    font-size: 4.25rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: 4.5rem;
   }
 }
 
 @media (max-width: 600px) {
   .hero-title {
-    font-size: 2rem !important;
+    font-size: 2rem;
   }
 }
 
 .hero-subtitle {
-  max-width: 520px;
+  max-width: 600px;
+  font-size: 1.125rem;
   line-height: 1.7;
+  color: var(--hero-text-secondary);
+  margin: 0 0 0.75rem;
 }
 
-.hero-cta-primary {
-  box-shadow: 0 4px 20px rgba(255, 122, 60, 0.4);
-  transition: all 0.3s ease;
-}
-
-.hero-cta-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 30px rgba(255, 122, 60, 0.5);
-}
-
-.hero-cta-secondary {
-  border-width: 2px;
-  transition: all 0.3s ease;
-}
-
-.hero-cta-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+.hero-tagline {
+  max-width: 600px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--hero-text-muted);
+  margin: 0 0 2rem;
+  font-weight: 500;
 }
 
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 2rem;
+  margin-bottom: 2.5rem;
 }
 
-.hero-badges {
-  opacity: 0.95;
+.hero-cta-primary {
+  background: var(--hero-primary) !important;
+  color: white !important;
+  box-shadow: 0 10px 40px rgba(107, 90, 224, 0.2);
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
-.badge-item {
+.hero-cta-primary:hover {
+  background: var(--hero-primary-light) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--hero-shadow-hover);
+}
+
+.hero-cta-secondary {
+  border: 2px solid var(--hero-outline) !important;
+  color: var(--hero-text-secondary) !important;
+  background: transparent !important;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.hero-cta-secondary:hover {
+  background: var(--hero-primary-soft) !important;
+  border-color: var(--hero-primary) !important;
+  color: var(--hero-primary) !important;
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem 1.5rem;
+  max-width: 560px;
+}
+
+@media (min-width: 960px) {
+  .hero-stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem 2rem;
+  }
+}
+
+.hero-stat {
   display: flex;
-  align-items: center;
-  transition: transform 0.2s ease;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.badge-item:hover {
-  transform: translateX(4px);
+.hero-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hero-text);
+  line-height: 1.2;
 }
 
-.badge-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 8px;
-  background-color: #ff7a3c;
-  box-shadow: 0 0 10px rgba(255, 122, 60, 0.6);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
+.hero-stat-label {
+  font-size: 0.875rem;
+  color: var(--hero-text-muted);
+  line-height: 1.3;
 }
 
 .hero-card {
-  background-color: rgba(255, 255, 255, 0.98);
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(11, 18, 40, 0.45);
-  backdrop-filter: blur(10px);
+  border-radius: 28px;
+  box-shadow: var(--hero-shadow);
+  overflow: hidden;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+  width: 100%;
 }
 
 .hero-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 32px 80px rgba(11, 18, 40, 0.5);
+  box-shadow: var(--hero-shadow-hover);
+}
+
+.hero-card-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #f5f6fa;
+  min-height: 180px;
+}
+
+.hero-card-img {
+  width: 100%;
+  height: 100%;
+  background: #f5f6fa;
+}
+
+.hero-card-img :deep(.v-img),
+.hero-card-img :deep(.v-img__wrapper),
+.hero-card-img :deep(.v-img__img),
+.hero-card-img :deep(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile: force container height so v-img (absolutely positioned in Vuetify 3) has a reference */
+@media (max-width: 959px) {
+  .hero-col-img {
+    min-height: 220px;
+  }
+
+  .hero-card-img-wrap {
+    min-height: 220px;
+  }
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.8s ease-out;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
 .fade-in-right {
-  animation: fadeInRight 0.8s ease-out 0.2s both;
+  animation: fadeInRight 0.6s ease-out 0.15s forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -305,7 +376,7 @@ onMounted(() => {
 @keyframes fadeInRight {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateX(14px);
   }
   to {
     opacity: 1;
@@ -316,7 +387,22 @@ onMounted(() => {
 @media (max-width: 960px) {
   .hero {
     min-height: auto;
-    padding: 40px 0;
+    padding: 2.5rem 0;
+  }
+
+  .hero-ctas .v-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero-stats {
+    gap: 1rem 1.25rem;
   }
 }
 </style>

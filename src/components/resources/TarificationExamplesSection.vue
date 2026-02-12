@@ -83,7 +83,7 @@ const examples = [
 <style scoped>
 .example-card {
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 244, 255, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 238, 248, 0.8) 100%);
   border: 2px solid rgba(107, 90, 224, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -1,131 +1,119 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-const services = [
+const tabs = [
+  'Recrutement international',
+  'Portage de talents',
+  'Gestion administrative',
+  'Accompagnement',
+]
+
+const activeTab = ref(0)
+
+const tabContents = [
   {
-    title: 'Recrutement international',
-    icon: 'mdi-earth',
-    color: 'primary',
-    description:
-      'Sourcing express de talents pré-qualifiés dans 15+ pays, avec intégration rapide dans vos outils.',
-    features: ['Quelques jours', 'Profils pré-qualifiés', '15+ pays'],
+    icon: 'mdi-account-group',
+    iconColor: '#6B5AE0',
+    subtitle: 'Du sourcing au suivi quotidien, nous gérons tout',
+    paragraph:
+      'Identification de profils qualifiés, présélection rigoureuse, tests et entretiens, onboarding complet, suivi opérationnel et reporting mensuel des KPI.',
+    bullets: [
+      'Identification de profils qualifiés dans +15 pays',
+      'Présélection, tests techniques et entretiens approfondis',
+      'Onboarding complet et intégration dans vos équipes',
+      'Suivi opérationnel quotidien et reporting mensuel des KPI',
+    ],
   },
   {
-    title: 'Partage salarial (EOR)',
-    icon: 'mdi-account-cash-outline',
-    color: 'secondary',
-    description:
-      'Contrats clairs, conformité internationale, prise en charge administrative complète.',
-    features: ['48h', 'Intégration complète', 'Conformité européenne'],
+    icon: 'mdi-briefcase-outline',
+    iconColor: '#FF7A3C',
+    subtitle: 'Collaboration simple et légale sans contraintes administratives',
+    paragraph:
+      'Contrats clairs, conformité internationale et prise en charge administrative complète. Vous recrutez, nous gérons le portage salarial, la paie et les obligations légales dans chaque pays.',
+    bullets: [
+      'Contrats EOR et conformité juridique garantie',
+      "Paie et cotisations gérées à l'international",
+      'Un seul interlocuteur pour tous les pays',
+    ],
   },
   {
-    title: 'RH & administratif',
-    icon: 'mdi-human-male-board',
-    color: 'primary',
-    description:
-      'Suivi opérationnel continu, reporting RH, support juridique permanent pour une collaboration pérenne.',
-    features: ['Permanent', 'Reporting mensuel', 'Support dédié'],
+    icon: 'mdi-file-document-outline',
+    iconColor: 'oklch(60% 0.2 240)',
+    subtitle: 'Cohérence administrative et organisationnelle complète',
+    paragraph:
+      'Nous centralisons la gestion des contrats, de la paie et du reporting pour vos équipes internationales. Vous gardez la maîtrise sans la charge opérationnelle.',
+    bullets: [
+      'Gestion des contrats et conformité RH',
+      'Paie et facturation automatisées',
+      "Reporting mensuel et suivi d'activité",
+    ],
   },
   {
-    title: 'Gestion de co',
-    icon: 'mdi-chart-line-variant',
-    color: 'secondary',
-    description:
-      'Optimisation des coûts, transparence tarifaire, économies significatives vs recrutement local.',
-    features: ['-40% vs local', 'Transparence totale', 'Pas de frais cachés'],
-  },
-  {
-    title: 'Accompagnement / Conseil',
-    icon: 'mdi-lightbulb-on-outline',
-    color: 'primary',
-    description:
-      'Conseil stratégique RH, accompagnement personnalisé, optimisation de vos processus internationaux.',
-    features: ['Sur mesure', 'Expertise dédiée', 'Accompagnement continu'],
+    icon: 'mdi-bullseye-arrow',
+    iconColor: '#6B5AE0',
+    subtitle: 'Stratégie RH efficace et expansion internationale sur mesure',
+    paragraph:
+      "Nous analysons votre organisation et vous accompagnons dans la structuration de vos équipes et de vos processus de travail à distance. Nos managers et experts métiers vous guident dans la mise en place d'une stratégie RH efficace et d'un plan d'expansion internationale sur mesure.",
+    bullets: [
+      'Analyse organisationnelle approfondie',
+      'Structuration des équipes et processus',
+      "Plan d'expansion internationale personnalisé",
+    ],
   },
 ]
 
-const hoveredIndex = ref<number | null>(null)
-
-function scrollToService(index: number) {
-  const el = document.getElementById(`service-${index}`)
-  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
+const currentContent = computed(() => tabContents[activeTab.value] ?? tabContents[0])
 </script>
 
 <template>
-  <section id="services" class="services-section-block">
+  <section id="services" class="services-section-block landing-section-anchor">
     <v-container class="py-16">
-      <div class="text-center mb-8">
+      <div class="text-center mb-6">
         <div class="text-overline text-primary font-weight-bold mb-2">Nos services</div>
-        <div class="text-h4 text-md-h3 font-weight-bold mb-4">
-          Un recrutement international à 360°
-        </div>
-        <div class="text-body-1 text-medium-emphasis mx-auto mb-6" style="max-width: 700px">
-          De la recherche de talents à leur gestion quotidienne : nous pilotons vos ressources
-          humaines à l'international. Concentrez-vous sur votre croissance, nous gérons le reste.
-        </div>
-        <!-- Barre secteurs / vitrine (affichage type vitrines) -->
-        <div class="secteurs-bar d-flex flex-wrap justify-center align-center ga-2">
-          <span class="text-body-2 font-weight-bold secteurs-label">Tous nos services</span>
-          <v-icon size="18" class="secteurs-sep">mdi-circle-small</v-icon>
-          <v-chip
-            v-for="(service, idx) in services"
+        <h2 class="services-title text-h4 text-md-h3 font-weight-bold mb-6">
+          Une plateforme tout-en-un pour vos équipes internationales
+        </h2>
+        <div class="tabs-row d-flex flex-wrap justify-center gap-3 mb-8">
+          <button
+            v-for="(tab, idx) in tabs"
             :key="idx"
-            size="small"
-            variant="tonal"
-            color="primary"
-            class="secteurs-chip"
-            @click="scrollToService(idx)"
+            type="button"
+            class="service-tab"
+            :class="{ 'service-tab--active': activeTab === idx }"
+            @click="activeTab = idx"
           >
-            {{ service.title }}
-          </v-chip>
+            {{ tab }}
+          </button>
         </div>
       </div>
 
-      <v-row>
-        <v-col
-          v-for="(service, index) in services"
-          :key="index"
-          cols="12"
-          sm="6"
-          lg="4"
-          class="service-col"
-          v-scroll-animation="{
-            animation: 'fadeInUp',
-            delay: index * 0.1,
-            threshold: 0.1,
-          }"
-          @mouseenter="hoveredIndex = index"
-          @mouseleave="hoveredIndex = null"
+      <v-card class="services-content-card pa-6 pa-md-8" elevation="0">
+        <div
+          v-if="currentContent"
+          class="card-content-inner"
+          :style="{ '--card-icon-color': currentContent.iconColor }"
         >
-          <v-card
-            :id="`service-${index}`"
-            class="pa-6 service-card"
-            variant="outlined"
-            :class="{ 'service-card-hovered': hoveredIndex === index }"
-          >
-            <div class="d-flex align-center ga-3 mb-4">
-              <v-avatar :color="service.color" variant="tonal" size="56">
-                <v-icon :icon="service.icon" size="28" />
-              </v-avatar>
-              <div class="text-h6 font-weight-bold">{{ service.title }}</div>
-            </div>
-            <div class="text-body-2 text-medium-emphasis mb-4">{{ service.description }}</div>
-            <v-divider class="mb-4" />
-            <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="(feature, idx) in service.features"
-                :key="idx"
-                size="small"
-                :color="service.color"
-                variant="tonal"
-              >
-                {{ feature }}
-              </v-chip>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+          <div class="card-icon-wrap">
+            <v-avatar size="64" class="card-icon" rounded="lg">
+              <v-icon :icon="currentContent.icon" size="32" class="card-icon-svg" />
+            </v-avatar>
+          </div>
+          <div class="card-body">
+            <h3 class="card-subtitle text-h6 text-md-h5 font-weight-bold mb-3">
+              {{ currentContent.subtitle }}
+            </h3>
+            <p class="card-paragraph text-body-1 text-medium-emphasis mb-4">
+              {{ currentContent.paragraph }}
+            </p>
+            <ul class="card-bullets">
+              <li v-for="(bullet, i) in currentContent.bullets" :key="i" class="bullet-item">
+                <v-icon icon="mdi-check-circle" size="22" class="bullet-icon" />
+                <span>{{ bullet }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </v-card>
 
       <div class="text-center mt-8">
         <v-btn
@@ -144,101 +132,165 @@ function scrollToService(index: number) {
 
 <style scoped>
 .services-section-block {
-  background: rgba(255, 255, 255, 0.7);
-}
-
-.service-col {
-  animation: fadeInUp 0.6s ease-out both;
-}
-
-.service-col:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.service-col:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.service-col:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.service-col:nth-child(4) {
-  animation-delay: 0.4s;
-}
-
-.service-col:nth-child(5) {
-  animation-delay: 0.5s;
-}
-
-.service-card {
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 100%;
-  border-width: 2px;
+  background: #f0eef8;
   position: relative;
   overflow: hidden;
 }
 
-.service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 0;
-  background: linear-gradient(135deg, #6b5ae0 0%, #ff7a3c 100%);
-  transition: height 0.4s ease;
-  z-index: 0;
+.services-title {
+  color: #0b0f19;
 }
 
-.service-card-hovered {
-  transform: translateY(-12px);
-  box-shadow: 0 16px 48px rgba(107, 90, 224, 0.2);
-  border-color: #6b5ae0;
+.tabs-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: #f0eef8;
+  border-radius: 9999px;
+  max-width: 100%;
 }
 
-.service-card-hovered::before {
-  height: 4px;
-}
-
-.service-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.secteurs-bar {
-  padding: 12px 16px;
-  border-radius: 16px;
-  background: rgba(107, 90, 224, 0.06);
-  border: 1px solid rgba(107, 90, 224, 0.12);
-}
-
-.secteurs-label {
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.secteurs-sep {
-  color: rgba(107, 90, 224, 0.5);
-}
-
-.secteurs-chip {
+.service-tab {
+  padding: 10px 20px;
+  border-radius: 9999px;
+  border: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.25s ease;
+  background: transparent;
+  color: #0b0f19;
+  font-family: inherit;
 }
 
-.secteurs-chip:hover {
-  transform: scale(1.05);
+.service-tab:hover:not(.service-tab--active) {
+  color: #6b5ae0;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.service-tab--active {
+  background: #6b5ae0;
+  color: white;
+  box-shadow: 0 2px 12px rgba(107, 90, 224, 0.3);
+}
+
+.service-tab--active:hover {
+  background: #5a4bc9;
+  color: white;
+}
+
+.services-content-card {
+  border-radius: 28px;
+  border-color: #5b6270;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 40px rgba(11, 18, 40, 0.06);
+  background: white;
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.card-content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 960px) {
+  .card-content-inner {
+    flex-direction: row;
+    align-items: flex-start;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+.card-icon-wrap {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.card-icon {
+  background: color-mix(in srgb, var(--card-icon-color) 18%, white) !important;
+}
+
+.card-icon-svg {
+  color: var(--card-icon-color) !important;
+}
+
+.card-body {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+@media (max-width: 959px) {
+  .card-body {
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.card-subtitle {
+  color: #0b0f19;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.card-paragraph {
+  color: #5b6270;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.card-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 959px) {
+  .card-bullets {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: fit-content;
+    text-align: left;
+  }
+}
+
+.bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #5b6270;
+}
+
+.bullet-item:last-child {
+  margin-bottom: 0;
+}
+
+.bullet-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--card-icon-color) !important;
+}
+
+@media (max-width: 600px) {
+  .tabs-row {
+    padding: 5px 8px;
+  }
+
+  .service-tab {
+    padding: 8px 14px;
+    font-size: 0.875rem;
+  }
+
+  .services-content-card {
+    border-radius: 24px;
   }
 }
 </style>

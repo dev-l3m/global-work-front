@@ -213,7 +213,7 @@ const roleOptions: { label: string; value: UserRole; icon: string }[] = [
 
 .login-card {
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 244, 255, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 238, 248, 0.95) 100%);
   border: 1px solid rgba(107, 90, 224, 0.1);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;

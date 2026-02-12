@@ -20,12 +20,12 @@ export const vuetify = createVuetify({
       gwhLight: {
         dark: false,
         colors: {
-          // Palette basée sur le logo Global Work Hub (dégradé violet -> orange)
-          primary: '#6B5AE0', // violet principal
-          secondary: '#FF7A3C', // orange du bas du logo
+          primary: '#6B5AE0',
+          secondary: '#FF7A3C',
           accent: '#F48FB1',
           surface: '#FFFFFF',
-          background: '#F7F4FF',
+          background: '#f0eef8',
+          'surface-bright': '#f0eef8',
           'on-primary': '#FFFFFF',
           'on-secondary': '#FFFFFF',
           info: '#5C6BC0',

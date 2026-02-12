@@ -7,7 +7,6 @@ export interface TalentItem {
   img: string
 }
 
-// Données dynamiques : peut être rempli par API (ex. fetchTalents())
 const talents = ref<TalentItem[]>([
   {
     id: 1,
@@ -40,12 +39,11 @@ const talents = ref<TalentItem[]>([
     img: 'https://img.freepik.com/photos-premium/rendering-3d-avatar-appel-zoom_917213-234935.jpg?semt=ais_hybrid',
   },
 ])
-// Doublon pour défilement infini (animation en boucle)
+
 const talentsForScroll = computed(() =>
   talents.value.length ? [...talents.value, ...talents.value] : []
 )
 
-// Catégories (alignées avec l’app)
 const categories = [
   'Tous les métiers',
   'Commerce, vente et services',
@@ -57,7 +55,6 @@ const categories = [
   'Secteur de la santé',
 ]
 
-// Option : charger depuis API au montage
 onMounted(() => {
   // fetchTalents().then(data => { talents.value = data })
 })
@@ -78,7 +75,6 @@ onMounted(() => {
         </p>
       </div>
 
-      <!-- Bandeau défilement horizontal automatique -->
       <div class="scroll-wrapper mb-6 mb-md-8">
         <div class="scroll-track">
           <div class="scroll-inner">
@@ -97,7 +93,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Catégories -->
       <div class="categories-bar d-flex flex-wrap justify-center align-center ga-2 px-2">
         <template v-for="(cat, idx) in categories" :key="idx">
           <span v-if="idx > 0" class="text-medium-emphasis sep d-none d-sm-inline">/</span>
@@ -110,7 +105,7 @@ onMounted(() => {
 
 <style scoped>
 .talents-showcase-section {
-  background: rgba(247, 244, 255, 0.5);
+  background: rgba(240, 238, 248, 0.5);
 }
 
 .vitrines-title {
@@ -122,7 +117,6 @@ onMounted(() => {
   line-height: 1.7;
 }
 
-/* Masquer le débordement pour l’animation */
 .scroll-wrapper {
   overflow: hidden;
   width: 100%;
@@ -194,7 +188,6 @@ onMounted(() => {
   user-select: none;
 }
 
-/* Tablet */
 @media (max-width: 960px) {
   .scroll-inner {
     gap: 16px;
@@ -211,7 +204,6 @@ onMounted(() => {
   }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   .section-container {
     padding-left: 12px;

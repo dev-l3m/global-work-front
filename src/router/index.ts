@@ -154,8 +154,24 @@ const routes = [
 export const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
-    return { top: 0 }
+  scrollBehavior(to, _from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    if (to.hash) {
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            resolve({
+              el: to.hash,
+              behavior: 'smooth',
+              top: 80, // 72px header + 8px (aligné avec scroll-margin-top en style.css)
+            })
+          })
+        })
+      })
+    }
+    return { left: 0, top: 0 }
   },
 })
 

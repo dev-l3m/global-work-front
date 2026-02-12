@@ -129,7 +129,7 @@ function handleLogout() {
 <style scoped>
 /* Ne pas utiliser le background .v-application (--v-theme-background) sur les deux dashboards */
 .app-layout-dashboard {
-  background: transparent !important;
+  background: #f0eef8 !important;
 }
 
 .dashboard-drawer :deep(.v-navigation-drawer__content) {

@@ -62,7 +62,7 @@ function handleSubmit() {
 </script>
 
 <template>
-  <section id="contact" class="contact-section-block">
+  <section id="contact" class="contact-section-block landing-section-anchor">
     <v-container class="py-16">
       <div class="text-center mb-8">
         <div class="text-overline text-primary font-weight-bold mb-2">Contact</div>
@@ -196,7 +196,7 @@ function handleSubmit() {
 
 <style scoped>
 .contact-section-block {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 244, 255, 0.5) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 238, 248, 0.5) 100%);
 }
 
 .contact-form-card,
