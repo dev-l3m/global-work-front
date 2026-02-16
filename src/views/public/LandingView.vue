@@ -14,7 +14,7 @@ import {
 </script>
 
 <template>
-  <PublicLayout>
+  <PublicLayout class="landing">
     <HeroSection />
     <v-divider />
     <WhySection />

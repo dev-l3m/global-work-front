@@ -18,7 +18,7 @@ const cards = [
 <template>
   <section id="pourquoi" class="why-section-block landing-section-anchor">
     <v-container class="py-16">
-      <div class="section-header text-center mb-10">
+      <div class="section-header text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
         <div class="text-overline text-primary font-weight-bold mb-2">Notre approche</div>
         <h2 class="text-h4 text-md-h3 font-weight-bold mb-3">Ce que nous faisons différemment</h2>
         <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 640px">
@@ -28,7 +28,14 @@ const cards = [
       </div>
 
       <v-row>
-        <v-col v-for="(item, index) in cards" :key="index" cols="12" md="4" class="comparison-col">
+        <v-col
+          v-for="(item, index) in cards"
+          :key="index"
+          cols="12"
+          md="4"
+          class="comparison-col"
+          v-reveal="{ variant: 'up', delay: index * 90 }"
+        >
           <v-card
             :class="['pa-6 comparison-card', `comparison-card--${index}`]"
             variant="outlined"
@@ -51,26 +58,6 @@ const cards = [
     rgba(255, 255, 255, 0.9) 30%,
     rgba(240, 238, 248, 0.5) 100%
   );
-}
-
-.section-header {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.comparison-col {
-  animation: fadeInUp 0.6s ease-out both;
-}
-
-.comparison-col:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.comparison-col:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.comparison-col:nth-child(3) {
-  animation-delay: 0.3s;
 }
 
 .comparison-card {
@@ -108,16 +95,5 @@ const cards = [
 .comparison-body {
   line-height: 1.7;
   margin: 0;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>

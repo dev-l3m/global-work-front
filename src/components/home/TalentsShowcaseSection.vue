@@ -63,7 +63,7 @@ onMounted(() => {
 <template>
   <section id="talents-showcase" class="talents-showcase-section">
     <v-container class="section-container py-8 py-md-16">
-      <div class="text-center mb-6 mb-md-8 px-2">
+      <div class="text-center mb-6 mb-md-8 px-2" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="vitrines-title text-h5 text-md-h4 text-lg-h3 font-weight-bold mb-3 mb-md-4">
           Vitrines de travailleurs
         </h2>
@@ -75,7 +75,7 @@ onMounted(() => {
         </p>
       </div>
 
-      <div class="scroll-wrapper mb-6 mb-md-8">
+      <div class="scroll-wrapper mb-6 mb-md-8" v-reveal="{ variant: 'up', delay: 90 }">
         <div class="scroll-track">
           <div class="scroll-inner">
             <v-card
@@ -93,7 +93,10 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="categories-bar d-flex flex-wrap justify-center align-center ga-2 px-2">
+      <div
+        class="categories-bar d-flex flex-wrap justify-center align-center ga-2 px-2"
+        v-reveal="{ variant: 'up', delay: 180 }"
+      >
         <template v-for="(cat, idx) in categories" :key="idx">
           <span v-if="idx > 0" class="text-medium-emphasis sep d-none d-sm-inline">/</span>
           <span class="category-item text-caption text-body-2">{{ cat }}</span>

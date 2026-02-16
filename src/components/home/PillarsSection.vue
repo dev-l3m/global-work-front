@@ -17,7 +17,7 @@ const column3 = [
 <template>
   <section id="piliers" class="pillars-section-block">
     <v-container class="py-16">
-      <div class="text-center mb-10">
+      <div class="text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="pillars-title text-white font-weight-bold mb-4">
           Sept piliers pour votre réussite
         </h2>
@@ -26,19 +26,19 @@ const column3 = [
         </p>
       </div>
       <v-row justify="center" class="pillars-grid">
-        <v-col cols="12" md="4" class="d-flex flex-column">
+        <v-col cols="12" md="4" class="d-flex flex-column" v-reveal="{ variant: 'up', delay: 0 }">
           <div v-for="(pillar, i) in column1" :key="`c1-${i}`" class="pillar-item">
             <v-icon icon="mdi-check-circle-outline" color="white" size="24" class="pillar-icon" />
             <span class="text-white">{{ pillar }}</span>
           </div>
         </v-col>
-        <v-col cols="12" md="4" class="d-flex flex-column">
+        <v-col cols="12" md="4" class="d-flex flex-column" v-reveal="{ variant: 'up', delay: 90 }">
           <div v-for="(pillar, i) in column2" :key="`c2-${i}`" class="pillar-item">
             <v-icon icon="mdi-check-circle-outline" color="white" size="24" class="pillar-icon" />
             <span class="text-white">{{ pillar }}</span>
           </div>
         </v-col>
-        <v-col cols="12" md="4" class="d-flex flex-column">
+        <v-col cols="12" md="4" class="d-flex flex-column" v-reveal="{ variant: 'up', delay: 180 }">
           <div v-for="(pillar, i) in column3" :key="`c3-${i}`" class="pillar-item">
             <v-icon icon="mdi-check-circle-outline" color="white" size="24" class="pillar-icon" />
             <span class="text-white">{{ pillar }}</span>

@@ -3,7 +3,7 @@
 <template>
   <section id="cta-final" class="cta-section-block">
     <v-container class="py-16">
-      <div class="text-center mb-8">
+      <div class="text-center mb-8" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="text-h4 text-md-h3 font-weight-bold mb-3">
           Prêt à accélérer votre croissance internationale ?
         </h2>
@@ -12,20 +12,24 @@
           sur mesure.
         </p>
         <div class="d-flex flex-wrap justify-center ga-3">
-          <v-btn color="primary" size="large" class="text-none font-weight-bold" href="#contact">
-            <v-icon icon="mdi-calendar-clock" start />
-            Planifier un appel découverte
-          </v-btn>
-          <v-btn
-            variant="outlined"
-            color="primary"
-            size="large"
-            class="text-none font-weight-medium"
-            href="#contact"
-          >
-            <v-icon icon="mdi-file-document-outline" start />
-            Télécharger notre brochure
-          </v-btn>
+          <span v-reveal="{ variant: 'up', delay: 160 }">
+            <v-btn color="primary" size="large" class="text-none font-weight-bold" href="#contact">
+              <v-icon icon="mdi-calendar-clock" start />
+              Planifier un appel découverte
+            </v-btn>
+          </span>
+          <span v-reveal="{ variant: 'up', delay: 260 }">
+            <v-btn
+              variant="outlined"
+              color="primary"
+              size="large"
+              class="text-none font-weight-medium"
+              href="#contact"
+            >
+              <v-icon icon="mdi-file-document-outline" start />
+              Télécharger notre brochure
+            </v-btn>
+          </span>
         </div>
       </div>
     </v-container>

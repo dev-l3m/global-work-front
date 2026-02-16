@@ -68,7 +68,7 @@ const currentContent = computed(() => tabContents[activeTab.value] ?? tabContent
 <template>
   <section id="services" class="services-section-block landing-section-anchor">
     <v-container class="py-16">
-      <div class="text-center mb-6">
+      <div class="text-center mb-6" v-reveal="{ variant: 'up', delay: 0 }">
         <div class="text-overline text-primary font-weight-bold mb-2">Nos services</div>
         <h2 class="services-title text-h4 text-md-h3 font-weight-bold mb-6">
           Une plateforme tout-en-un pour vos équipes internationales
@@ -87,7 +87,11 @@ const currentContent = computed(() => tabContents[activeTab.value] ?? tabContent
         </div>
       </div>
 
-      <v-card class="services-content-card pa-6 pa-md-8" elevation="0">
+      <v-card
+        class="services-content-card pa-6 pa-md-8"
+        elevation="0"
+        v-reveal="{ variant: 'up', delay: 90 }"
+      >
         <div
           v-if="currentContent"
           class="card-content-inner"
@@ -115,7 +119,7 @@ const currentContent = computed(() => tabContents[activeTab.value] ?? tabContent
         </div>
       </v-card>
 
-      <div class="text-center mt-8">
+      <div class="text-center mt-8" v-reveal="{ variant: 'up', delay: 180 }">
         <v-btn
           color="primary"
           size="large"

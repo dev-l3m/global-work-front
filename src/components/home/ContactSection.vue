@@ -64,7 +64,7 @@ function handleSubmit() {
 <template>
   <section id="contact" class="contact-section-block landing-section-anchor">
     <v-container class="py-16">
-      <div class="text-center mb-8">
+      <div class="text-center mb-8" v-reveal="{ variant: 'up', delay: 0 }">
         <div class="text-overline text-primary font-weight-bold mb-2">Contact</div>
         <div class="text-h4 text-md-h3 font-weight-bold mb-4">Contactez-nous</div>
         <div class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 600px">
@@ -73,7 +73,7 @@ function handleSubmit() {
         </div>
       </div>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" v-reveal="{ variant: 'up', delay: 150 }">
           <v-card class="pa-6 contact-form-card" elevation="2">
             <v-select
               v-model="form.subject"
@@ -138,7 +138,7 @@ function handleSubmit() {
         >
           {{ snackbarMessage }}
         </v-snackbar>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="6" v-reveal="{ variant: 'up', delay: 250 }">
           <v-card class="pa-6 contact-info-card" elevation="2">
             <div class="text-h6 font-weight-bold mb-4 d-flex align-center ga-2">
               <v-icon icon="mdi-information-outline" color="primary" />

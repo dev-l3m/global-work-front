@@ -48,7 +48,7 @@ const specialties = [
 <template>
   <section id="specialites" class="specialites-section-block landing-section-anchor">
     <v-container class="py-16">
-      <div class="section-header text-center mb-10">
+      <div class="section-header text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
         <div class="text-overline text-primary font-weight-bold mb-2">Domaines</div>
         <h2 class="specialites-title text-h4 text-md-h3 font-weight-bold mb-3">
           Des talents dans tous les domaines stratégiques
@@ -66,6 +66,7 @@ const specialties = [
           sm="6"
           md="4"
           class="specialite-col"
+          v-reveal="{ variant: 'up', delay: index * 90 }"
         >
           <v-card class="specialite-card pa-6" elevation="0" rounded="xl">
             <div

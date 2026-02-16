@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
 const props = withDefaults(
   defineProps<{
     heroImage?: string
@@ -12,14 +10,6 @@ const props = withDefaults(
     heroAlt: 'Réseau global et talents internationaux - Global Work Hub',
   }
 )
-
-const isVisible = ref(false)
-
-onMounted(() => {
-  setTimeout(() => {
-    isVisible.value = true
-  }, 100)
-})
 
 const stats = [
   { value: '100%', label: 'Taux de renouvellement', color: 'oklch(50% 0.2 290)' },
@@ -34,19 +24,23 @@ const stats = [
     <div class="hero-bg" aria-hidden="true" />
     <v-container class="hero-content py-16">
       <v-row align="center">
-        <v-col cols="12" md="7" :class="{ 'fade-in-up': isVisible }">
-          <span class="hero-pill">Recrutement international d'équipes encadrées</span>
-          <h1 class="hero-title">Le monde est votre vivier de talents</h1>
-          <p class="hero-subtitle">
+        <v-col cols="12" md="7">
+          <span class="hero-pill" v-reveal="{ variant: 'up', delay: 0 }"
+            >Recrutement international d'équipes encadrées</span
+          >
+          <h1 class="hero-title" v-reveal="{ variant: 'up', delay: 120 }">
+            Le monde est votre vivier de talents
+          </h1>
+          <p class="hero-subtitle" v-reveal="{ variant: 'up', delay: 240 }">
             Nous transformons votre vision en équipes performantes, partout dans le monde. Global
             Work Hub connecte les entreprises aux meilleurs professionnels internationaux,
             sélectionnés, encadrés et prêts à performer dès le premier jour.
           </p>
-          <p class="hero-tagline">
+          <p class="hero-tagline" v-reveal="{ variant: 'up', delay: 320 }">
             Une approche simple, rapide et ultra-compétitive qui booste vos performances sans
             exploser vos coûts.
           </p>
-          <div class="hero-ctas">
+          <div class="hero-ctas" v-reveal="{ variant: 'up', delay: 420 }">
             <v-btn href="#contact" size="large" class="hero-cta-primary text-none font-weight-bold">
               <v-icon icon="mdi-phone-in-talk" start />
               Parler à un expert
@@ -61,14 +55,14 @@ const stats = [
               Découvrir nos services
             </v-btn>
           </div>
-          <div class="hero-stats">
+          <div class="hero-stats" v-reveal="{ variant: 'up', delay: 520 }">
             <div v-for="(stat, i) in stats" :key="i" class="hero-stat">
               <span class="hero-stat-value" :style="{ color: stat.color }">{{ stat.value }}</span>
               <span class="hero-stat-label">{{ stat.label }}</span>
             </div>
           </div>
         </v-col>
-        <v-col cols="12" md="5" :class="{ 'fade-in-right': isVisible }" class="hero-col-img">
+        <v-col cols="12" md="5" class="hero-col-img" v-reveal="{ variant: 'scale', delay: 260 }">
           <v-card class="hero-card" elevation="0">
             <div class="hero-card-img-wrap">
               <v-img
@@ -351,36 +345,6 @@ const stats = [
 
   .hero-card-img-wrap {
     min-height: 220px;
-  }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.fade-in-right {
-  animation: fadeInRight 0.6s ease-out 0.15s forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
