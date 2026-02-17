@@ -85,12 +85,14 @@ const steps = [
               <div class="text-h6 font-weight-bold">{{ step.number }} {{ step.title }}</div>
             </div>
           </div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div
             class="text-body-1 text-medium-emphasis mb-3"
             style="line-height: 1.8"
             v-html="step.description"
           />
           <ul v-if="step.items" class="text-body-2 text-medium-emphasis process-list">
+            <!-- eslint-disable-next-line vue/no-v-html -->
             <li v-for="(item, itemIndex) in step.items" :key="itemIndex" v-html="item" />
           </ul>
         </v-card>

@@ -82,6 +82,7 @@ const cguSections = [
             </ul>
           </div>
 
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div
             v-else-if="section.content"
             class="cgu-content text-body-1 text-medium-emphasis"

@@ -27,8 +27,10 @@ defineProps<{
         delay: (index + 1) * 0.2,
         threshold: 0.1,
       }"
-      v-html="paragraph"
-    />
+    >
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div v-html="paragraph" />
+    </div>
   </v-container>
 </template>
 

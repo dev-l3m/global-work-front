@@ -52,6 +52,7 @@ const solution = {
             <v-icon icon="mdi-alert-circle" color="error" size="32" />
             <div class="text-h6 font-weight-bold">{{ problem.title }}</div>
           </div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="text-body-1 text-medium-emphasis" v-html="problem.description" />
         </v-card>
       </v-col>
@@ -61,6 +62,7 @@ const solution = {
             <v-icon icon="mdi-lightbulb-on" color="primary" size="32" />
             <div class="text-h6 font-weight-bold">{{ solution.title }}</div>
           </div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="text-body-1 text-medium-emphasis" v-html="solution.description" />
         </v-card>
       </v-col>

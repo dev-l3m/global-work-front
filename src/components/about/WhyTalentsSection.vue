@@ -41,7 +41,9 @@ const features = [
     <v-row class="mb-8">
       <v-col cols="12" md="6">
         <v-card class="pa-6 intro-card" variant="outlined">
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="text-body-1 text-medium-emphasis mb-3" v-html="intro.paragraph1" />
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="text-body-1 text-medium-emphasis" v-html="intro.paragraph2" />
         </v-card>
       </v-col>
