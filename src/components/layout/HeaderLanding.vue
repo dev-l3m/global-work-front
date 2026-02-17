@@ -107,7 +107,11 @@ function isActive(id: string) {
           class="logo-btn d-flex align-center px-0 text-none"
           @click="router.push('/')"
         >
-          <img src="/assets/hub-logo.png" alt="Global Work Hub" class="logo" />
+          <img
+            src="/assets/hub-logo.png"
+            alt="Global Work Hub - Logo recrutement international et externalisation RH"
+            class="logo"
+          />
         </v-btn>
         <v-btn
           icon

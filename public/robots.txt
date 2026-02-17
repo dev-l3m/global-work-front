@@ -1,0 +1,29 @@
+# robots.txt pour Global Work Hub
+# https://global-work-hub.com
+
+User-agent: *
+Allow: /
+
+# Bloquer les pages privées (dashboard, admin)
+Disallow: /espace-client
+Disallow: /espace-collaborateur
+Disallow: /admin
+Disallow: /connexion
+Disallow: /inscription
+
+# Autoriser les ressources statiques (CSS, JS, images)
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.webp
+Allow: /*.svg
+Allow: /*.ico
+
+# Sitemap
+Sitemap: https://global-work-hub.com/sitemap.xml
+
+# Crawl-delay (optionnel, pour éviter de surcharger le serveur)
+Crawl-delay: 1

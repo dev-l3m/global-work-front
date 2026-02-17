@@ -5,6 +5,7 @@ export interface TalentItem {
   id: number | string
   name: string
   img: string
+  alt: string
 }
 
 const talents = ref<TalentItem[]>([
@@ -12,31 +13,37 @@ const talents = ref<TalentItem[]>([
     id: 1,
     name: 'Profil pré-qualifié',
     img: 'https://www.piclumen.com/wp-content/uploads/2024/12/ai-avatar-maker-businesswoman.webp',
+    alt: "Professionnelle internationale pré-qualifiée pour le recrutement et l'externalisation RH - Global Work Hub",
   },
   {
     id: 2,
     name: 'Talent 15+ pays',
     img: 'https://image.cdn2.seaart.me/static/upload/20241129/ddeb4e66-ec2c-4c00-84ec-84ef7df903f8.png',
+    alt: 'Réseau de talents internationaux disponibles dans 15+ pays pour le recrutement international - Global Work Hub',
   },
   {
     id: 3,
     name: 'Secteur santé',
     img: 'https://image.cdn2.seaart.me/static/upload/20241129/0ccd5f1e-ffd3-414e-a11c-5ba6d459fb64.png',
+    alt: "Professionnel du secteur santé recruté via Global Work Hub pour l'externalisation RH internationale",
   },
   {
     id: 4,
     name: 'Logistique & BTP',
     img: 'https://th.bing.com/th/id/OIP.qjlzs8lxpCI5jHjDOeDizgHaHa?w=197&h=197&c=7&r=0&o=7&cb=defcache2&dpr=2&pid=1.7&rm=3&defcache=1',
+    alt: "Expert en logistique et BTP disponible pour le recrutement international et l'externalisation RH - Global Work Hub",
   },
   {
     id: 5,
     name: 'Administration & tech',
     img: 'https://img.freepik.com/premium-photo/isolated-businessman-character-avatar-professional-branding_1029469-184073.jpg?semt=ais_hybrid',
+    alt: 'Talent en administration et technologie pour le recrutement international - Global Work Hub externalisation RH',
   },
   {
     id: 6,
     name: 'Encadré RH Global Work Hub',
     img: 'https://img.freepik.com/photos-premium/rendering-3d-avatar-appel-zoom_917213-234935.jpg?semt=ais_hybrid',
+    alt: "Talent international encadré par Global Work Hub pour le recrutement et l'externalisation RH avec accompagnement complet",
   },
 ])
 
@@ -84,7 +91,7 @@ onMounted(() => {
               class="talent-card"
               elevation="2"
             >
-              <v-img :src="talent.img" :alt="talent.name" cover class="talent-img" />
+              <v-img :src="talent.img" :alt="talent.alt" cover class="talent-img" loading="lazy" />
               <div class="text-center text-caption font-weight-medium pa-2 talent-label">
                 {{ talent.name }}
               </div>

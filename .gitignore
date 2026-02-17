@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+docs/META_DESCRIPTIONS.md
+docs/SEO_AUDIT_REPORT.md
+src/content/blog/5-avantages-recrutement-international-pme.md
+docs/BLOG_SEO_AUDIT.md

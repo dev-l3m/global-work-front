@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useHead } from '@unhead/vue'
 import { redirectLoggedInToDashboard, requiresAuth, requiresAdmin } from '@/router/guards'
 import { adminRoutes } from '@/router/admin.routes'
+import { getMetaForRoute } from '@/config/meta-descriptions'
 
 const routes: import('vue-router').RouteRecordRaw[] = [
   // ——— Public (accueil, pourquoi, témoignages) ———
@@ -68,10 +70,21 @@ const routes: import('vue-router').RouteRecordRaw[] = [
   },
   // ——— Ressources (blog, FAQ, légal) ———
   {
-    path: '/blog-conseils',
+    path: '/blog',
     name: 'blog',
-    component: () => import('@/views/resources/BlogView.vue'),
+    component: () => import('@/views/blog/BlogListView.vue'),
     meta: { layout: 'public' },
+  },
+  {
+    path: '/blog/:slug',
+    name: 'blog-post',
+    component: () => import('@/views/blog/BlogPostView.vue'),
+    meta: { layout: 'public' },
+  },
+  // Redirection de l'ancienne URL vers la nouvelle
+  {
+    path: '/blog-conseils',
+    redirect: '/blog',
   },
   {
     path: '/faq',
@@ -115,6 +128,13 @@ const routes: import('vue-router').RouteRecordRaw[] = [
     component: () => import('@/views/resources/RGDPView.vue'),
     meta: { layout: 'public' },
   },
+  // ——— Tarifs ———
+  {
+    path: '/nos-tarifs',
+    name: 'pricing',
+    component: () => import('@/views/public/PricingView.vue'),
+    meta: { layout: 'public' },
+  },
   // ——— Contact ———
   {
     path: '/contactez-nous',
@@ -150,6 +170,13 @@ const routes: import('vue-router').RouteRecordRaw[] = [
   },
   // ——— Admin (backoffice) ———
   ...adminRoutes,
+  // ——— 404 Catch-all (doit être en dernier) ———
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/views/errors/NotFoundView.vue'),
+    meta: { layout: 'public' },
+  },
 ]
 
 export const router = createRouter({
@@ -184,4 +211,41 @@ router.beforeEach(to => {
   const adminResult = requiresAdmin(to)
   if (adminResult !== true) return adminResult
   return true
+})
+
+// Appliquer les meta descriptions et canonical automatiquement
+router.afterEach(to => {
+  // Ne pas appliquer les meta automatiques pour les pages qui gèrent leurs propres meta
+  if (to.name === 'blog-post' || to.name === 'pricing') {
+    return
+  }
+
+  const meta = getMetaForRoute(to.name)
+  const baseUrl = import.meta.env.VITE_SITE_URL || 'https://global-work-hub.com'
+  const canonicalUrl = `${baseUrl}${to.fullPath === '/' ? '' : to.fullPath}`.replace(/\/$/, '')
+
+  useHead({
+    title: meta.title,
+    meta: [
+      {
+        name: 'description',
+        content: meta.description,
+      },
+      // Meta robots pour les pages privées
+      ...(to.meta.requiresAuth || to.meta.role === 'admin'
+        ? [
+            {
+              name: 'robots',
+              content: 'noindex, nofollow',
+            },
+          ]
+        : []),
+    ],
+    link: [
+      {
+        rel: 'canonical',
+        href: canonicalUrl,
+      },
+    ],
+  })
 })

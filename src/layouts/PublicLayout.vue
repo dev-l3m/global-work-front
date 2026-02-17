@@ -80,7 +80,11 @@ const year = new Date().getFullYear()
               class="logo-btn d-flex align-center px-0 text-none"
               @click="router.push('/')"
             >
-              <img src="/assets/hub-logo.png" alt="Global Work Hub" class="logo" />
+              <img
+                src="/assets/hub-logo.png"
+                alt="Global Work Hub - Logo recrutement international et externalisation RH"
+                class="logo"
+              />
             </v-btn>
           </div>
 
@@ -663,7 +667,11 @@ const year = new Date().getFullYear()
             <v-col cols="12">
               <div class="footer-top-content">
                 <div class="footer-logo-container">
-                  <img src="/assets/hub-logo.png" alt="Global Work Hub" class="footer-logo-image" />
+                  <img
+                    src="/assets/hub-logo.png"
+                    alt="Global Work Hub - Logo recrutement international et externalisation RH"
+                    class="footer-logo-image"
+                  />
                 </div>
                 <div class="footer-cta-question">
                   <h3 class="text-h6 text-md-h5 font-weight-bold">
