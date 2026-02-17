@@ -156,13 +156,25 @@ cd global-work-front
 yarn install
 ```
 
-3. **Lancer le serveur de développement**
+3. **Variables d'environnement (optionnel, pour le backend)**
+
+Créez un fichier `.env` à la racine du projet si vous utilisez le backend NestJS :
+
+```env
+VITE_API_URL=http://localhost:3000/api
+VITE_FRONTEND_URL=http://localhost:5173
+```
+
+- `VITE_API_URL` : URL de base de l’API (NestJS).
+- `VITE_FRONTEND_URL` : URL du front (pour redirections après 401). Optionnel : `VITE_API_WITH_CREDENTIALS=true` pour envoyer les cookies (mode cookies).
+
+4. **Lancer le serveur de développement**
 
 ```bash
 yarn dev --host
 ```
 
-L'application sera accessible sur `http://localhost:5173`
+L'application sera accessible sur `http://localhost:5173`. Sans `.env`, les appels API utiliseront une base URL vide (à configurer selon votre backend).
 
 ## 💻 Développement
 

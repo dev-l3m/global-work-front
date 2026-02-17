@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-export interface MissionItem {
-  id: number
-  client: string
-  poste: string
-  statut: 'En cours' | 'En attente'
-  heures: number
-}
+import { getCollaborateurMissions } from '@/api/dashboard-collaborateur.api'
+import type { MissionItem } from '@/api/types/dashboard'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const missions = ref<MissionItem[]>([])
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 
 function getStatutColor(statut: MissionItem['statut']) {
   return statut === 'En cours' ? 'primary' : 'warning'
@@ -20,22 +16,13 @@ function getStatutIcon(statut: MissionItem['statut']) {
   return statut === 'En cours' ? 'mdi-play-circle' : 'mdi-pause-circle'
 }
 
-/** Service : récupère les missions du collaborateur (à remplacer par l’API) */
 async function fetchMissions() {
   isLoading.value = true
+  error.value = null
   try {
-    // TODO: remplacer par appel API (ex. api.getCollaborateurMissions())
-    await new Promise(resolve => setTimeout(resolve, 200))
-    missions.value = [
-      {
-        id: 1,
-        client: 'Client A',
-        poste: 'Développeur Full Stack',
-        statut: 'En cours',
-        heures: 35,
-      },
-      { id: 2, client: 'Client B', poste: 'Support Client', statut: 'En attente', heures: 0 },
-    ]
+    missions.value = await getCollaborateurMissions()
+  } catch (err) {
+    error.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -62,6 +49,9 @@ onMounted(() => {
         >
       </div>
       <v-skeleton-loader v-if="isLoading" type="list-item@2" />
+      <v-alert v-else-if="error" type="error" variant="tonal" density="compact" class="mb-4">
+        {{ error }}
+      </v-alert>
       <v-list v-else class="missions-list">
         <v-list-item v-for="mission in missions" :key="mission.id" class="px-0 missions-list-item">
           <template #prepend>

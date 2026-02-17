@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-export interface FormationItem {
-  id: number
-  titre: string
-  statut: 'Terminée' | 'En cours'
-  date: string
-}
+import { getCollaborateurFormations } from '@/api/dashboard-collaborateur.api'
+import type { FormationItem } from '@/api/types/dashboard'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const formations = ref<FormationItem[]>([])
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 
 function getStatutColor(statut: FormationItem['statut']) {
   return statut === 'Terminée' ? 'success' : 'info'
@@ -19,16 +16,13 @@ function getStatutIcon(statut: FormationItem['statut']) {
   return statut === 'Terminée' ? 'mdi-check' : 'mdi-book-open'
 }
 
-/** Service : récupère les formations du collaborateur (à remplacer par l’API) */
 async function fetchFormations() {
   isLoading.value = true
+  error.value = null
   try {
-    // TODO: remplacer par appel API (ex. api.getCollaborateurFormations())
-    await new Promise(resolve => setTimeout(resolve, 200))
-    formations.value = [
-      { id: 1, titre: 'Formation React Avancé', statut: 'Terminée', date: '2024-01-10' },
-      { id: 2, titre: 'Certification Agile', statut: 'En cours', date: '2024-01-20' },
-    ]
+    formations.value = await getCollaborateurFormations()
+  } catch (err) {
+    error.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -44,6 +38,9 @@ onMounted(() => {
     <v-card class="formations-card pa-4 pa-sm-5" variant="outlined">
       <h2 class="formations-title text-h6 font-weight-bold mb-3 mb-sm-4">Mes formations</h2>
       <v-skeleton-loader v-if="isLoading" type="list-item@2" />
+      <v-alert v-else-if="error" type="error" variant="tonal" density="compact" class="mb-4">
+        {{ error }}
+      </v-alert>
       <v-list v-else class="formations-list">
         <v-list-item
           v-for="formation in formations"

@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-export interface DemandeItem {
-  id: number
-  poste: string
-  statut: 'En attente' | 'En cours' | 'Terminée'
-  date: string
-}
+import { getClientDemandes } from '@/api/dashboard-client.api'
+import type { DemandeItem } from '@/api/types/dashboard'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const demandes = ref<DemandeItem[]>([])
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 
 function getStatutColor(statut: DemandeItem['statut']) {
   return statut === 'Terminée' ? 'success' : statut === 'En cours' ? 'primary' : 'warning'
@@ -19,17 +16,13 @@ function getStatutIcon(statut: DemandeItem['statut']) {
   return statut === 'Terminée' ? 'mdi-check' : statut === 'En cours' ? 'mdi-clock' : 'mdi-pause'
 }
 
-/** Service : récupère les demandes récentes (à remplacer par l’API) */
 async function fetchDemandes() {
   isLoading.value = true
+  error.value = null
   try {
-    // TODO: remplacer par appel API (ex. api.getClientDemandes({ limit: 5 }))
-    await new Promise(resolve => setTimeout(resolve, 200))
-    demandes.value = [
-      { id: 1, poste: 'Développeur Full Stack', statut: 'En cours', date: '2024-01-15' },
-      { id: 2, poste: 'Support Client Multilingue', statut: 'En attente', date: '2024-01-20' },
-      { id: 3, poste: 'Marketing Digital', statut: 'Terminée', date: '2024-01-10' },
-    ]
+    demandes.value = await getClientDemandes(5)
+  } catch (err) {
+    error.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -60,6 +53,9 @@ onMounted(() => {
         terminées. Cliquez sur une demande pour voir le détail.
       </p>
       <v-skeleton-loader v-if="isLoading" type="list-item@3" />
+      <v-alert v-else-if="error" type="error" variant="tonal" density="compact" class="mb-4">
+        {{ error }}
+      </v-alert>
       <v-list v-else class="demandes-list">
         <v-list-item v-for="demande in demandes" :key="demande.id" class="px-0 demandes-list-item">
           <template #prepend>

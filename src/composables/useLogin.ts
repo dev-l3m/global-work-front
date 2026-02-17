@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore, type UserRole } from '@/stores/auth'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 export function useLogin() {
   const auth = useAuthStore()
@@ -29,29 +30,29 @@ export function useLogin() {
     isLoading.value = true
 
     try {
-      // Simuler un délai d'authentification
-      await new Promise(resolve => setTimeout(resolve, 500))
-
-      // Pour le mode démo, on accepte n'importe quel email/mot de passe
-      // À remplacer par un appel API réel
-      auth.login(email.value.trim(), role.value)
-
+      await auth.login(email.value.trim(), password.value, role.value)
+      // Redirection selon le rôle renvoyé par l'API (et vu par le guard) pour accéder au bon dashboard
+      const userRole = auth.role
       if (redirect.value) {
         router.push(redirect.value)
         return
       }
-
-      router.push(role.value === 'client' ? '/espace-client' : '/espace-collaborateur')
+      if (userRole === 'admin') {
+        router.push('/admin')
+      } else if (userRole === 'collaborateur') {
+        router.push('/espace-collaborateur')
+      } else {
+        router.push('/espace-client')
+      }
     } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Une erreur est survenue'
+      error.value = getApiErrorMessage(err)
     } finally {
       isLoading.value = false
     }
   }
 
   function loginWithGoogle() {
-    // À implémenter avec l'API Google OAuth
-    error.value = 'Connexion Google à implémenter'
+    // Ouvrir le dialog "en cours de développement" (géré dans LoginForm)
   }
 
   function clearError() {

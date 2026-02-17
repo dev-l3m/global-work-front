@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-export interface CollaborateurStats {
-  missionsActives: number
-  heuresSemaine: number
-  formationsCount: number
-  evaluation: string
-}
+import { getCollaborateurStats } from '@/api/dashboard-collaborateur.api'
+import type { CollaborateurStats } from '@/api/types/dashboard'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const stats = ref<CollaborateurStats>({
   missionsActives: 0,
@@ -16,19 +12,15 @@ const stats = ref<CollaborateurStats>({
 })
 
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 
-/** Service : récupère les statistiques du tableau de bord collaborateur (à remplacer par l’API) */
 async function fetchStats() {
   isLoading.value = true
+  error.value = null
   try {
-    // TODO: remplacer par appel API (ex. api.getCollaborateurDashboardStats())
-    await new Promise(resolve => setTimeout(resolve, 300))
-    stats.value = {
-      missionsActives: 1,
-      heuresSemaine: 35,
-      formationsCount: 2,
-      evaluation: '4.8/5',
-    }
+    stats.value = await getCollaborateurStats()
+  } catch (err) {
+    error.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -40,6 +32,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <v-col v-if="error" cols="12">
+    <v-alert type="error" variant="tonal" density="compact">{{ error }}</v-alert>
+  </v-col>
   <template
     v-for="(stat, i) in [
       {

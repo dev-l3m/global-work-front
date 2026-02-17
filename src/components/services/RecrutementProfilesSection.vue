@@ -59,7 +59,7 @@ const profiles = [
         size="large"
         class="text-none font-weight-bold recrutement-cta-btn"
         prepend-icon="mdi-send"
-        href="#contact"
+        :to="{ path: '/', hash: '#contact' }"
       >
         Soumettez votre recherche de talents
       </v-btn>

@@ -1,48 +1,79 @@
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+import * as authApi from '@/api/auth.api'
+import type { RegisterDto, User } from '@/api/types/auth'
+import { getToken, setToken, getUser, setUser, clearAuth } from '@/utils/auth-storage'
 
-export type UserRole = 'client' | 'collaborateur'
+import type { Role } from '@/api/types/auth'
 
-type SessionUser = {
-  email: string
-  role: UserRole
-}
+export type UserRole = Role
 
-const STORAGE_KEY = 'gwh.session'
+export const useAuthStore = defineStore('auth', () => {
+  const user = ref<User | null>(getUser())
+  const accessToken = ref<string | null>(getToken())
 
-function loadSession(): SessionUser | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return null
-    return JSON.parse(raw) as SessionUser
-  } catch {
-    return null
+  const isAuthenticated = computed(() => !!user.value && !!accessToken.value)
+  const role = computed(() => user.value?.role ?? null)
+  const isClient = computed(() => user.value?.role === 'client')
+  const isCollaborateur = computed(() => user.value?.role === 'collaborateur')
+  const isAdmin = computed(() => user.value?.role === 'admin')
+
+  function setAuth(u: User, token: string) {
+    user.value = u
+    accessToken.value = token
+    setUser(u)
+    setToken(token)
   }
-}
 
-function saveSession(user: SessionUser | null) {
-  if (!user) {
-    localStorage.removeItem(STORAGE_KEY)
-    return
+  function initAuth() {
+    const storedUser = getUser()
+    const storedToken = getToken()
+    if (storedUser && storedToken) {
+      user.value = storedUser
+      accessToken.value = storedToken
+    } else {
+      user.value = null
+      accessToken.value = null
+    }
   }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-}
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: loadSession() as SessionUser | null,
-  }),
-  getters: {
-    isAuthenticated: s => !!s.user,
-    role: s => s.user?.role ?? null,
-  },
-  actions: {
-    login(email: string, role: UserRole) {
-      this.user = { email, role }
-      saveSession(this.user)
-    },
-    logout() {
-      this.user = null
-      saveSession(null)
-    },
-  },
+  async function register(dto: RegisterDto) {
+    const res = await authApi.register(dto)
+    setAuth(res.user, res.accessToken)
+    return res
+  }
+
+  async function login(email: string, password: string, role?: Role) {
+    const res = await authApi.login({ email, password, role })
+    setAuth(res.user, res.accessToken)
+    return res
+  }
+
+  async function fetchProfile() {
+    const u = await authApi.me()
+    user.value = u
+    setUser(u)
+    return u
+  }
+
+  function logout() {
+    user.value = null
+    accessToken.value = null
+    clearAuth()
+  }
+
+  return {
+    user,
+    accessToken,
+    isAuthenticated,
+    role,
+    isClient,
+    isCollaborateur,
+    isAdmin,
+    initAuth,
+    register,
+    login,
+    fetchProfile,
+    logout,
+  }
 })

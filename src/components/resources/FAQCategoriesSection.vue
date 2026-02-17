@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const categories = [
   {
     title: 'Performance et Stabilité',
@@ -129,75 +127,124 @@ const categories = [
     ],
   },
 ]
-
-const expandedPanels = ref<number[]>([])
 </script>
 
 <template>
-  <v-container class="py-16">
-    <v-expansion-panels v-model="expandedPanels" variant="accordion" multiple>
-      <v-expansion-panel
-        v-for="(category, categoryIndex) in categories"
-        :key="categoryIndex"
-        :value="categoryIndex"
-        class="faq-panel"
-        v-scroll-animation="{
-          animation: 'fadeInUp',
-          delay: categoryIndex * 0.1,
-          threshold: 0.1,
-        }"
-      >
-        <v-expansion-panel-title>
-          <div class="d-flex align-center ga-3">
-            <v-avatar :color="category.color" variant="tonal" size="40">
-              <v-icon :icon="category.icon" size="20" />
-            </v-avatar>
-            <span class="text-h6 font-weight-bold">{{ category.title }}</span>
-          </div>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-expansion-panels variant="accordion" class="mt-2">
-            <v-expansion-panel
-              v-for="(item, itemIndex) in category.questions"
-              :key="itemIndex"
-              class="faq-question-panel"
-            >
-              <v-expansion-panel-title class="text-subtitle-1 font-weight-medium">
-                {{ item.question }}
-              </v-expansion-panel-title>
-              <v-expansion-panel-text
-                class="text-body-2 text-medium-emphasis"
-                style="line-height: 1.8"
-              >
-                {{ item.answer }}
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+  <v-container class="py-10 py-md-16 faq-categories">
+    <div
+      v-for="(category, categoryIndex) in categories"
+      :key="categoryIndex"
+      class="faq-category-block mb-10"
+    >
+      <div class="d-flex align-center ga-3 mb-4">
+        <v-avatar :color="category.color" variant="tonal" size="48">
+          <v-icon :icon="category.icon" size="24" />
+        </v-avatar>
+        <h2 class="text-h5 text-md-h4 font-weight-bold faq-category-title">
+          {{ category.title }}
+        </h2>
+      </div>
+
+      <v-expansion-panels variant="accordion" class="faq-questions-panels">
+        <v-expansion-panel
+          v-for="(item, itemIndex) in category.questions"
+          :key="itemIndex"
+          class="faq-question-panel"
+        >
+          <v-expansion-panel-title class="faq-question-title">
+            {{ item.question }}
+          </v-expansion-panel-title>
+          <v-expansion-panel-text class="faq-question-answer">
+            {{ item.answer }}
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
   </v-container>
 </template>
 
 <style scoped>
-.faq-panel {
-  margin-bottom: 16px;
-  border-radius: 12px !important;
-  border: 2px solid rgba(107, 90, 224, 0.1);
-  overflow: hidden;
+.faq-categories {
+  max-width: 900px;
+  margin-inline: auto;
 }
 
-.faq-panel:hover {
-  border-color: rgba(107, 90, 224, 0.3);
+.faq-category-block {
+  scroll-margin-top: 80px;
+}
+
+.faq-category-title {
+  color: rgb(var(--v-theme-on-surface));
+}
+
+.faq-questions-panels {
+  box-shadow: none;
+  background: transparent !important;
 }
 
 .faq-question-panel {
   margin-bottom: 8px;
-  border-radius: 8px !important;
-  border-left: 3px solid rgba(107, 90, 224, 0.2);
+  border-radius: 12px !important;
+  border: 1px solid rgba(107, 90, 224, 0.15);
+  overflow: hidden;
+  background: #fff !important;
+}
+
+.faq-question-panel :deep(.v-expansion-panel__shadow) {
+  display: none;
+}
+
+.faq-question-panel :deep(.v-expansion-panel-title),
+.faq-question-panel :deep(.v-expansion-panel-text__wrapper) {
+  background: #fff !important;
+  color: #0b0f19 !important;
+}
+
+.faq-question-panel :deep(.v-expansion-panel-title:hover),
+.faq-question-panel :deep(.v-expansion-panel-title--active) {
+  background: rgba(240, 238, 248, 0.6) !important;
+}
+
+.faq-question-panel :deep(.v-expansion-panel-title .v-icon) {
+  color: rgb(var(--v-theme-primary)) !important;
+}
+
+.faq-question-panel:last-child {
+  margin-bottom: 0;
 }
 
 .faq-question-panel:hover {
-  border-left-color: rgba(107, 90, 224, 0.5);
+  border-color: rgba(107, 90, 224, 0.3);
+}
+
+.faq-question-title {
+  font-size: 1rem !important;
+  font-weight: 600;
+  line-height: 1.4;
+  min-height: 56px;
+  color: #0b0f19 !important;
+}
+
+.faq-question-title :deep(.v-expansion-panel-title__icon) {
+  margin-inline-start: auto;
+  color: rgb(var(--v-theme-primary)) !important;
+}
+
+.faq-question-answer {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #5b6270 !important;
+  padding-top: 0 !important;
+}
+
+@media (max-width: 600px) {
+  .faq-question-title {
+    font-size: 0.9375rem !important;
+    min-height: 52px;
+  }
+
+  .faq-category-block {
+    margin-bottom: 2.5rem;
+  }
 }
 </style>

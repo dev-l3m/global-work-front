@@ -100,7 +100,7 @@ const benefits = [
         size="large"
         class="text-none font-weight-bold gestion-cta-btn"
         prepend-icon="mdi-arrow-right"
-        href="#contact"
+        to="/contactez-nous"
       >
         Découvrez nos solutions de gestion
       </v-btn>

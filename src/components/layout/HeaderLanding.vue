@@ -243,10 +243,27 @@ function isActive(id: string) {
 
 .logo-btn {
   transition: transform 0.2s ease;
+  border: none;
+  box-shadow: none;
 }
 
-.logo-btn:hover {
+.logo-btn:hover,
+.logo-btn:focus,
+.logo-btn:focus-visible,
+.logo-btn:active {
   transform: scale(1.05);
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.logo-btn:focus-visible {
+  outline: none;
+}
+
+.logo-btn:deep(.v-btn__overlay),
+.logo-btn:deep(.v-ripple__container) {
+  opacity: 0;
 }
 
 .logo {

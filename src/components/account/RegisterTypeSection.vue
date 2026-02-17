@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { RegisterDto } from '@/api/types/auth'
+import { useAuthStore } from '@/stores/auth'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const route = useRoute()
 const router = useRouter()
@@ -281,7 +284,7 @@ const countries = [
 const activitySectors = ['Services', 'BTP', 'Commerce', 'Santé', 'Formation', 'Autre']
 
 // Tailles d'entreprise
-const companySizes = ['1-5', '6-20', '21-50', '+50 salariés', 'Autre']
+const companySizes = ['1-9', '10-49', '50-249', '250+', 'Autre']
 
 // Services Global Work Hub (liste détaillée + option Autre)
 const gwhServices = [
@@ -438,14 +441,41 @@ async function submit() {
   }
 
   isLoading.value = true
+  delete errors.value.submit
 
   try {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // TODO: Appel API inscription + envoi mail depuis contact@globalworkhub.com
-    // TODO: Réception demande sur gestiondeprojets@l3m-holding.fr
-    router.push('/connexion?registered=true')
+    const dto = {
+      organizationName: formData.value.organizationName,
+      legalForm: formData.value.legalForm || undefined,
+      activitySectors: formData.value.activitySectors,
+      otherActivity: formData.value.otherActivity || undefined,
+      companySize: formData.value.companySize || undefined,
+      otherCompanySize: formData.value.otherCompanySize || undefined,
+      country: formData.value.country,
+      city: formData.value.city || undefined,
+      website: formData.value.website || undefined,
+      contactName: formData.value.contactName,
+      sex: formData.value.sex as 'femme' | 'homme',
+      countryOfOrigin: formData.value.countryOfOrigin,
+      contactFunction: formData.value.contactFunction || undefined,
+      contactPhone: formData.value.contactPhone || undefined,
+      serviceInterest: formData.value.serviceInterest ? [formData.value.serviceInterest] : [],
+      otherService: formData.value.otherService || undefined,
+      hasPartner: formData.value.hasPartner ?? false,
+      email: formData.value.email,
+      password: formData.value.password,
+      confirmPassword: formData.value.confirmPassword ?? '',
+      acceptTerms: formData.value.acceptTerms,
+      acceptContact: formData.value.acceptContact,
+      accountType: (selectedType.value === 'agence' ? 'agence' : 'entreprise') as
+        | 'entreprise'
+        | 'agence',
+    }
+    const authStore = useAuthStore()
+    const res = await authStore.register(dto as RegisterDto)
+    router.push(res.user.role === 'collaborateur' ? '/espace-collaborateur' : '/espace-client')
   } catch (err) {
-    errors.value.submit = err instanceof Error ? err.message : 'Une erreur est survenue'
+    errors.value.submit = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { sendContactFull } from '@/api/contact.api'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const currentStep = ref(1)
 const totalSteps = 4
@@ -40,6 +42,7 @@ const availabilityOptions = [
 
 const isLoading = ref(false)
 const isSubmitted = ref(false)
+const submitError = ref<string | null>(null)
 
 const canProceedStep1 = computed(() => {
   return formData.value.subject !== '' && formData.value.subjectDetail.trim() !== ''
@@ -81,11 +84,26 @@ function previousStep() {
 async function submitForm() {
   isLoading.value = true
   try {
-    // Simuler l'envoi du formulaire
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    await sendContactFull({
+      subject: formData.value.subject,
+      subjectDetail: formData.value.subjectDetail,
+      name: formData.value.name,
+      email: formData.value.email,
+      phone: formData.value.phone || undefined,
+      company: formData.value.company || undefined,
+      message: formData.value.message,
+      contactPreference: formData.value.contactPreference as 'email' | 'phone' | 'both',
+      availability: formData.value.availability as
+        | 'morning'
+        | 'afternoon'
+        | 'evening'
+        | 'indifferent',
+      acceptPrivacy: formData.value.acceptPrivacy,
+    })
     isSubmitted.value = true
-  } catch (error) {
-    console.error("Erreur lors de l'envoi:", error)
+  } catch (err) {
+    console.error("Erreur lors de l'envoi:", err)
+    submitError.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -106,6 +124,7 @@ function resetForm() {
     acceptPrivacy: false,
   }
   isSubmitted.value = false
+  submitError.value = null
 }
 </script>
 
@@ -147,6 +166,17 @@ function resetForm() {
 
             <!-- Formulaire multi-étapes -->
             <v-form v-else @submit.prevent="submitForm">
+              <v-alert
+                v-if="submitError"
+                type="error"
+                variant="tonal"
+                density="compact"
+                class="mb-4"
+                closable
+                @click:close="submitError = null"
+              >
+                {{ submitError }}
+              </v-alert>
               <!-- Étape 1 : Objet de la demande -->
               <div v-show="currentStep === 1" class="form-step">
                 <div class="text-h6 font-weight-bold mb-4">Étape 1 : Objet de votre demande</div>

@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { getClientStats } from '@/api/dashboard-client.api'
+import type { ClientDashboardStats } from '@/api/types/dashboard'
+import { getApiErrorMessage } from '@/utils/api-error'
 
-export interface DashboardStats {
-  talentsActifs: number
-  demandesEnCours: number
-  missionsTerminees: number
-  satisfaction: number
-}
-
-const stats = ref<DashboardStats>({
+const stats = ref<ClientDashboardStats>({
   talentsActifs: 0,
   demandesEnCours: 0,
   missionsTerminees: 0,
@@ -16,19 +12,15 @@ const stats = ref<DashboardStats>({
 })
 
 const isLoading = ref(true)
+const error = ref<string | null>(null)
 
-/** Service : récupère les statistiques du tableau de bord (à remplacer par l’API) */
 async function fetchStats() {
   isLoading.value = true
+  error.value = null
   try {
-    // TODO: remplacer par appel API (ex. api.getClientDashboardStats())
-    await new Promise(resolve => setTimeout(resolve, 300))
-    stats.value = {
-      talentsActifs: 12,
-      demandesEnCours: 3,
-      missionsTerminees: 28,
-      satisfaction: 98,
-    }
+    stats.value = await getClientStats()
+  } catch (err) {
+    error.value = getApiErrorMessage(err)
   } finally {
     isLoading.value = false
   }
@@ -40,6 +32,9 @@ onMounted(() => {
 </script>
 
 <template>
+  <v-col v-if="error" cols="12">
+    <v-alert type="error" variant="tonal" density="compact">{{ error }}</v-alert>
+  </v-col>
   <template
     v-for="(stat, i) in [
       {

@@ -71,7 +71,7 @@ const examples = [
         size="x-large"
         class="text-none font-weight-bold"
         prepend-icon="mdi-file-document-edit"
-        href="#contact"
+        to="/contactez-nous"
         style="padding: 16px 32px; font-size: 16px"
       >
         Obtenir un devis personnalisé

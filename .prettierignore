@@ -6,3 +6,5 @@ package-lock.json
 coverage
 .vscode
 .idea
+# Prettier Vue parser fails on <slot> with default content (HTML implied end-tags bug)
+src/components/admin/AdminTable.vue

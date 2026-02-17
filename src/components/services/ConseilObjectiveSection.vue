@@ -18,7 +18,7 @@
           size="x-large"
           class="text-none font-weight-bold mt-8 conseil-cta-btn"
           prepend-icon="mdi-calendar-clock"
-          href="/contactez-nous"
+          to="/contactez-nous"
           style="padding: 16px 32px; font-size: 16px"
         >
           Demandez un rendez-vous conseil gratuit

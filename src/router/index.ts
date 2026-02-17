@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteLocationNormalized } from 'vue-router'
+import { redirectLoggedInToDashboard, requiresAuth, requiresAdmin } from '@/router/guards'
+import { adminRoutes } from '@/router/admin.routes'
 
-import { useAuthStore } from '@/stores/auth'
-
-const routes = [
+const routes: import('vue-router').RouteRecordRaw[] = [
   // ——— Public (accueil, pourquoi, témoignages) ———
   {
     path: '/',
@@ -149,6 +148,8 @@ const routes = [
     component: () => import('@/views/dashboard/CollaborateurDashboardView.vue'),
     meta: { requiresAuth: true, role: 'collaborateur', layout: 'app' },
   },
+  // ——— Admin (backoffice) ———
+  ...adminRoutes,
 ]
 
 export const router = createRouter({
@@ -175,22 +176,12 @@ export const router = createRouter({
   },
 })
 
-function isAuthorized(to: RouteLocationNormalized) {
-  const auth = useAuthStore()
-  const requiresAuth = Boolean(to.meta.requiresAuth)
-  const requiredRole = (to.meta.role as string | undefined) ?? undefined
-
-  if (!requiresAuth) return true
-  if (!auth.isAuthenticated) return false
-  if (!requiredRole) return true
-  return auth.role === requiredRole
-}
-
 router.beforeEach(to => {
-  if (isAuthorized(to)) return true
-
-  return {
-    name: 'login',
-    query: { redirect: to.fullPath },
-  }
+  const loggedInRedirect = redirectLoggedInToDashboard(to)
+  if (loggedInRedirect !== true) return loggedInRedirect
+  const authResult = requiresAuth(to)
+  if (authResult !== true) return authResult
+  const adminResult = requiresAdmin(to)
+  if (adminResult !== true) return adminResult
+  return true
 })

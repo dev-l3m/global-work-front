@@ -125,7 +125,7 @@ const currentContent = computed(() => tabContents[activeTab.value] ?? tabContent
           size="large"
           class="text-none font-weight-bold"
           prepend-icon="mdi-arrow-right"
-          href="/recrutement"
+          to="/recrutement"
         >
           Voir tous nos services détaillés
         </v-btn>

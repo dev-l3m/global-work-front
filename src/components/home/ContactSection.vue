@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { sendContactSimple } from '@/api/contact.api'
+import { getApiErrorMessage } from '@/utils/api-error'
 
 const form = ref({
   subject: '',
@@ -27,7 +29,7 @@ function showSnackbar(message: string, color: 'success' | 'error' | 'warning') {
   snackbar.value = true
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   const email = form.value.email.trim()
   const message = form.value.message.trim()
 
@@ -52,12 +54,20 @@ function handleSubmit() {
   }
 
   isSubmitting.value = true
-  // TODO: Implement contact form submission (API)
-  setTimeout(() => {
-    isSubmitting.value = false
+  try {
+    await sendContactSimple({
+      subject: form.value.subject,
+      message: form.value.message,
+      email: form.value.email,
+      phone: form.value.phone || undefined,
+    })
     form.value = { subject: '', message: '', email: '', phone: '' }
     showSnackbar('Votre message a bien été envoyé. Nous vous répondrons rapidement.', 'success')
-  }, 2000)
+  } catch (err) {
+    showSnackbar(getApiErrorMessage(err), 'error')
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 

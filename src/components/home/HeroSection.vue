@@ -46,7 +46,7 @@ const stats = [
               Parler à un expert
             </v-btn>
             <v-btn
-              href="/recrutement"
+              to="/recrutement"
               size="large"
               variant="outlined"
               class="hero-cta-secondary text-none font-weight-medium"

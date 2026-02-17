@@ -62,7 +62,7 @@ const benefits = [
         size="x-large"
         class="text-none font-weight-bold rhadmin-cta-btn"
         prepend-icon="mdi-phone"
-        href="#contact"
+        :to="{ path: '/', hash: '#contact' }"
         style="padding: 16px 32px; font-size: 16px"
       >
         Contactez nos experts RH

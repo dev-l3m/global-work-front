@@ -5,17 +5,27 @@ import { useLogin } from '@/composables/useLogin'
 import type { UserRole } from '@/stores/auth'
 
 const route = useRoute()
-const { role, email, password, isLoading, error, isValid, submit, loginWithGoogle, clearError } =
-  useLogin()
+const { role, email, password, isLoading, error, isValid, submit, clearError } = useLogin()
 
 const showPassword = ref(false)
 const rememberMe = ref(false)
+const showGoogleDialog = ref(false)
 const registeredSuccess = computed(() => route.query.registered === 'true')
 
 const roleOptions: { label: string; value: UserRole; icon: string }[] = [
   { label: 'Client', value: 'client', icon: 'mdi-account-tie' },
   { label: 'Collaborateur', value: 'collaborateur', icon: 'mdi-account' },
 ]
+
+const isAdmin = computed(() => role.value === 'admin')
+
+function setAdminRole() {
+  role.value = 'admin'
+}
+
+function setStandardRole() {
+  role.value = 'client'
+}
 </script>
 
 <template>
@@ -36,30 +46,70 @@ const roleOptions: { label: string; value: UserRole; icon: string }[] = [
       <v-card-text class="login-card-text pa-4 pa-sm-6 pa-md-8">
         <!-- Sélection du rôle -->
         <div class="mb-4 mb-sm-6">
-          <div
-            class="login-role-title text-subtitle-2 font-weight-bold mb-2 mb-sm-3 text-medium-emphasis"
-          >
-            Je suis un :
-          </div>
-          <v-btn-toggle
-            v-model="role"
-            mandatory
-            variant="outlined"
-            color="primary"
-            class="login-role-toggle w-100"
-            divided
-          >
-            <v-btn
-              v-for="option in roleOptions"
-              :key="option.value"
-              :value="option.value"
-              class="flex-grow-1 login-role-btn"
-              size="large"
+          <template v-if="isAdmin">
+            <div
+              class="login-role-title text-subtitle-2 font-weight-bold mb-2 mb-sm-3 text-medium-emphasis"
             >
-              <v-icon :icon="option.icon" class="mr-1 mr-sm-2" />
-              <span class="login-role-label">{{ option.label }}</span>
-            </v-btn>
-          </v-btn-toggle>
+              Je suis un administrateur
+            </div>
+            <v-chip
+              color="primary"
+              variant="tonal"
+              size="large"
+              class="text-none"
+              prepend-icon="mdi-shield-account"
+            >
+              Administrateur
+            </v-chip>
+            <div class="mt-2">
+              <v-btn
+                variant="text"
+                size="small"
+                color="primary"
+                class="text-none"
+                @click="setStandardRole"
+              >
+                Connexion client ou collaborateur
+              </v-btn>
+            </div>
+          </template>
+          <template v-else>
+            <div
+              class="login-role-title text-subtitle-2 font-weight-bold mb-2 mb-sm-3 text-medium-emphasis"
+            >
+              Je suis un :
+            </div>
+            <v-btn-toggle
+              v-model="role"
+              mandatory
+              variant="outlined"
+              color="primary"
+              class="login-role-toggle w-100"
+              divided
+            >
+              <v-btn
+                v-for="option in roleOptions"
+                :key="option.value"
+                :value="option.value"
+                class="flex-grow-1 login-role-btn"
+                size="large"
+              >
+                <v-icon :icon="option.icon" class="mr-1 mr-sm-2" />
+                <span class="login-role-label">{{ option.label }}</span>
+              </v-btn>
+            </v-btn-toggle>
+            <div class="mt-2">
+              <v-btn
+                variant="text"
+                size="small"
+                color="primary"
+                class="text-none"
+                @click="setAdminRole"
+              >
+                Vous êtes administrateur ?
+              </v-btn>
+            </div>
+          </template>
         </div>
 
         <v-divider class="my-4 my-sm-6" />
@@ -155,12 +205,29 @@ const roleOptions: { label: string; value: UserRole; icon: string }[] = [
             size="large"
             block
             class="google-button"
-            @click="loginWithGoogle"
+            @click="showGoogleDialog = true"
           >
             <v-icon icon="mdi-google" class="mr-2" />
             Se connecter avec Google
           </v-btn>
         </v-form>
+
+        <v-dialog v-model="showGoogleDialog" max-width="400" persistent>
+          <v-card class="pa-6">
+            <div class="text-center">
+              <v-icon icon="mdi-cog" size="48" color="primary" class="mb-4" />
+              <div class="text-h6 font-weight-bold mb-2">
+                Fonctionnalité en cours de développement
+              </div>
+              <p class="text-body-2 text-medium-emphasis mb-4">
+                La connexion avec Google sera bientôt disponible.
+              </p>
+              <v-btn color="primary" variant="flat" block @click="showGoogleDialog = false">
+                Fermer
+              </v-btn>
+            </div>
+          </v-card>
+        </v-dialog>
 
         <!-- <v-alert
           type="info"
