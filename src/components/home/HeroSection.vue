@@ -24,7 +24,7 @@ const stats = [
     <div class="hero-bg" aria-hidden="true" />
     <v-container class="hero-content py-16">
       <v-row align="center">
-        <v-col cols="12" md="7">
+        <v-col cols="12" md="6">
           <span class="hero-pill" v-reveal="{ variant: 'up', delay: 0 }"
             >Recrutement international d'équipes encadrées</span
           >
@@ -62,7 +62,7 @@ const stats = [
             </div>
           </div>
         </v-col>
-        <v-col cols="12" md="5" class="hero-col-img" v-reveal="{ variant: 'scale', delay: 260 }">
+        <v-col cols="12" md="6" class="hero-col-img" v-reveal="{ variant: 'scale', delay: 260 }">
           <v-card class="hero-card" elevation="0">
             <div class="hero-card-img-wrap">
               <v-img
@@ -119,6 +119,7 @@ const stats = [
   min-height: 90vh;
   display: flex;
   align-items: center;
+  padding-top: 72px;
 }
 
 .hero::before {
@@ -137,7 +138,7 @@ const stats = [
   pointer-events: none;
   background-color: var(--bg-main);
   background-image: url('/assets/background.png');
-  background-size: cover;
+  background-size: 135%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -169,15 +170,30 @@ const stats = [
 }
 
 .hero-pill {
-  display: inline-block;
-  padding: 8px 18px;
-  background: var(--hero-primary-soft);
-  color: var(--hero-primary);
-  border-radius: 999px;
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 22px;
+
+  border-radius: 9999px;
+
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  margin-bottom: 1.25rem;
+  letter-spacing: 0.01em;
+
+  background: linear-gradient(135deg, rgba(168, 139, 250, 0.25), rgba(196, 181, 253, 0.35));
+  color: #6b5ae0;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(107, 90, 224, 0.15);
+
+  /* Ombre douce */
+  box-shadow: 0 4px 20px rgba(107, 90, 224, 0.08);
+
+  margin-bottom: 1.5rem;
 }
 
 .hero-title {
@@ -210,7 +226,7 @@ const stats = [
   max-width: 600px;
   font-size: 1.125rem;
   line-height: 1.7;
-  color: var(--hero-text-secondary);
+  color: oklch(20% 0.01 290);
   margin: 0 0 0.75rem;
 }
 
@@ -218,9 +234,9 @@ const stats = [
   max-width: 600px;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--hero-text-muted);
+  color: oklch(20% 0.01 290);
   margin: 0 0 2rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .hero-ctas {
