@@ -360,6 +360,39 @@
         "message": "This page is currently under maintenance. We are working hard to improve your experience. Please try again later.",
         "close": "Close"
       }
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Access your secure space",
+      "roleTitle": "I am a:",
+      "roleAdmin": "I am an administrator",
+      "roleAdminLabel": "Administrator",
+      "roleClient": "Client",
+      "roleCollaborateur": "Collaborator",
+      "switchToAdmin": "Are you an administrator?",
+      "switchToStandard": "Client or collaborator login",
+      "emailLabel": "Username or email",
+      "emailPlaceholder": "firstname.lastname@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "or": "or",
+      "googleLogin": "Sign in with Google",
+      "noAccount": "Don't have an account yet?",
+      "register": "Sign up",
+      "registeredSuccess": "Your account has been created. You can log in with your email address and password.",
+      "forgotPasswordDialog": {
+        "title": "Password reset",
+        "message": "This feature is currently under development. Please contact support to reset your password.",
+        "close": "Close"
+      },
+      "googleDialog": {
+        "title": "Feature under development",
+        "message": "Google sign-in will be available soon.",
+        "close": "Close"
+      }
     }
   }
 }

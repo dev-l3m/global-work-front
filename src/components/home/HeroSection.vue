@@ -27,6 +27,20 @@ const stats = computed(() => [
     color: 'oklch(49% 0.19 288.58)',
   },
 ])
+
+function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+
+  const headerOffset = 80 // cohérent avec le scrollBehavior du router
+  const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+  const offsetPosition = elementPosition - headerOffset
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <template>
@@ -48,15 +62,19 @@ const stats = computed(() => [
             {{ $t('hero.tagline') }}
           </p>
           <div class="hero-ctas" v-reveal="{ variant: 'up', delay: 420 }">
-            <v-btn href="#contact" size="large" class="hero-cta-primary text-none font-weight-bold">
+            <v-btn
+              size="large"
+              class="hero-cta-primary text-none font-weight-bold"
+              @click="scrollToSection('contact')"
+            >
               <v-icon icon="mdi-phone-in-talk" start />
               {{ $t('hero.ctaPrimary') }}
             </v-btn>
             <v-btn
-              to="/recrutement"
               size="large"
               variant="outlined"
               class="hero-cta-secondary text-none font-weight-medium"
+              @click="scrollToSection('services')"
             >
               <v-icon icon="mdi-account-search" start />
               {{ $t('hero.ctaSecondary') }}
@@ -123,10 +141,17 @@ const stats = computed(() => [
   position: relative;
   overflow: hidden;
   background: var(--bg-main);
-  min-height: 90vh;
+  min-height: auto;
   display: flex;
   align-items: center;
   padding-top: 72px;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 960px) {
+  .hero {
+    min-height: 80vh;
+  }
 }
 
 .hero::before {
@@ -200,57 +225,84 @@ const stats = computed(() => [
   /* Ombre douce */
   box-shadow: 0 4px 20px rgba(107, 90, 224, 0.08);
 
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .hero-pill {
+    margin-bottom: 1rem;
+  }
 }
 
 .hero-title {
-  font-size: clamp(2rem, 5vw, 4.25rem);
+  font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
   color: var(--hero-text);
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
 }
 
 @media (min-width: 960px) {
   .hero-title {
-    font-size: 4.25rem;
+    font-size: 3rem;
   }
 }
 
 @media (min-width: 1280px) {
   .hero-title {
-    font-size: 4.5rem;
+    font-size: 3.25rem;
   }
 }
 
 @media (max-width: 600px) {
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    line-height: 1.25;
   }
 }
 
 .hero-subtitle {
   max-width: 600px;
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.6;
   color: oklch(20% 0.01 290);
   margin: 0 0 0.75rem;
 }
 
+@media (max-width: 600px) {
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
 .hero-tagline {
   max-width: 600px;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  line-height: 1.5;
   color: oklch(20% 0.01 290);
-  margin: 0 0 2rem;
+  margin: 0 0 1.5rem;
   font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  .hero-tagline {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+  }
 }
 
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .hero-ctas {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .hero-cta-primary {

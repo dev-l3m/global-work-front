@@ -969,7 +969,7 @@ const mobileResources = computed(() => {
     </v-footer>
 
     <!-- Dialog de maintenance -->
-    <v-dialog v-model="maintenanceDialog" max-width="500" persistent>
+    <!-- <v-dialog v-model="maintenanceDialog" max-width="500" persistent>
       <v-card>
         <v-card-title class="d-flex align-center">
           <v-icon icon="mdi-wrench" color="warning" class="mr-3" size="32"></v-icon>
@@ -991,6 +991,23 @@ const mobileResources = computed(() => {
             {{ t('layout.footer.maintenance.close') }}
           </v-btn>
         </v-card-actions>
+      </v-card>
+    </v-dialog> -->
+    <!-- Dialog de maintenance -->
+    <v-dialog v-model="maintenanceDialog" max-width="400" persistent>
+      <v-card class="pa-6">
+        <div class="text-center">
+          <v-icon icon="mdi-cog" size="48" color="primary" class="mb-4" />
+          <div class="text-h6 font-weight-bold mb-2">
+            {{ t('layout.footer.maintenance.title') }}
+          </div>
+          <p class="text-body-2 text-medium-emphasis mb-4">
+            {{ t('layout.footer.maintenance.message') }}
+          </p>
+          <v-btn color="primary" variant="flat" block @click="maintenanceDialog = false">
+            {{ t('layout.footer.maintenance.close') }}
+          </v-btn>
+        </div>
       </v-card>
     </v-dialog>
   </v-app>

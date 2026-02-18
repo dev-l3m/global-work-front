@@ -360,6 +360,39 @@
         "message": "Cette page est actuellement en cours de maintenance. Nous travaillons dur pour améliorer votre expérience. Veuillez réessayer plus tard.",
         "close": "Fermer"
       }
+    },
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Accédez à votre espace sécurisé",
+      "roleTitle": "Je suis un :",
+      "roleAdmin": "Je suis un administrateur",
+      "roleAdminLabel": "Administrateur",
+      "roleClient": "Client",
+      "roleCollaborateur": "Collaborateur",
+      "switchToAdmin": "Vous êtes administrateur ?",
+      "switchToStandard": "Connexion client ou collaborateur",
+      "emailLabel": "Nom d'utilisateur ou e-mail",
+      "emailPlaceholder": "prenom.nom@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Se souvenir de moi",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "or": "ou",
+      "googleLogin": "Se connecter avec Google",
+      "noAccount": "Pas encore de compte ?",
+      "register": "S'inscrire",
+      "registeredSuccess": "Votre compte a été créé. Vous pouvez vous connecter avec votre adresse e-mail et votre mot de passe.",
+      "forgotPasswordDialog": {
+        "title": "Réinitialisation du mot de passe",
+        "message": "Cette fonctionnalité est actuellement en cours de développement. Veuillez contacter le support pour réinitialiser votre mot de passe.",
+        "close": "Fermer"
+      },
+      "googleDialog": {
+        "title": "Fonctionnalité en cours de développement",
+        "message": "La connexion avec Google sera bientôt disponible.",
+        "close": "Fermer"
+      }
     }
   }
 }

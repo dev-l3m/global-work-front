@@ -360,6 +360,39 @@
         "message": "Esta página está actualmente en mantenimiento. Estamos trabajando duro para mejorar su experiencia. Por favor, inténtelo de nuevo más tarde.",
         "close": "Cerrar"
       }
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Accede a tu espacio seguro",
+      "roleTitle": "Soy un:",
+      "roleAdmin": "Soy un administrador",
+      "roleAdminLabel": "Administrador",
+      "roleClient": "Cliente",
+      "roleCollaborateur": "Colaborador",
+      "switchToAdmin": "¿Eres administrador?",
+      "switchToStandard": "Iniciar sesión como cliente o colaborador",
+      "emailLabel": "Nombre de usuario o correo electrónico",
+      "emailPlaceholder": "nombre.apellido@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "rememberMe": "Recordarme",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "or": "o",
+      "googleLogin": "Iniciar sesión con Google",
+      "noAccount": "¿Aún no tienes una cuenta?",
+      "register": "Registrarse",
+      "registeredSuccess": "Tu cuenta ha sido creada. Puedes iniciar sesión con tu dirección de correo electrónico y contraseña.",
+      "forgotPasswordDialog": {
+        "title": "Restablecimiento de contraseña",
+        "message": "Esta funcionalidad está actualmente en desarrollo. Por favor, contacta con el soporte para restablecer tu contraseña.",
+        "close": "Cerrar"
+      },
+      "googleDialog": {
+        "title": "Funcionalidad en desarrollo",
+        "message": "El inicio de sesión con Google estará disponible pronto.",
+        "close": "Cerrar"
+      }
     }
   }
 }

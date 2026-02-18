@@ -1,21 +1,28 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useLogin } from '@/composables/useLogin'
 import type { UserRole } from '@/stores/auth'
 
 const route = useRoute()
+const { t } = useI18n()
 const { role, email, password, isLoading, error, isValid, submit, clearError } = useLogin()
 
 const showPassword = ref(false)
 const rememberMe = ref(false)
 const showGoogleDialog = ref(false)
+const showForgotPasswordDialog = ref(false)
 const registeredSuccess = computed(() => route.query.registered === 'true')
 
-const roleOptions: { label: string; value: UserRole; icon: string }[] = [
-  { label: 'Client', value: 'client', icon: 'mdi-account-tie' },
-  { label: 'Collaborateur', value: 'collaborateur', icon: 'mdi-account' },
-]
+const roleOptions = computed(() => [
+  { label: t('layout.login.roleClient'), value: 'client' as UserRole, icon: 'mdi-account-tie' },
+  {
+    label: t('layout.login.roleCollaborateur'),
+    value: 'collaborateur' as UserRole,
+    icon: 'mdi-account',
+  },
+])
 
 const isAdmin = computed(() => role.value === 'admin')
 
@@ -32,9 +39,11 @@ function setStandardRole() {
   <div class="login-form-container">
     <div class="login-header" v-scroll-animation="{ animation: 'fadeInDown', delay: 0 }">
       <v-icon icon="mdi-lock-outline" color="primary" class="login-header-icon mb-3 mb-sm-4" />
-      <h1 class="login-title text-h5 text-sm-h4 text-md-h3 font-weight-bold mb-2">Connexion</h1>
+      <h1 class="login-title text-h5 text-sm-h4 text-md-h3 font-weight-bold mb-2">
+        {{ t('layout.login.title') }}
+      </h1>
       <p class="login-subtitle text-body-2 text-sm-body-1 text-medium-emphasis">
-        Accédez à votre espace sécurisé
+        {{ t('layout.login.subtitle') }}
       </p>
     </div>
 
@@ -50,7 +59,7 @@ function setStandardRole() {
             <div
               class="login-role-title text-subtitle-2 font-weight-bold mb-2 mb-sm-3 text-medium-emphasis"
             >
-              Je suis un administrateur
+              {{ t('layout.login.roleAdmin') }}
             </div>
             <v-chip
               color="primary"
@@ -59,7 +68,7 @@ function setStandardRole() {
               class="text-none"
               prepend-icon="mdi-shield-account"
             >
-              Administrateur
+              {{ t('layout.login.roleAdminLabel') }}
             </v-chip>
             <div class="mt-2">
               <v-btn
@@ -69,7 +78,7 @@ function setStandardRole() {
                 class="text-none"
                 @click="setStandardRole"
               >
-                Connexion client ou collaborateur
+                {{ t('layout.login.switchToStandard') }}
               </v-btn>
             </div>
           </template>
@@ -77,7 +86,7 @@ function setStandardRole() {
             <div
               class="login-role-title text-subtitle-2 font-weight-bold mb-2 mb-sm-3 text-medium-emphasis"
             >
-              Je suis un :
+              {{ t('layout.login.roleTitle') }}
             </div>
             <v-btn-toggle
               v-model="role"
@@ -106,7 +115,7 @@ function setStandardRole() {
                 class="text-none"
                 @click="setAdminRole"
               >
-                Vous êtes administrateur ?
+                {{ t('layout.login.switchToAdmin') }}
               </v-btn>
             </div>
           </template>
@@ -123,17 +132,16 @@ function setStandardRole() {
           class="mb-4"
           closable
         >
-          Votre compte a été créé. Vous pouvez vous connecter avec votre adresse e-mail et votre mot
-          de passe.
+          {{ t('layout.login.registeredSuccess') }}
         </v-alert>
 
         <!-- Formulaire de connexion -->
         <v-form @submit.prevent="submit">
           <v-text-field
             v-model="email"
-            label="Nom d'utilisateur ou e-mail"
+            :label="t('layout.login.emailLabel')"
             type="email"
-            placeholder="prenom.nom@exemple.com"
+            :placeholder="t('layout.login.emailPlaceholder')"
             prepend-inner-icon="mdi-email-outline"
             variant="outlined"
             autocomplete="email"
@@ -144,9 +152,9 @@ function setStandardRole() {
 
           <v-text-field
             v-model="password"
-            label="Mot de passe"
+            :label="t('layout.login.passwordLabel')"
             :type="showPassword ? 'text' : 'password'"
-            placeholder="••••••••"
+            :placeholder="t('layout.login.passwordPlaceholder')"
             prepend-inner-icon="mdi-lock-outline"
             :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
             variant="outlined"
@@ -160,14 +168,18 @@ function setStandardRole() {
           <div class="login-remember-row mb-4 mb-sm-6">
             <v-checkbox
               v-model="rememberMe"
-              label="Se souvenir de moi"
+              :label="t('layout.login.rememberMe')"
               density="compact"
               hide-details
               color="primary"
               class="login-checkbox"
             />
-            <a href="#" class="login-forgot-link text-primary text-decoration-none text-body-2">
-              Mot de passe oublié ?
+            <a
+              href="#"
+              class="login-forgot-link text-primary text-decoration-none text-body-2"
+              @click.prevent="showForgotPasswordDialog = true"
+            >
+              {{ t('layout.login.forgotPassword') }}
             </a>
           </div>
 
@@ -193,11 +205,13 @@ function setStandardRole() {
             type="submit"
           >
             <v-icon icon="mdi-login" class="mr-2" />
-            Se connecter
+            {{ t('layout.login.submit') }}
           </v-btn>
 
           <v-divider class="my-4 my-sm-6">
-            <span class="text-body-2 text-medium-emphasis px-3 px-sm-4">ou</span>
+            <span class="text-body-2 text-medium-emphasis px-3 px-sm-4">{{
+              t('layout.login.or')
+            }}</span>
           </v-divider>
 
           <v-btn
@@ -208,22 +222,41 @@ function setStandardRole() {
             @click="showGoogleDialog = true"
           >
             <v-icon icon="mdi-google" class="mr-2" />
-            Se connecter avec Google
+            {{ t('layout.login.googleLogin') }}
           </v-btn>
         </v-form>
 
+        <!-- Dialog Google (même style que PublicLayout) -->
         <v-dialog v-model="showGoogleDialog" max-width="400" persistent>
           <v-card class="pa-6">
             <div class="text-center">
               <v-icon icon="mdi-cog" size="48" color="primary" class="mb-4" />
               <div class="text-h6 font-weight-bold mb-2">
-                Fonctionnalité en cours de développement
+                {{ t('layout.login.googleDialog.title') }}
               </div>
               <p class="text-body-2 text-medium-emphasis mb-4">
-                La connexion avec Google sera bientôt disponible.
+                {{ t('layout.login.googleDialog.message') }}
               </p>
               <v-btn color="primary" variant="flat" block @click="showGoogleDialog = false">
-                Fermer
+                {{ t('layout.login.googleDialog.close') }}
+              </v-btn>
+            </div>
+          </v-card>
+        </v-dialog>
+
+        <!-- Dialog Mot de passe oublié (même style que PublicLayout) -->
+        <v-dialog v-model="showForgotPasswordDialog" max-width="400" persistent>
+          <v-card class="pa-6">
+            <div class="text-center">
+              <v-icon icon="mdi-cog" size="48" color="primary" class="mb-4" />
+              <div class="text-h6 font-weight-bold mb-2">
+                {{ t('layout.login.forgotPasswordDialog.title') }}
+              </div>
+              <p class="text-body-2 text-medium-emphasis mb-4">
+                {{ t('layout.login.forgotPasswordDialog.message') }}
+              </p>
+              <v-btn color="primary" variant="flat" block @click="showForgotPasswordDialog = false">
+                {{ t('layout.login.forgotPasswordDialog.close') }}
               </v-btn>
             </div>
           </v-card>
@@ -248,9 +281,9 @@ function setStandardRole() {
       v-scroll-animation="{ animation: 'fadeInUp', delay: 0.2 }"
     >
       <p class="text-body-2 text-medium-emphasis login-footer-text">
-        Pas encore de compte ?
+        {{ t('layout.login.noAccount') }}
         <router-link to="/inscription" class="text-primary text-decoration-none font-weight-bold">
-          S'inscrire
+          {{ t('layout.login.register') }}
         </router-link>
       </p>
     </div>
