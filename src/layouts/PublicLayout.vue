@@ -156,6 +156,30 @@ function goToContact() {
   mobileMenu.value = false
 }
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+
+  const headerOffset = 80 // cohérent avec le scrollBehavior du router
+  const elementPosition = el.getBoundingClientRect().top + window.pageYOffset
+  const offsetPosition = elementPosition - headerOffset
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth',
+  })
+}
+
+function handleFooterContactClick() {
+  // Si on est sur la landing page, scroll vers #contact
+  if (isLandingPage.value) {
+    scrollToSection('contact')
+  } else {
+    // Sinon, naviguer vers la page de contact
+    router.push(getLocalizedPath('/contactez-nous'))
+  }
+}
+
 const year = new Date().getFullYear()
 
 // Arrays pour le menu mobile
@@ -870,7 +894,7 @@ const mobileResources = computed(() => {
                     variant="flat"
                     size="large"
                     class="footer-contact-btn text-none font-weight-bold"
-                    @click="router.push(getLocalizedPath('/contactez-nous'))"
+                    @click="handleFooterContactClick"
                   >
                     {{ t('layout.footer.cta.button') }}
                   </v-btn>
