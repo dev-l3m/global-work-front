@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { sendContactSimple } from '@/api/contact.api'
 import { getApiErrorMessage } from '@/utils/api-error'
+
+const { t, tm, locale } = useI18n()
 
 const form = ref({
   subject: '',
@@ -19,6 +22,11 @@ const snackbarColor = ref<'success' | 'error' | 'warning'>('success')
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+const subjectItems = computed(() => {
+  void locale.value // Pour la réactivité
+  return tm('contact.form.subjectItems') as string[]
+})
+
 function isEmailValid(value: string): boolean {
   return emailRegex.test((value || '').trim())
 }
@@ -34,22 +42,22 @@ async function handleSubmit() {
   const message = form.value.message.trim()
 
   if (!email) {
-    showSnackbar("L'adresse email est obligatoire.", 'error')
+    showSnackbar(t('contact.messages.emailRequired'), 'error')
     return
   }
 
   if (!isEmailValid(email)) {
-    showSnackbar('Veuillez saisir une adresse email valide.', 'error')
+    showSnackbar(t('contact.messages.emailInvalid'), 'error')
     return
   }
 
   if (!message) {
-    showSnackbar('Le message est obligatoire.', 'error')
+    showSnackbar(t('contact.messages.messageRequired'), 'error')
     return
   }
 
   if (form.value.phone.trim() && !/^[\d\s+.()-]{8,20}$/.test(form.value.phone.trim())) {
-    showSnackbar("Le numéro de téléphone n'est pas valide.", 'warning')
+    showSnackbar(t('contact.messages.phoneInvalid'), 'warning')
     return
   }
 
@@ -62,7 +70,7 @@ async function handleSubmit() {
       phone: form.value.phone || undefined,
     })
     form.value = { subject: '', message: '', email: '', phone: '' }
-    showSnackbar('Votre message a bien été envoyé. Nous vous répondrons rapidement.', 'success')
+    showSnackbar(t('contact.messages.submitSuccess'), 'success')
   } catch (err) {
     showSnackbar(getApiErrorMessage(err), 'error')
   } finally {
@@ -75,11 +83,12 @@ async function handleSubmit() {
   <section id="contact" class="contact-section-block landing-section-anchor">
     <v-container class="py-16">
       <div class="text-center mb-8" v-reveal="{ variant: 'up', delay: 0 }">
-        <div class="text-overline text-primary font-weight-bold mb-2">Contact</div>
-        <div class="text-h4 text-md-h3 font-weight-bold mb-4">Contactez-nous</div>
+        <div class="text-overline text-primary font-weight-bold mb-2">
+          {{ t('contact.overline') }}
+        </div>
+        <div class="text-h4 text-md-h3 font-weight-bold mb-4">{{ t('contact.title') }}</div>
         <div class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 600px">
-          Une question sur nos services&nbsp;? Un projet en tête&nbsp;? Notre équipe vous répond
-          rapidement.
+          {{ t('contact.subtitle') }}
         </div>
       </div>
       <v-row>
@@ -87,14 +96,8 @@ async function handleSubmit() {
           <v-card class="pa-6 contact-form-card" elevation="2">
             <v-select
               v-model="form.subject"
-              label="Objet de votre demande"
-              :items="[
-                'Demande d\'information générale',
-                'Demande de devis personnalisé',
-                'Demande de support technique',
-                'Demande partenariat',
-                'Autre',
-              ]"
+              :label="t('contact.form.subjectLabel')"
+              :items="subjectItems"
               prepend-inner-icon="mdi-text-box-outline"
               variant="outlined"
               class="mb-3"
@@ -102,7 +105,7 @@ async function handleSubmit() {
             <v-textarea
               v-model="form.message"
               class="mb-3"
-              label="Précisez votre demande"
+              :label="t('contact.form.messageLabel')"
               rows="4"
               auto-grow
               prepend-inner-icon="mdi-text-long"
@@ -112,7 +115,7 @@ async function handleSubmit() {
             <v-text-field
               v-model="form.email"
               class="mb-3"
-              label="Votre adresse email"
+              :label="t('contact.form.emailLabel')"
               type="email"
               prepend-inner-icon="mdi-email-outline"
               variant="outlined"
@@ -121,7 +124,7 @@ async function handleSubmit() {
             <v-text-field
               v-model="form.phone"
               class="mb-4"
-              label="Votre numéro de téléphone (optionnel)"
+              :label="t('contact.form.phoneLabel')"
               prepend-inner-icon="mdi-phone-outline"
               variant="outlined"
             />
@@ -134,7 +137,7 @@ async function handleSubmit() {
               :loading="isSubmitting"
               @click="handleSubmit"
             >
-              Envoyer votre demande
+              {{ t('contact.form.submitButton') }}
             </v-btn>
           </v-card>
         </v-col>
@@ -152,13 +155,14 @@ async function handleSubmit() {
           <v-card class="pa-6 contact-info-card" elevation="2">
             <div class="text-h6 font-weight-bold mb-4 d-flex align-center ga-2">
               <v-icon icon="mdi-information-outline" color="primary" />
-              Nos coordonnées
+              {{ t('contact.info.title') }}
             </div>
             <div class="text-body-1 mb-4 contact-address">
-              <strong>GlobalKey Partners Ltd</strong><br />
-              128 City Road<br />
-              London EC1V 2NX<br />
-              United Kingdom
+              <strong>{{ t('contact.info.address.company') }}</strong
+              ><br />
+              {{ t('contact.info.address.street') }}<br />
+              {{ t('contact.info.address.city') }}<br />
+              {{ t('contact.info.address.country') }}
             </div>
             <v-divider class="my-4" />
             <div class="d-flex flex-column ga-3">
@@ -167,7 +171,9 @@ async function handleSubmit() {
                   <v-icon icon="mdi-email-outline" />
                 </v-avatar>
                 <div>
-                  <div class="text-caption text-medium-emphasis">Email</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('contact.info.emailLabel') }}
+                  </div>
                   <a
                     href="mailto:contact@global-work-hub.com"
                     class="text-body-1 text-decoration-none"
@@ -181,7 +187,9 @@ async function handleSubmit() {
                   <v-icon icon="mdi-phone-outline" />
                 </v-avatar>
                 <div>
-                  <div class="text-caption text-medium-emphasis">Téléphone</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('contact.info.phoneLabel') }}
+                  </div>
                   <a href="tel:+33978455089" class="text-body-1 text-decoration-none">
                     +33 9 78 45 50 89
                   </a>
@@ -192,8 +200,10 @@ async function handleSubmit() {
                   <v-icon icon="mdi-clock-outline" />
                 </v-avatar>
                 <div>
-                  <div class="text-caption text-medium-emphasis">Horaires</div>
-                  <div class="text-body-1">Lun - Ven: 9h - 18h (CET)</div>
+                  <div class="text-caption text-medium-emphasis">
+                    {{ t('contact.info.hoursLabel') }}
+                  </div>
+                  <div class="text-body-1">{{ t('contact.info.hours') }}</div>
                 </div>
               </div>
             </div>

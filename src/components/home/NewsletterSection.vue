@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const email = ref('')
 const isSubmitting = ref(false)
@@ -22,14 +25,14 @@ function handleSubscribe() {
   const value = email.value.trim()
 
   if (!value) {
-    snackbarMessage.value = "L'adresse email est obligatoire."
+    snackbarMessage.value = t('newsletter.messages.emailRequired')
     snackbarColor.value = 'error'
     snackbar.value = true
     return
   }
 
   if (!isEmailValid(value)) {
-    snackbarMessage.value = 'Veuillez saisir une adresse email valide.'
+    snackbarMessage.value = t('newsletter.messages.emailInvalid')
     snackbarColor.value = 'error'
     snackbar.value = true
     return
@@ -37,7 +40,7 @@ function handleSubscribe() {
 
   const emailLower = value.toLowerCase()
   if (subscribedEmails.value.has(emailLower)) {
-    snackbarMessage.value = 'Cet email est déjà inscrit à notre newsletter.'
+    snackbarMessage.value = t('newsletter.messages.emailAlreadySubscribed')
     snackbarColor.value = 'warning'
     snackbar.value = true
     return
@@ -47,7 +50,7 @@ function handleSubscribe() {
   // TODO: Appel API newsletter
   setTimeout(() => {
     subscribedEmails.value.add(emailLower)
-    snackbarMessage.value = 'Inscription réussie. Vous recevrez nos prochaines actualités.'
+    snackbarMessage.value = t('newsletter.messages.subscribeSuccess')
     snackbarColor.value = 'success'
     snackbar.value = true
     email.value = ''
@@ -58,17 +61,19 @@ function handleSubscribe() {
 
 <template>
   <div>
-    <div class="text-overline text-primary font-weight-bold mb-2">Ressources</div>
-    <div class="text-h4 text-md-h3 font-weight-bold mb-6">Newsletter Global Work Hub</div>
+    <div class="text-overline text-primary font-weight-bold mb-2">
+      {{ t('newsletter.overline') }}
+    </div>
+    <div class="text-h4 text-md-h3 font-weight-bold mb-6">{{ t('newsletter.title') }}</div>
     <v-card class="pa-6 newsletter-card" elevation="2">
       <div class="text-body-2 text-medium-emphasis mb-4">
-        Recevez nos nouveautés, articles de blog et réponses à vos questions les plus fréquentes.
+        {{ t('newsletter.description') }}
       </div>
       <v-text-field
         v-model="email"
         class="mt-4"
-        label="Votre adresse email"
-        placeholder="prenom.nom@exemple.com"
+        :label="t('newsletter.emailLabel')"
+        :placeholder="t('newsletter.emailPlaceholder')"
         prepend-inner-icon="mdi-email-outline"
         variant="outlined"
         type="email"
@@ -86,10 +91,10 @@ function handleSubscribe() {
         :loading="isSubmitting"
         @click="handleSubscribe"
       >
-        Je m'abonne
+        {{ t('newsletter.subscribeButton') }}
       </v-btn>
       <div class="text-caption text-medium-emphasis mt-3 text-center">
-        En vous abonnant, vous acceptez notre politique de confidentialité.
+        {{ t('newsletter.privacyText') }}
       </div>
     </v-card>
 

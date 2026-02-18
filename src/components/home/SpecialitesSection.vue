@@ -1,60 +1,43 @@
 <script setup lang="ts">
-const specialties = [
-  {
-    icon: 'mdi-headset',
-    iconColor: '#6B5AE0',
-    title: 'Support et service client',
-    description:
-      'Assistance multilingue (FR/EN/AR), centres de support externalisés, gestion des tickets et suivi de satisfaction client.',
-  },
-  {
-    icon: 'mdi-cart-outline',
-    iconColor: '#FF7A3C',
-    title: 'Marketing digital et e-commerce',
-    description:
-      'Community management, brand content, SEO/SEA, campagnes publicitaires (Google Ads, Meta Ads), gestion de boutiques en ligne et marketplaces.',
-  },
-  {
-    icon: 'mdi-code-braces',
-    iconColor: 'oklch(55% 0.18 240)',
-    title: 'Développement web et IT',
-    description:
-      'Développeurs full stack, front-end, back-end, intégrateurs, administrateurs systèmes et réseaux, maintenance logicielle et support technique IT.',
-  },
-  {
-    icon: 'mdi-file-document-outline',
-    iconColor: '#2563eb',
-    title: 'Gestion administrative et comptable',
-    description:
-      'Gestion de facturation, suivi client, relances, comptabilité de base, rapprochements bancaires, gestion de paie et conformité RH.',
-  },
-  {
-    icon: 'mdi-palette-outline',
-    iconColor: '#FF7A3C',
-    title: 'Design, communication et création',
-    description:
-      'Graphisme, UX/UI design, motion design, rédaction web, storytelling, production vidéo, identité visuelle et charte graphique.',
-  },
-  {
-    icon: 'mdi-wrench',
-    iconColor: '#2563eb',
-    title: 'Métiers techniques et ingénierie',
-    description:
-      "Dessinateurs industriels (CAO/DAO/MAO), ingénieurs méthode, mécanique, électricité, modeleurs 3D, concepteurs produits, chargés d'études et coordinateurs de projets techniques.",
-  },
-]
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, tm, locale } = useI18n()
+
+const specialties = computed(() => {
+  void locale.value // Pour la réactivité
+  const items = tm('specialites.items') as Array<{ title: string; description: string }>
+  const icons = [
+    'mdi-phone',
+    'mdi-cart-outline',
+    'mdi-code-tags',
+    'mdi-file-document-outline',
+    'mdi-palette-outline',
+    'mdi-wrench',
+  ]
+  const iconColors = ['#6B5AE0', '#FF7A3C', 'oklch(55% 0.18 240)', '#2563eb', '#FF7A3C', '#2563eb']
+
+  return items.map((item, index) => ({
+    icon: icons[index],
+    iconColor: iconColors[index],
+    title: item.title,
+    description: item.description,
+  }))
+})
 </script>
 
 <template>
   <section id="specialites" class="specialites-section-block landing-section-anchor">
     <v-container class="py-16">
       <div class="section-header text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
-        <div class="text-overline text-primary font-weight-bold mb-2">Domaines</div>
+        <div class="text-overline text-primary font-weight-bold mb-2">
+          {{ t('specialites.overline') }}
+        </div>
         <h2 class="specialites-title text-h4 text-md-h3 font-weight-bold mb-3">
-          Des talents dans tous les domaines stratégiques
+          {{ t('specialites.title') }}
         </h2>
         <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 640px">
-          Nous recrutons des professionnels qualifiés dans les secteurs clés de votre croissance
+          {{ t('specialites.subtitle') }}
         </p>
       </div>
 
@@ -68,14 +51,14 @@ const specialties = [
           class="specialite-col"
           v-reveal="{ variant: 'up', delay: index * 90 }"
         >
-          <v-card class="specialite-card pa-6" elevation="0" rounded="xl">
+          <v-card class="specialite-card pa-12" elevation="0" rounded="xl">
             <div
               class="specialite-card-inner"
               :style="{ '--specialite-icon-color': item.iconColor }"
             >
               <div class="specialite-icon-wrap">
                 <v-avatar size="48" class="specialite-icon" rounded="lg">
-                  <v-icon :icon="item.icon" size="28" class="specialite-icon-svg" />
+                  <v-icon :icon="item.icon" size="48" class="specialite-icon-svg" />
                 </v-avatar>
               </div>
               <h3 class="specialite-title text-h6 font-weight-bold mb-2">
@@ -129,10 +112,6 @@ const specialties = [
 
 .specialite-icon-wrap {
   flex-shrink: 0;
-}
-
-.specialite-icon {
-  background: color-mix(in srgb, var(--specialite-icon-color) 18%, white) !important;
 }
 
 .specialite-icon-svg {

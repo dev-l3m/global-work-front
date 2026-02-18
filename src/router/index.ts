@@ -1,82 +1,127 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useHead } from '@unhead/vue'
-import { redirectLoggedInToDashboard, requiresAuth, requiresAdmin } from '@/router/guards'
+import {
+  redirectLoggedInToDashboard,
+  requiresAuth,
+  requiresAdmin,
+  localeGuard,
+} from '@/router/guards'
 import { adminRoutes } from '@/router/admin.routes'
 import { getMetaForRoute } from '@/config/meta-descriptions'
+import { createLocalizedRoutes } from '@/router/i18n-routes'
 
 const routes: import('vue-router').RouteRecordRaw[] = [
-  // ——— Public (accueil, pourquoi, témoignages) ———
+  // ——— Redirection de / vers /fr ———
   {
     path: '/',
+    redirect: '/fr',
+  },
+  // ——— Public (accueil, pourquoi, témoignages) ———
+  // Routes landing explicites pour éviter les problèmes de résolution
+  {
+    path: '/fr',
     name: 'landing',
     component: () => import('@/views/public/LandingView.vue'),
-    meta: { layout: 'public' },
+    meta: { layout: 'public', locale: 'fr' },
   },
   {
-    path: '/pourquoi-global-work-hub',
-    name: 'why',
-    component: () => import('@/views/public/WhyGlobalWorkHubView.vue'),
-    meta: { layout: 'public' },
+    path: '/en',
+    name: 'landing-en',
+    component: () => import('@/views/public/LandingView.vue'),
+    meta: { layout: 'public', locale: 'en' },
   },
   {
-    path: '/ce-quon-dit-sur-nous',
-    name: 'testimonials',
-    component: () => import('@/views/public/TestimonialsView.vue'),
-    meta: { layout: 'public' },
+    path: '/es',
+    name: 'landing-es',
+    component: () => import('@/views/public/LandingView.vue'),
+    meta: { layout: 'public', locale: 'es' },
   },
+  ...createLocalizedRoutes(
+    {
+      name: 'why',
+      component: () => import('@/views/public/WhyGlobalWorkHubView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/pourquoi-global-work-hub'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'testimonials',
+      component: () => import('@/views/public/TestimonialsView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/ce-quon-dit-sur-nous'
+  ),
   // ——— À propos ———
-  {
-    path: '/notre-mission',
-    name: 'mission',
-    component: () => import('@/views/about/MissionView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/notre-methode',
-    name: 'methode',
-    component: () => import('@/views/about/MethodeView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'mission',
+      component: () => import('@/views/about/MissionView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/notre-mission'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'methode',
+      component: () => import('@/views/about/MethodeView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/notre-methode'
+  ),
   // ——— Services ———
-  {
-    path: '/recrutement',
-    name: 'recrutement',
-    component: () => import('@/views/services/RecrutementView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/partage-salarial',
-    name: 'partage-salarial',
-    component: () => import('@/views/services/PartageSalarialView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/gestion-de-co',
-    name: 'gestion-de-co',
-    component: () => import('@/views/services/GestionCoView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/rh-et-administratif',
-    name: 'rh-admin',
-    component: () => import('@/views/services/RHAdminView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/accompagnement-conseil',
-    name: 'conseil',
-    component: () => import('@/views/services/ConseilView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'recrutement',
+      component: () => import('@/views/services/RecrutementView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/recrutement'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'partage-salarial',
+      component: () => import('@/views/services/PartageSalarialView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/partage-salarial'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'gestion-de-co',
+      component: () => import('@/views/services/GestionCoView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/gestion-de-co'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'rh-admin',
+      component: () => import('@/views/services/RHAdminView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/rh-et-administratif'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'conseil',
+      component: () => import('@/views/services/ConseilView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/accompagnement-conseil'
+  ),
   // ——— Ressources (blog, FAQ, légal) ———
+  ...createLocalizedRoutes(
+    {
+      name: 'blog',
+      component: () => import('@/views/blog/BlogListView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/blog'
+  ),
+  // Route blog avec slug (doit être générée manuellement car elle a un paramètre dynamique)
   {
-    path: '/blog',
-    name: 'blog',
-    component: () => import('@/views/blog/BlogListView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/blog/:slug',
+    path: '/:locale(fr|en|es)/blog/:slug',
     name: 'blog-post',
     component: () => import('@/views/blog/BlogPostView.vue'),
     meta: { layout: 'public' },
@@ -84,77 +129,99 @@ const routes: import('vue-router').RouteRecordRaw[] = [
   // Redirection de l'ancienne URL vers la nouvelle
   {
     path: '/blog-conseils',
-    redirect: '/blog',
+    redirect: '/fr/blog',
   },
-  {
-    path: '/faq',
-    name: 'faq',
-    component: () => import('@/views/resources/FAQView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/politique-de-confidentialite',
-    name: 'privacy',
-    component: () => import('@/views/resources/PrivacyView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/conditions-tarification',
-    name: 'tarification',
-    component: () => import('@/views/resources/TarificationView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/structure-securite',
-    name: 'structure',
-    component: () => import('@/views/resources/StructureView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/mentions-legales',
-    name: 'legal',
-    component: () => import('@/views/resources/LegalView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/conditions-generales-utilisation',
-    name: 'cgu',
-    component: () => import('@/views/resources/CGUView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/politique-de-protection-des-donnees-personnelles',
-    name: 'rgpd',
-    component: () => import('@/views/resources/RGDPView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'faq',
+      component: () => import('@/views/resources/FAQView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/faq'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'privacy',
+      component: () => import('@/views/resources/PrivacyView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/politique-de-confidentialite'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'tarification',
+      component: () => import('@/views/resources/TarificationView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/conditions-tarification'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'structure',
+      component: () => import('@/views/resources/StructureView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/structure-securite'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'legal',
+      component: () => import('@/views/resources/LegalView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/mentions-legales'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'cgu',
+      component: () => import('@/views/resources/CGUView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/conditions-generales-utilisation'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'rgpd',
+      component: () => import('@/views/resources/RGDPView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/politique-de-protection-des-donnees-personnelles'
+  ),
   // ——— Tarifs ———
-  {
-    path: '/nos-tarifs',
-    name: 'pricing',
-    component: () => import('@/views/public/PricingView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'pricing',
+      component: () => import('@/views/public/PricingView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/nos-tarifs'
+  ),
   // ——— Contact ———
-  {
-    path: '/contactez-nous',
-    name: 'contact',
-    component: () => import('@/views/contact/ContactView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'contact',
+      component: () => import('@/views/contact/ContactView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/contactez-nous'
+  ),
   // ——— Auth (connexion / inscription) ———
-  {
-    path: '/inscription',
-    name: 'register',
-    component: () => import('@/views/auth/RegisterView.vue'),
-    meta: { layout: 'public' },
-  },
-  {
-    path: '/connexion',
-    name: 'login',
-    component: () => import('@/views/auth/LoginView.vue'),
-    meta: { layout: 'public' },
-  },
+  ...createLocalizedRoutes(
+    {
+      name: 'register',
+      component: () => import('@/views/auth/RegisterView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/inscription'
+  ),
+  ...createLocalizedRoutes(
+    {
+      name: 'login',
+      component: () => import('@/views/auth/LoginView.vue'),
+      meta: { layout: 'public' },
+    },
+    '/connexion'
+  ),
   // ——— Tableaux de bord (espaces connectés) ———
   {
     path: '/espace-client',
@@ -203,14 +270,67 @@ export const router = createRouter({
   },
 })
 
-router.beforeEach(to => {
+// Debug: Log des routes générées (à retirer en production)
+if (import.meta.env.DEV) {
+  const allRoutes = router.getRoutes()
+  console.log(
+    'Routes générées:',
+    allRoutes.map(r => ({ path: r.path, name: r.name }))
+  )
+  console.log(
+    'Routes recrutement:',
+    allRoutes.filter(r => r.path.includes('recrutement'))
+  )
+}
+
+router.beforeEach((to, _from, next) => {
+  // Debug en développement pour la route recrutement
+  if (import.meta.env.DEV && to.path.includes('recrutement')) {
+    console.log('🔍 Navigation vers:', to.path)
+    console.log('🔍 Route name:', to.name)
+    console.log(
+      '🔍 Routes disponibles:',
+      router
+        .getRoutes()
+        .filter(r => r.path.includes('recrutement'))
+        .map(r => r.path)
+    )
+  }
+
+  // Guard de locale (doit être en premier pour gérer les redirections de locale)
+  const localeResult = localeGuard(to)
+  if (localeResult !== true) {
+    if (localeResult === false) {
+      return next(false)
+    }
+    return next(localeResult)
+  }
+
   const loggedInRedirect = redirectLoggedInToDashboard(to)
-  if (loggedInRedirect !== true) return loggedInRedirect
+  if (loggedInRedirect !== true) {
+    if (loggedInRedirect === false) {
+      return next(false)
+    }
+    return next(loggedInRedirect)
+  }
+
   const authResult = requiresAuth(to)
-  if (authResult !== true) return authResult
+  if (authResult !== true) {
+    if (authResult === false) {
+      return next(false)
+    }
+    return next(authResult)
+  }
+
   const adminResult = requiresAdmin(to)
-  if (adminResult !== true) return adminResult
-  return true
+  if (adminResult !== true) {
+    if (adminResult === false) {
+      return next(false)
+    }
+    return next(adminResult)
+  }
+
+  return next()
 })
 
 // Appliquer les meta descriptions et canonical automatiquement

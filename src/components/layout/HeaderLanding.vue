@@ -1,16 +1,42 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { supportedLocales, type SupportedLocale, setLocale } from '@/plugins/i18n'
+import { addLocaleToPath, removeLocaleFromPath } from '@/router/i18n-routes'
 
 const LANDING_SECTIONS = ['services', 'specialites', 'resultats', 'contact'] as const
 const HEADER_HEIGHT = 72
 
 const router = useRouter()
 const route = useRoute()
+const { locale, t } = useI18n()
 
 const isScrolled = ref(false)
 const mobileMenu = ref(false)
 const activeSection = ref<string>('')
+const languageMenu = ref(false)
+
+const currentLocale = computed(() => locale.value as SupportedLocale)
+
+// URLs des drapeaux depuis un CDN
+const flagUrls = {
+  fr: 'https://flagcdn.com/w20/fr.png',
+  en: 'https://flagcdn.com/w20/gb.png',
+  es: 'https://flagcdn.com/w20/es.png',
+}
+
+function changeLanguage(newLocale: SupportedLocale) {
+  if (newLocale === currentLocale.value) return
+
+  setLocale(newLocale)
+  languageMenu.value = false
+
+  // Mettre à jour l'URL avec la nouvelle locale
+  const currentPath = removeLocaleFromPath(route.path)
+  const newPath = addLocaleToPath(currentPath, newLocale)
+  router.push(newPath)
+}
 
 function handleScroll() {
   isScrolled.value = window.scrollY > 50
@@ -20,7 +46,10 @@ function handleScroll() {
 function onNavClick(id: string) {
   mobileMenu.value = false
   activeSection.value = id
-  router.push({ path: '/', hash: '#' + id })
+  const currentPath = removeLocaleFromPath(route.path)
+  const localePath =
+    currentPath === '/' ? `/${currentLocale.value}` : `/${currentLocale.value}${currentPath}`
+  router.push({ path: localePath, hash: '#' + id })
 }
 
 function setupIntersectionObserver() {
@@ -105,7 +134,7 @@ function isActive(id: string) {
         <v-btn
           variant="text"
           class="logo-btn d-flex align-center px-0 text-none"
-          @click="router.push('/')"
+          @click="router.push(`/${currentLocale}`)"
         >
           <img
             src="/assets/hub-logo.png"
@@ -132,7 +161,7 @@ function isActive(id: string) {
             :class="{ 'nav-link-landing-active': isActive('services') }"
             @click="onNavClick('services')"
           >
-            Services
+            {{ t('nav.services') }}
           </button>
           <button
             type="button"
@@ -140,7 +169,7 @@ function isActive(id: string) {
             :class="{ 'nav-link-landing-active': isActive('specialites') }"
             @click="onNavClick('specialites')"
           >
-            Spécialités
+            {{ t('nav.specialites') }}
           </button>
           <button
             type="button"
@@ -148,11 +177,47 @@ function isActive(id: string) {
             :class="{ 'nav-link-landing-active': isActive('resultats') }"
             @click="onNavClick('resultats')"
           >
-            Résultats
+            {{ t('nav.resultats') }}
           </button>
         </nav>
+
+        <!-- Sélecteur de langue avec drapeaux -->
+        <v-menu v-model="languageMenu" location="bottom end" offset-y>
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              variant="text"
+              class="language-selector text-none"
+              size="small"
+              min-width="auto"
+            >
+              <img
+                :src="flagUrls[currentLocale]"
+                :alt="currentLocale.toUpperCase()"
+                class="flag-icon"
+              />
+            </v-btn>
+          </template>
+          <v-list class="language-menu">
+            <v-list-item
+              v-for="loc in supportedLocales"
+              :key="loc"
+              :active="currentLocale === loc"
+              @click="changeLanguage(loc)"
+              class="language-item"
+            >
+              <template #prepend>
+                <img :src="flagUrls[loc]" :alt="loc.toUpperCase()" class="flag-icon-menu" />
+              </template>
+              <v-list-item-title>
+                {{ t(`common.${loc === 'fr' ? 'french' : loc === 'en' ? 'english' : 'spanish'}`) }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
         <v-btn class="cta-btn-landing text-none font-weight-bold" @click="onNavClick('contact')">
-          Nous contacter
+          {{ t('nav.contact') }}
         </v-btn>
       </div>
     </div>
@@ -162,16 +227,36 @@ function isActive(id: string) {
     <div class="mobile-drawer-content">
       <v-list class="mobile-menu-list pa-4">
         <v-list-item class="mobile-menu-item" @click="onNavClick('services')">
-          <v-list-item-title>Services</v-list-item-title>
+          <v-list-item-title>{{ t('nav.services') }}</v-list-item-title>
         </v-list-item>
         <v-list-item class="mobile-menu-item" @click="onNavClick('specialites')">
-          <v-list-item-title>Spécialités</v-list-item-title>
+          <v-list-item-title>{{ t('nav.specialites') }}</v-list-item-title>
         </v-list-item>
         <v-list-item class="mobile-menu-item" @click="onNavClick('resultats')">
-          <v-list-item-title>Résultats</v-list-item-title>
+          <v-list-item-title>{{ t('nav.resultats') }}</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider class="my-2" />
+
+      <!-- Sélecteur de langue mobile avec drapeaux -->
+      <div class="mobile-language-selector pa-4">
+        <div class="text-caption text-medium-emphasis mb-2">{{ t('common.language') }}</div>
+        <div class="d-flex gap-2">
+          <v-btn
+            v-for="loc in supportedLocales"
+            :key="loc"
+            :variant="currentLocale === loc ? 'flat' : 'outlined'"
+            :color="currentLocale === loc ? 'primary' : 'default'"
+            size="small"
+            class="language-flag-btn"
+            @click="changeLanguage(loc)"
+          >
+            <img :src="flagUrls[loc]" :alt="loc.toUpperCase()" class="flag-icon-mobile" />
+            <span class="ml-2">{{ loc.toUpperCase() }}</span>
+          </v-btn>
+        </div>
+      </div>
+
       <div class="mobile-cta-buttons pa-4">
         <v-btn
           block
@@ -179,7 +264,7 @@ function isActive(id: string) {
           class="cta-btn-landing text-none font-weight-bold"
           @click="onNavClick('contact')"
         >
-          Nous contacter
+          {{ t('nav.contact') }}
         </v-btn>
       </div>
     </div>
@@ -332,5 +417,63 @@ function isActive(id: string) {
 
 .mobile-menu-item {
   cursor: pointer;
+}
+
+.language-selector {
+  color: var(--nav-text);
+  font-weight: 500;
+  min-width: auto;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.language-selector:hover {
+  background: rgba(107, 90, 224, 0.08);
+}
+
+.flag-icon {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.language-menu {
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.language-item {
+  border-radius: 8px;
+  margin: 2px 0;
+  padding: 8px 12px;
+}
+
+.flag-icon-menu {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+
+.mobile-language-selector {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.language-flag-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag-icon-mobile {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
 }
 </style>

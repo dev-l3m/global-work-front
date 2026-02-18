@@ -1,21 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
 
 <template>
   <section id="cta-final" class="cta-section-block">
     <v-container class="py-16">
       <div class="text-center mb-8" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="text-h4 text-md-h3 font-weight-bold mb-3">
-          Prêt à accélérer votre croissance internationale ?
+          {{ t('cta.title') }}
         </h2>
         <p class="text-body-1 text-medium-emphasis mx-auto mb-6" style="max-width: 560px">
-          Parlons de votre projet. Notre équipe d'experts vous répond rapidement pour une solution
-          sur mesure.
+          {{ t('cta.subtitle') }}
         </p>
         <div class="d-flex flex-wrap justify-center ga-3">
           <span v-reveal="{ variant: 'up', delay: 160 }">
             <v-btn color="primary" size="large" class="text-none font-weight-bold" href="#contact">
               <v-icon icon="mdi-calendar-clock" start />
-              Planifier un appel découverte
+              {{ t('cta.buttonSchedule') }}
             </v-btn>
           </span>
           <span v-reveal="{ variant: 'up', delay: 260 }">
@@ -27,7 +30,7 @@
               href="#contact"
             >
               <v-icon icon="mdi-file-document-outline" start />
-              Télécharger notre brochure
+              {{ t('cta.buttonDownload') }}
             </v-btn>
           </span>
         </div>

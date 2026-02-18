@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
+
+const { t } = useI18n()
+
 const props = withDefaults(
   defineProps<{
     heroImage?: string
@@ -12,12 +17,16 @@ const props = withDefaults(
   }
 )
 
-const stats = [
-  { value: '100%', label: 'Taux de renouvellement', color: 'oklch(50% 0.2 290)' },
-  { value: '200+', label: 'Talents déployés', color: 'oklch(71% 0.13 47.81)' },
-  { value: '15+', label: 'Pays actifs', color: 'oklch(60% 0.2 240)' },
-  { value: 'FR/EN/AR', label: 'Support multilingue', color: 'oklch(49% 0.19 288.58)' },
-]
+const stats = computed(() => [
+  { value: '100%', label: t('hero.stats.renewalRate'), color: 'oklch(50% 0.2 290)' },
+  { value: '200+', label: t('hero.stats.talentsDeployed'), color: 'oklch(71% 0.13 47.81)' },
+  { value: '15+', label: t('hero.stats.activeCountries'), color: 'oklch(60% 0.2 240)' },
+  {
+    value: 'FR/EN/AR',
+    label: t('hero.stats.multilingualSupport'),
+    color: 'oklch(49% 0.19 288.58)',
+  },
+])
 </script>
 
 <template>
@@ -26,25 +35,22 @@ const stats = [
     <v-container class="hero-content py-16">
       <v-row align="center">
         <v-col cols="12" md="6">
-          <span class="hero-pill" v-reveal="{ variant: 'up', delay: 0 }"
-            >Recrutement international d'équipes encadrées</span
-          >
+          <span class="hero-pill" v-reveal="{ variant: 'up', delay: 0 }">
+            {{ $t('hero.pill') }}
+          </span>
           <h1 class="hero-title" v-reveal="{ variant: 'up', delay: 120 }">
-            Le monde est votre vivier de talents
+            {{ $t('hero.title') }}
           </h1>
           <p class="hero-subtitle" v-reveal="{ variant: 'up', delay: 240 }">
-            Nous transformons votre vision en équipes performantes, partout dans le monde. Global
-            Work Hub connecte les entreprises aux meilleurs professionnels internationaux,
-            sélectionnés, encadrés et prêts à performer dès le premier jour.
+            {{ $t('hero.subtitle') }}
           </p>
           <p class="hero-tagline" v-reveal="{ variant: 'up', delay: 320 }">
-            Une approche simple, rapide et ultra-compétitive qui booste vos performances sans
-            exploser vos coûts.
+            {{ $t('hero.tagline') }}
           </p>
           <div class="hero-ctas" v-reveal="{ variant: 'up', delay: 420 }">
             <v-btn href="#contact" size="large" class="hero-cta-primary text-none font-weight-bold">
               <v-icon icon="mdi-phone-in-talk" start />
-              Parler à un expert
+              {{ $t('hero.ctaPrimary') }}
             </v-btn>
             <v-btn
               to="/recrutement"
@@ -53,7 +59,7 @@ const stats = [
               class="hero-cta-secondary text-none font-weight-medium"
             >
               <v-icon icon="mdi-account-search" start />
-              Découvrir nos services
+              {{ $t('hero.ctaSecondary') }}
             </v-btn>
           </div>
           <div class="hero-stats" v-reveal="{ variant: 'up', delay: 520 }">

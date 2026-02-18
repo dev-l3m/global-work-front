@@ -1,29 +1,33 @@
 <script setup lang="ts">
-const cards = [
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
+
+const { t } = useI18n()
+
+const cards = computed(() => [
   {
-    title: 'Un seul interlocuteur, zéro risque',
-    body: "Vos paiements, contrats et échanges passent exclusivement par Global Work Hub. Nous vous protégeons de tout risque juridique, administratif ou opérationnel. Contrairement aux plateformes qui se limitent à un rôle d'intermédiaire, nous assumons, encadrons et sécurisons chaque étape.",
+    title: t('why.cards.one.title'),
+    body: t('why.cards.one.body'),
   },
   {
-    title: 'Sans engagement, 100% de confiance',
-    body: "Notre offre est sans engagement : si vous n'êtes pas satisfait, vous êtes libre de partir à tout moment. Pourtant, 100% de nos clients ont choisi de poursuivre avec nous. Le taux de renouvellement de nos collaborations parle de lui-même : la confiance est notre meilleur contrat.",
+    title: t('why.cards.two.title'),
+    body: t('why.cards.two.body'),
   },
   {
-    title: 'Remplacement garanti',
-    body: "Nous nous engageons à fournir un remplacement immédiat si le prestataire n'est pas à la hauteur, à intervenir rapidement en cas de dysfonctionnement, et à accompagner votre entreprise dans l'évolution de vos besoins.",
+    title: t('why.cards.three.title'),
+    body: t('why.cards.three.body'),
   },
-]
+])
 </script>
 
 <template>
   <section id="pourquoi" class="why-section-block landing-section-anchor">
     <v-container class="py-16">
       <div class="section-header text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
-        <div class="text-overline text-primary font-weight-bold mb-2">Notre approche</div>
-        <h2 class="text-h4 text-md-h3 font-weight-bold mb-3">Ce que nous faisons différemment</h2>
+        <div class="text-overline text-primary font-weight-bold mb-2">{{ $t('why.overline') }}</div>
+        <h2 class="text-h4 text-md-h3 font-weight-bold mb-3">{{ $t('why.title') }}</h2>
         <p class="text-body-1 text-medium-emphasis mx-auto" style="max-width: 640px">
-          Là où les autres délèguent, nous intégrons. Là où les autres automatisent, nous
-          accompagnons.
+          {{ $t('why.subtitle') }}
         </p>
       </div>
 

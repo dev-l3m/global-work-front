@@ -1,0 +1,365 @@
+{
+  "common": {
+    "language": "Language",
+    "french": "French",
+    "english": "English",
+    "spanish": "Spanish",
+    "contact": "Contact",
+    "services": "Services",
+    "about": "About",
+    "blog": "Blog",
+    "login": "Login",
+    "register": "Register"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "specialites": "Specialties",
+    "resultats": "Results",
+    "contact": "Contact Us",
+    "pricing": "Pricing",
+    "talents": "Talents",
+    "about": "About"
+  },
+  "hero": {
+    "pill": "International recruitment of supervised teams",
+    "title": "The world is your talent pool",
+    "subtitle": "We transform your vision into high-performing teams, anywhere in the world. Global Work Hub connects businesses with the best international professionals, selected, supervised and ready to perform from day one.",
+    "tagline": "A simple, fast and ultra-competitive approach that boosts your performance without exploding your costs.",
+    "ctaPrimary": "Talk to an expert",
+    "ctaSecondary": "Discover our services",
+    "stats": {
+      "renewalRate": "Renewal rate",
+      "talentsDeployed": "Talents deployed",
+      "activeCountries": "Active countries",
+      "multilingualSupport": "Multilingual support"
+    }
+  },
+  "why": {
+    "overline": "Our approach",
+    "title": "What we do differently",
+    "subtitle": "Where others delegate, we integrate. Where others automate, we accompany.",
+    "cards": {
+      "one": {
+        "title": "One point of contact, zero risk",
+        "body": "Your payments, contracts and exchanges go exclusively through Global Work Hub. We protect you from any legal, administrative or operational risk. Unlike platforms that limit themselves to an intermediary role, we assume, supervise and secure every step."
+      },
+      "two": {
+        "title": "No commitment, 100% trust",
+        "body": "Our offer is commitment-free: if you're not satisfied, you're free to leave at any time. Yet, 100% of our clients have chosen to continue with us. Our collaboration renewal rate speaks for itself: trust is our best contract."
+      },
+      "three": {
+        "title": "Guaranteed replacement",
+        "body": "We commit to providing immediate replacement if the provider is not up to par, to intervene quickly in case of malfunction, and to support your company in the evolution of your needs."
+      }
+    }
+  },
+  "services": {
+    "overline": "Our services",
+    "title": "An all-in-one platform for your international teams",
+    "ctaButton": "See all our detailed services",
+    "tabs": {
+      "recruitment": "International recruitment",
+      "talentPortage": "Talent portage",
+      "adminManagement": "Administrative management",
+      "accompaniment": "Accompaniment"
+    },
+    "tabContents": {
+      "recruitment": {
+        "subtitle": "From sourcing to daily follow-up, we manage everything",
+        "paragraph": "Identification of qualified profiles, rigorous preselection, tests and interviews, complete onboarding, operational follow-up and monthly KPI reporting.",
+        "bullets": [
+          "Identification of qualified profiles in +15 countries",
+          "Preselection, technical tests and in-depth interviews",
+          "Complete onboarding and integration into your teams",
+          "Daily operational follow-up and monthly KPI reporting"
+        ]
+      },
+      "talentPortage": {
+        "subtitle": "Simple and legal collaboration without administrative constraints",
+        "paragraph": "Clear contracts, international compliance and complete administrative support. You recruit, we manage payroll portage, payroll and legal obligations in each country.",
+        "bullets": [
+          "EOR contracts and guaranteed legal compliance",
+          "Payroll and contributions managed internationally",
+          "One point of contact for all countries"
+        ]
+      },
+      "adminManagement": {
+        "subtitle": "Complete administrative and organizational coherence",
+        "paragraph": "We centralize contract management, payroll and reporting for your international teams. You keep control without the operational burden.",
+        "bullets": [
+          "Contract management and HR compliance",
+          "Automated payroll and invoicing",
+          "Monthly reporting and activity tracking"
+        ]
+      },
+      "accompaniment": {
+        "subtitle": "Effective HR strategy and customized international expansion",
+        "paragraph": "We analyze your organization and support you in structuring your teams and remote work processes. Our managers and business experts guide you in implementing an effective HR strategy and a customized international expansion plan.",
+        "bullets": [
+          "In-depth organizational analysis",
+          "Team and process structuring",
+          "Customized international expansion plan"
+        ]
+      }
+    }
+  },
+  "meta": {
+    "home": {
+      "title": "Global Work Hub - International Recruitment & HR Outsourcing",
+      "description": "Recruit the best international talent with Global Work Hub. Complete solution for recruitment and HR outsourcing to boost your growth."
+    },
+    "landing": {
+      "title": "Global Work Hub - International Recruitment & HR Outsourcing",
+      "description": "Recruit the best international talent with Global Work Hub. Complete solution for recruitment and HR outsourcing to boost your growth."
+    },
+    "why": {
+      "title": "Why Global Work Hub? - Reliable HR Outsourcing",
+      "description": "Discover why Global Work Hub is the ideal solution for your HR outsourcing. Flexibility, reliability and stability for your international teams."
+    },
+    "testimonials": {
+      "title": "Client Testimonials - Global Work Hub",
+      "description": "Discover testimonials from our satisfied clients. Global Work Hub transforms international recruitment with concrete and measurable results."
+    }
+  },
+  "structuredData": {
+    "organization": {
+      "description": "Global Work Hub connects businesses with the best international professionals for recruitment and HR outsourcing."
+    },
+    "website": {
+      "description": "International recruitment and HR outsourcing. Find the best talent in 15+ countries."
+    }
+  },
+  "specialites": {
+    "overline": "Domains",
+    "title": "Talents in all strategic domains",
+    "subtitle": "We recruit qualified professionals in key sectors of your growth",
+    "items": [
+      {
+        "title": "Support and customer service",
+        "description": "Multilingual assistance (FR/EN/AR), outsourced support centers, ticket management and customer satisfaction tracking."
+      },
+      {
+        "title": "Digital marketing and e-commerce",
+        "description": "Community management, brand content, SEO/SEA, advertising campaigns (Google Ads, Meta Ads), online store and marketplace management."
+      },
+      {
+        "title": "Web development and IT",
+        "description": "Full stack, front-end, back-end developers, integrators, system and network administrators, software maintenance and IT technical support."
+      },
+      {
+        "title": "Administrative and accounting management",
+        "description": "Billing management, customer follow-up, reminders, basic accounting, bank reconciliations, payroll management and HR compliance."
+      },
+      {
+        "title": "Design, communication and creation",
+        "description": "Graphic design, UX/UI design, motion design, web writing, storytelling, video production, visual identity and graphic charter."
+      },
+      {
+        "title": "Technical trades and engineering",
+        "description": "Industrial draftsmen (CAD/CAM/CAE), method engineers, mechanical, electrical, 3D modelers, product designers, study managers and technical project coordinators."
+      }
+    ]
+  },
+  "talentsShowcase": {
+    "title": "Worker showcases",
+    "description": "Discover international profiles <strong>pre-qualified and supervised</strong> by Global Work Hub, available in key sectors: health, logistics, construction, administration and technology. They are ready to join your teams and contribute to your projects, with integrated HR support in more than 15 countries.",
+    "talentNames": [
+      "Pre-qualified profile",
+      "Talent 15+ countries",
+      "Health sector",
+      "Logistics & construction",
+      "Administration & tech",
+      "Supervised by Global Work Hub HR"
+    ],
+    "talentAlts": [
+      "Pre-qualified international professional for recruitment and HR outsourcing - Global Work Hub",
+      "International talent network available in 15+ countries for international recruitment - Global Work Hub",
+      "Health sector professional recruited via Global Work Hub for international HR outsourcing",
+      "Logistics and construction expert available for international recruitment and HR outsourcing - Global Work Hub",
+      "Administration and technology talent for international recruitment - Global Work Hub HR outsourcing",
+      "International talent supervised by Global Work Hub for recruitment and HR outsourcing with complete support"
+    ],
+    "categories": [
+      "All trades",
+      "Commerce, sales and services",
+      "Construction, engineering and production",
+      "Teaching and early childhood education",
+      "Administrative and office management",
+      "Hospitality, catering and tourism",
+      "IT and technology",
+      "Health sector"
+    ]
+  },
+  "testimonials": {
+    "overline": "Results",
+    "title": "They transformed their growth with Global Work Hub",
+    "items": [
+      {
+        "title": "Communication and marketing",
+        "description": "Development of an online platform's communication with revenue doubling in less than a year (+€2 million).",
+        "highlight": "revenue doubling in less than a year (+€2 million)"
+      },
+      {
+        "title": "Logistics",
+        "description": "Complete outsourcing of logistics back-office with performance indicators included.",
+        "highlight": ""
+      },
+      {
+        "title": "Time-to-market",
+        "description": "Acceleration of time-to-market on a web project reduced from 3 months to 6 weeks.",
+        "highlight": "from 3 months to 6 weeks"
+      },
+      {
+        "title": "Customer support",
+        "description": "40% reduction in customer support service costs while maintaining quality.",
+        "highlight": "40% cost reduction"
+      }
+    ]
+  },
+  "pillars": {
+    "title": "Seven pillars for your success",
+    "subtitle": "Our commitment: one point of contact, a global team, zero constraints",
+    "column1": [
+      "Fast turnkey international recruitment",
+      "Monthly reporting and performance indicators",
+      "Human and multilingual support (FR/EN/AR)"
+    ],
+    "column2": [
+      "Guaranteed legal and tax compliance",
+      "Customized solutions according to your structure and needs"
+    ],
+    "column3": [
+      "Supervision and daily follow-up of talents",
+      "Clear contract, no commitment, no hidden fees"
+    ]
+  },
+  "newsletter": {
+    "overline": "Resources",
+    "title": "Global Work Hub Newsletter",
+    "description": "Receive our news, blog articles and answers to your most frequently asked questions.",
+    "emailLabel": "Your email address",
+    "emailPlaceholder": "firstname.lastname@example.com",
+    "subscribeButton": "Subscribe",
+    "privacyText": "By subscribing, you accept our privacy policy.",
+    "messages": {
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "emailAlreadySubscribed": "This email is already subscribed to our newsletter.",
+      "subscribeSuccess": "Subscription successful. You will receive our latest news."
+    }
+  },
+  "cta": {
+    "title": "Ready to accelerate your international growth?",
+    "subtitle": "Let's talk about your project. Our team of experts will respond quickly with a customized solution.",
+    "buttonSchedule": "Schedule a discovery call",
+    "buttonDownload": "Download our brochure"
+  },
+  "contact": {
+    "overline": "Contact",
+    "title": "Contact us",
+    "subtitle": "Have a question about our services? Have a project in mind? Our team will respond quickly.",
+    "form": {
+      "subjectLabel": "Subject of your request",
+      "subjectItems": [
+        "General information request",
+        "Custom quote request",
+        "Technical support request",
+        "Partnership request",
+        "Other"
+      ],
+      "messageLabel": "Specify your request",
+      "emailLabel": "Your email address",
+      "phoneLabel": "Your phone number (optional)",
+      "submitButton": "Send your request"
+    },
+    "info": {
+      "title": "Our contact details",
+      "address": {
+        "company": "GlobalKey Partners Ltd",
+        "street": "128 City Road",
+        "city": "London EC1V 2NX",
+        "country": "United Kingdom"
+      },
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "hoursLabel": "Hours",
+      "hours": "Mon - Fri: 9am - 6pm (CET)"
+    },
+    "messages": {
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "messageRequired": "Message is required.",
+      "phoneInvalid": "Phone number is not valid.",
+      "submitSuccess": "Your message has been sent successfully. We will respond quickly."
+    }
+  },
+  "layout": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "services": "Our services",
+      "resources": "Resources",
+      "account": "My account"
+    },
+    "navSubmenu": {
+      "home": {
+        "whyGlobalWorkHub": "Why Global Work Hub",
+        "testimonials": "What they say about us"
+      },
+      "about": {
+        "mission": "Our mission",
+        "method": "Our method"
+      },
+      "services": {
+        "recruitment": "International recruitment",
+        "talentPortage": "Talent portage (EOR)",
+        "coManagement": "Co management",
+        "hrAdmin": "HR & administrative",
+        "accompaniment": "Accompaniment / Consulting"
+      },
+      "resources": {
+        "blog": "News / Blog",
+        "faq": "FAQ",
+        "privacy": "Privacy policy",
+        "pricing": "Terms & Pricing",
+        "security": "Structure & Security",
+        "legal": "Legal notice",
+        "terms": "Terms of Use",
+        "gdpr": "GDPR"
+      },
+      "account": {
+        "login": "Log in",
+        "register": "Sign up"
+      }
+    },
+    "buttons": {
+      "clientSpace": "Client space",
+      "contactUs": "Contact us"
+    },
+    "footer": {
+      "cta": {
+        "title": "Ready to accelerate your international growth?",
+        "subtitle": "The world is your talent pool. We transform your vision into high-performing teams.",
+        "button": "Contact us"
+      },
+      "sections": {
+        "resources": "Resources",
+        "legal": "Legal and policies",
+        "contact": "Our contact details",
+        "contactInfo": "Contact"
+      },
+      "links": {
+        "blog": "Our blog",
+        "whoWeAre": "Who we are",
+        "ourServices": "Our services"
+      },
+      "copyright": "All rights reserved.",
+      "maintenance": {
+        "title": "Page under maintenance",
+        "message": "This page is currently under maintenance. We are working hard to improve your experience. Please try again later.",
+        "close": "Close"
+      }
+    }
+  }
+}

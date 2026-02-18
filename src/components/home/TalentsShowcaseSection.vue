@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export interface TalentItem {
   id: number | string
@@ -8,59 +9,48 @@ export interface TalentItem {
   alt: string
 }
 
-const talents = ref<TalentItem[]>([
-  {
-    id: 1,
-    name: 'Profil pré-qualifié',
-    img: 'https://www.piclumen.com/wp-content/uploads/2024/12/ai-avatar-maker-businesswoman.webp',
-    alt: "Professionnelle internationale pré-qualifiée pour le recrutement et l'externalisation RH - Global Work Hub",
-  },
-  {
-    id: 2,
-    name: 'Talent 15+ pays',
-    img: 'https://image.cdn2.seaart.me/static/upload/20241129/ddeb4e66-ec2c-4c00-84ec-84ef7df903f8.png',
-    alt: 'Réseau de talents internationaux disponibles dans 15+ pays pour le recrutement international - Global Work Hub',
-  },
-  {
-    id: 3,
-    name: 'Secteur santé',
-    img: 'https://image.cdn2.seaart.me/static/upload/20241129/0ccd5f1e-ffd3-414e-a11c-5ba6d459fb64.png',
-    alt: "Professionnel du secteur santé recruté via Global Work Hub pour l'externalisation RH internationale",
-  },
-  {
-    id: 4,
-    name: 'Logistique & BTP',
-    img: 'https://th.bing.com/th/id/OIP.qjlzs8lxpCI5jHjDOeDizgHaHa?w=197&h=197&c=7&r=0&o=7&cb=defcache2&dpr=2&pid=1.7&rm=3&defcache=1',
-    alt: "Expert en logistique et BTP disponible pour le recrutement international et l'externalisation RH - Global Work Hub",
-  },
-  {
-    id: 5,
-    name: 'Administration & tech',
-    img: 'https://img.freepik.com/premium-photo/isolated-businessman-character-avatar-professional-branding_1029469-184073.jpg?semt=ais_hybrid',
-    alt: 'Talent en administration et technologie pour le recrutement international - Global Work Hub externalisation RH',
-  },
-  {
-    id: 6,
-    name: 'Encadré RH Global Work Hub',
-    img: 'https://img.freepik.com/photos-premium/rendering-3d-avatar-appel-zoom_917213-234935.jpg?semt=ais_hybrid',
-    alt: "Talent international encadré par Global Work Hub pour le recrutement et l'externalisation RH avec accompagnement complet",
-  },
-])
+const { t, tm, locale } = useI18n()
+
+const talentImages = [
+  'https://www.piclumen.com/wp-content/uploads/2024/12/ai-avatar-maker-businesswoman.webp',
+  'https://image.cdn2.seaart.me/static/upload/20241129/ddeb4e66-ec2c-4c00-84ec-84ef7df903f8.png',
+  'https://image.cdn2.seaart.me/static/upload/20241129/0ccd5f1e-ffd3-414e-a11c-5ba6d459fb64.png',
+  'https://th.bing.com/th/id/OIP.qjlzs8lxpCI5jHjDOeDizgHaHa?w=197&h=197&c=7&r=0&o=7&cb=defcache2&dpr=2&pid=1.7&rm=3&defcache=1',
+  'https://img.freepik.com/premium-photo/isolated-businessman-character-avatar-professional-branding_1029469-184073.jpg?semt=ais_hybrid',
+  'https://img.freepik.com/photos-premium/rendering-3d-avatar-appel-zoom_917213-234935.jpg?semt=ais_hybrid',
+]
+
+const talents = computed(() => {
+  void locale.value // Pour la réactivité
+  const names = tm('talentsShowcase.talentNames') as string[] | undefined
+  const alts = tm('talentsShowcase.talentAlts') as string[] | undefined
+
+  // Debug en développement
+  if (import.meta.env.DEV && (!names || !Array.isArray(names))) {
+    console.warn('⚠️ TalentsShowcase: talentNames not found or not an array', names)
+  }
+
+  if (!names || !Array.isArray(names) || names.length === 0) {
+    return []
+  }
+
+  return names.map((name, index) => ({
+    id: index + 1,
+    name,
+    img: talentImages[index] || '',
+    alt: alts && Array.isArray(alts) && alts[index] ? alts[index] : name,
+  }))
+})
 
 const talentsForScroll = computed(() =>
   talents.value.length ? [...talents.value, ...talents.value] : []
 )
 
-const categories = [
-  'Tous les métiers',
-  'Commerce, vente et services',
-  'Construction, ingénierie et production',
-  'Enseignement et éducation à la petite enfance',
-  'Gestion administrative et bureautique',
-  'Hôtellerie, restauration et tourisme',
-  'Informatique et technologie',
-  'Secteur de la santé',
-]
+const categories = computed(() => {
+  void locale.value // Pour la réactivité
+  const cats = tm('talentsShowcase.categories') as string[] | undefined
+  return cats && Array.isArray(cats) ? cats : []
+})
 
 onMounted(() => {
   // fetchTalents().then(data => { talents.value = data })
@@ -72,18 +62,17 @@ onMounted(() => {
     <v-container class="section-container py-8 py-md-16">
       <div class="text-center mb-6 mb-md-8 px-2" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="vitrines-title text-h5 text-md-h4 text-lg-h3 font-weight-bold mb-3 mb-md-4">
-          Vitrines de travailleurs
+          {{ t('talentsShowcase.title') }}
         </h2>
-        <p class="text-body-2 text-md-body-1 text-medium-emphasis mx-auto vitrines-description">
-          Découvrez des profils internationaux <strong>pré-qualifiés et encadrés</strong> par Global
-          Work Hub, disponibles dans des secteurs clés : santé, logistique, construction,
-          administration et technologies. Ils sont prêts à rejoindre vos équipes et à contribuer à
-          vos projets, avec un accompagnement RH intégré dans plus de 15 pays.
-        </p>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <p
+          class="text-body-2 text-md-body-1 text-medium-emphasis mx-auto vitrines-description"
+          v-html="t('talentsShowcase.description')"
+        ></p>
       </div>
 
       <div class="scroll-wrapper mb-6 mb-md-8" v-reveal="{ variant: 'up', delay: 90 }">
-        <div class="scroll-track">
+        <div class="scroll-track" v-if="talentsForScroll.length > 0">
           <div class="scroll-inner">
             <v-card
               v-for="(talent, index) in talentsForScroll"
@@ -97,6 +86,10 @@ onMounted(() => {
               </div>
             </v-card>
           </div>
+        </div>
+        <div v-else class="text-center text-medium-emphasis pa-8">
+          <v-icon size="48" class="mb-4">mdi-alert-circle-outline</v-icon>
+          <p>Chargement des talents...</p>
         </div>
       </div>
 

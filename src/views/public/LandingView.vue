@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import PublicLayout from '@/layouts/PublicLayout.vue'
 import {
   HeroSection,
@@ -15,14 +16,19 @@ import {
   useOrganizationStructuredData,
   useWebSiteStructuredData,
 } from '@/composables/useStructuredData'
+import { useSeoMetaI18n } from '@/composables/useSeoMetaI18n'
 
-// Structured data pour la page d'accueil - appelé directement dans setup()
+const { t } = useI18n()
+
+// SEO multilingue avec hreflang
+useSeoMetaI18n('meta.home.title', 'meta.home.description')
+
+// Structured data pour la page d'accueil - traduit selon la locale
 useOrganizationStructuredData({
   name: 'Global Work Hub',
   url: 'https://global-work-hub.com',
   logo: 'https://global-work-hub.com/assets/hub-logo.png',
-  description:
-    "Global Work Hub connecte les entreprises aux meilleurs professionnels internationaux pour le recrutement et l'externalisation RH.",
+  description: t('structuredData.organization.description'),
   address: {
     streetAddress: '128 City Road',
     addressLocality: 'London',
@@ -39,8 +45,7 @@ useOrganizationStructuredData({
 useWebSiteStructuredData({
   name: 'Global Work Hub',
   url: 'https://global-work-hub.com',
-  description:
-    'Recrutement international et externalisation RH. Trouvez les meilleurs talents dans 15+ pays.',
+  description: t('structuredData.website.description'),
 })
 </script>
 

@@ -1,77 +1,84 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const tabs = [
-  'Recrutement international',
-  'Portage de talents',
-  'Gestion administrative',
-  'Accompagnement',
-]
+const { t, tm, locale } = useI18n()
+
+/**
+ * Helper pour garantir qu'une valeur est toujours un tableau de strings
+ * @param v - Valeur à normaliser (peut être array, string, ou autre)
+ * @returns Tableau de strings (jamais vide, jamais une string)
+ */
+function asStringArray(v: unknown): string[] {
+  if (Array.isArray(v)) {
+    return v.map(String)
+  }
+  if (typeof v === 'string') {
+    return [v] // Fallback : si c'est une string, la mettre dans un array
+  }
+  return [] // Fallback : si ce n'est ni array ni string, retourner un array vide
+}
+
+const tabs = computed(() => {
+  // Utiliser locale.value pour rendre le computed réactif au changement de langue
+  void locale.value
+  return [
+    t('services.tabs.recruitment'),
+    t('services.tabs.talentPortage'),
+    t('services.tabs.adminManagement'),
+    t('services.tabs.accompaniment'),
+  ]
+})
 
 const activeTab = ref(0)
 
-const tabContents = [
-  {
-    icon: 'mdi-account-group',
-    iconColor: '#6B5AE0',
-    subtitle: 'Du sourcing au suivi quotidien, nous gérons tout',
-    paragraph:
-      'Identification de profils qualifiés, présélection rigoureuse, tests et entretiens, onboarding complet, suivi opérationnel et reporting mensuel des KPI.',
-    bullets: [
-      'Identification de profils qualifiés dans +15 pays',
-      'Présélection, tests techniques et entretiens approfondis',
-      'Onboarding complet et intégration dans vos équipes',
-      'Suivi opérationnel quotidien et reporting mensuel des KPI',
-    ],
-  },
-  {
-    icon: 'mdi-briefcase-outline',
-    iconColor: '#FF7A3C',
-    subtitle: 'Collaboration simple et légale sans contraintes administratives',
-    paragraph:
-      'Contrats clairs, conformité internationale et prise en charge administrative complète. Vous recrutez, nous gérons le portage salarial, la paie et les obligations légales dans chaque pays.',
-    bullets: [
-      'Contrats EOR et conformité juridique garantie',
-      "Paie et cotisations gérées à l'international",
-      'Un seul interlocuteur pour tous les pays',
-    ],
-  },
-  {
-    icon: 'mdi-file-document-outline',
-    iconColor: 'oklch(60% 0.2 240)',
-    subtitle: 'Cohérence administrative et organisationnelle complète',
-    paragraph:
-      'Nous centralisons la gestion des contrats, de la paie et du reporting pour vos équipes internationales. Vous gardez la maîtrise sans la charge opérationnelle.',
-    bullets: [
-      'Gestion des contrats et conformité RH',
-      'Paie et facturation automatisées',
-      "Reporting mensuel et suivi d'activité",
-    ],
-  },
-  {
-    icon: 'mdi-bullseye-arrow',
-    iconColor: '#6B5AE0',
-    subtitle: 'Stratégie RH efficace et expansion internationale sur mesure',
-    paragraph:
-      "Nous analysons votre organisation et vous accompagnons dans la structuration de vos équipes et de vos processus de travail à distance. Nos managers et experts métiers vous guident dans la mise en place d'une stratégie RH efficace et d'un plan d'expansion internationale sur mesure.",
-    bullets: [
-      'Analyse organisationnelle approfondie',
-      'Structuration des équipes et processus',
-      "Plan d'expansion internationale personnalisé",
-    ],
-  },
-]
+const tabContents = computed(() => {
+  // Utiliser locale.value pour rendre le computed réactif au changement de langue
+  void locale.value
+  return [
+    {
+      icon: 'mdi-account-group',
+      iconColor: '#6B5AE0',
+      subtitle: t('services.tabContents.recruitment.subtitle'),
+      paragraph: t('services.tabContents.recruitment.paragraph'),
+      bullets: asStringArray(tm('services.tabContents.recruitment.bullets')),
+    },
+    {
+      icon: 'mdi-briefcase-outline',
+      iconColor: '#FF7A3C',
+      subtitle: t('services.tabContents.talentPortage.subtitle'),
+      paragraph: t('services.tabContents.talentPortage.paragraph'),
+      bullets: asStringArray(tm('services.tabContents.talentPortage.bullets')),
+    },
+    {
+      icon: 'mdi-file-document-outline',
+      iconColor: 'oklch(60% 0.2 240)',
+      subtitle: t('services.tabContents.adminManagement.subtitle'),
+      paragraph: t('services.tabContents.adminManagement.paragraph'),
+      bullets: asStringArray(tm('services.tabContents.adminManagement.bullets')),
+    },
+    {
+      icon: 'mdi-bullseye-arrow',
+      iconColor: '#6B5AE0',
+      subtitle: t('services.tabContents.accompaniment.subtitle'),
+      paragraph: t('services.tabContents.accompaniment.paragraph'),
+      bullets: asStringArray(tm('services.tabContents.accompaniment.bullets')),
+    },
+  ]
+})
 
-const currentContent = computed(() => tabContents[activeTab.value] ?? tabContents[0])
+const currentContent = computed(() => tabContents.value[activeTab.value] ?? tabContents.value[0])
 </script>
 
 <template>
   <section id="services" class="services-section-block landing-section-anchor">
     <v-container class="py-16">
       <div class="text-center mb-6" v-reveal="{ variant: 'up', delay: 0 }">
-        <div class="text-overline text-primary font-weight-bold mb-2">Nos services</div>
+        <div class="text-overline text-primary font-weight-bold mb-2">
+          {{ $t('services.overline') }}
+        </div>
         <h2 class="services-title text-h4 text-md-h3 font-weight-bold mb-6">
-          Une plateforme tout-en-un pour vos équipes internationales
+          {{ $t('services.title') }}
         </h2>
         <div class="tabs-row d-flex flex-wrap justify-center gap-3 mb-8">
           <button
@@ -127,7 +134,7 @@ const currentContent = computed(() => tabContents[activeTab.value] ?? tabContent
           prepend-icon="mdi-arrow-right"
           to="/recrutement"
         >
-          Voir tous nos services détaillés
+          {{ $t('services.ctaButton') }}
         </v-btn>
       </div>
     </v-container>

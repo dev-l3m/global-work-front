@@ -1,0 +1,365 @@
+{
+  "common": {
+    "language": "Idioma",
+    "french": "Francés",
+    "english": "Inglés",
+    "spanish": "Español",
+    "contact": "Contacto",
+    "services": "Servicios",
+    "about": "Acerca de",
+    "blog": "Blog",
+    "login": "Iniciar sesión",
+    "register": "Registrarse"
+  },
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "specialites": "Especialidades",
+    "resultats": "Resultados",
+    "contact": "Contáctanos",
+    "pricing": "Precios",
+    "talents": "Talentos",
+    "about": "Acerca de"
+  },
+  "hero": {
+    "pill": "Reclutamiento internacional de equipos supervisados",
+    "title": "El mundo es tu fuente de talento",
+    "subtitle": "Transformamos tu visión en equipos de alto rendimiento, en cualquier parte del mundo. Global Work Hub conecta empresas con los mejores profesionales internacionales, seleccionados, supervisados y listos para rendir desde el primer día.",
+    "tagline": "Un enfoque simple, rápido y ultracompetitivo que impulsa tu rendimiento sin disparar tus costos.",
+    "ctaPrimary": "Hablar con un experto",
+    "ctaSecondary": "Descubrir nuestros servicios",
+    "stats": {
+      "renewalRate": "Tasa de renovación",
+      "talentsDeployed": "Talentos desplegados",
+      "activeCountries": "Países activos",
+      "multilingualSupport": "Soporte multilingüe"
+    }
+  },
+  "why": {
+    "overline": "Nuestro enfoque",
+    "title": "Lo que hacemos diferente",
+    "subtitle": "Donde otros delegan, nosotros integramos. Donde otros automatizan, nosotros acompañamos.",
+    "cards": {
+      "one": {
+        "title": "Un solo interlocutor, cero riesgo",
+        "body": "Tus pagos, contratos e intercambios pasan exclusivamente por Global Work Hub. Te protegemos de cualquier riesgo jurídico, administrativo u operativo. A diferencia de las plataformas que se limitan a un papel de intermediario, nosotros asumimos, supervisamos y aseguramos cada paso."
+      },
+      "two": {
+        "title": "Sin compromiso, 100% de confianza",
+        "body": "Nuestra oferta es sin compromiso: si no estás satisfecho, eres libre de irte en cualquier momento. Sin embargo, el 100% de nuestros clientes han elegido continuar con nosotros. La tasa de renovación de nuestras colaboraciones habla por sí sola: la confianza es nuestro mejor contrato."
+      },
+      "three": {
+        "title": "Reemplazo garantizado",
+        "body": "Nos comprometemos a proporcionar un reemplazo inmediato si el proveedor no está a la altura, a intervenir rápidamente en caso de mal funcionamiento, y a acompañar a tu empresa en la evolución de tus necesidades."
+      }
+    }
+  },
+  "services": {
+    "overline": "Nuestros servicios",
+    "title": "Una plataforma todo-en-uno para tus equipos internacionales",
+    "ctaButton": "Ver todos nuestros servicios detallados",
+    "tabs": {
+      "recruitment": "Reclutamiento internacional",
+      "talentPortage": "Porte de talentos",
+      "adminManagement": "Gestión administrativa",
+      "accompaniment": "Acompañamiento"
+    },
+    "tabContents": {
+      "recruitment": {
+        "subtitle": "Desde la búsqueda hasta el seguimiento diario, lo gestionamos todo",
+        "paragraph": "Identificación de perfiles cualificados, preselección rigurosa, pruebas y entrevistas, incorporación completa, seguimiento operativo e informes mensuales de KPI.",
+        "bullets": [
+          "Identificación de perfiles cualificados en +15 países",
+          "Preselección, pruebas técnicas y entrevistas en profundidad",
+          "Incorporación completa e integración en tus equipos",
+          "Seguimiento operativo diario e informes mensuales de KPI"
+        ]
+      },
+      "talentPortage": {
+        "subtitle": "Colaboración simple y legal sin restricciones administrativas",
+        "paragraph": "Contratos claros, cumplimiento internacional y apoyo administrativo completo. Tú reclutas, nosotros gestionamos el porte salarial, la nómina y las obligaciones legales en cada país.",
+        "bullets": [
+          "Contratos EOR y cumplimiento jurídico garantizado",
+          "Nómina y cotizaciones gestionadas internacionalmente",
+          "Un solo interlocutor para todos los países"
+        ]
+      },
+      "adminManagement": {
+        "subtitle": "Coherencia administrativa y organizativa completa",
+        "paragraph": "Centralizamos la gestión de contratos, nóminas e informes para tus equipos internacionales. Mantienes el control sin la carga operativa.",
+        "bullets": [
+          "Gestión de contratos y cumplimiento de RRHH",
+          "Nómina y facturación automatizadas",
+          "Informes mensuales y seguimiento de actividad"
+        ]
+      },
+      "accompaniment": {
+        "subtitle": "Estrategia de RRHH eficaz y expansión internacional personalizada",
+        "paragraph": "Analizamos tu organización y te acompañamos en la estructuración de tus equipos y procesos de trabajo remoto. Nuestros gerentes y expertos en negocios te guían en la implementación de una estrategia de RRHH eficaz y un plan de expansión internacional personalizado.",
+        "bullets": [
+          "Análisis organizacional en profundidad",
+          "Estructuración de equipos y procesos",
+          "Plan de expansión internacional personalizado"
+        ]
+      }
+    }
+  },
+  "meta": {
+    "home": {
+      "title": "Global Work Hub - Reclutamiento Internacional y Externalización de RRHH",
+      "description": "Recluta el mejor talento internacional con Global Work Hub. Solución completa de reclutamiento y externalización de RRHH para impulsar tu crecimiento."
+    },
+    "landing": {
+      "title": "Global Work Hub - Reclutamiento Internacional y Externalización de RRHH",
+      "description": "Recluta el mejor talento internacional con Global Work Hub. Solución completa de reclutamiento y externalización de RRHH para impulsar tu crecimiento."
+    },
+    "why": {
+      "title": "¿Por qué Global Work Hub? - Externalización de RRHH Confiable",
+      "description": "Descubre por qué Global Work Hub es la solución ideal para tu externalización de RRHH. Flexibilidad, fiabilidad y estabilidad para tus equipos internacionales."
+    },
+    "testimonials": {
+      "title": "Testimonios de Clientes - Global Work Hub",
+      "description": "Descubre los testimonios de nuestros clientes satisfechos. Global Work Hub transforma el reclutamiento internacional con resultados concretos y medibles."
+    }
+  },
+  "structuredData": {
+    "organization": {
+      "description": "Global Work Hub conecta empresas con los mejores profesionales internacionales para el reclutamiento y la externalización de RRHH."
+    },
+    "website": {
+      "description": "Reclutamiento internacional y externalización de RRHH. Encuentra el mejor talento en más de 15 países."
+    }
+  },
+  "specialites": {
+    "overline": "Dominios",
+    "title": "Talentos en todos los dominios estratégicos",
+    "subtitle": "Reclutamos profesionales cualificados en los sectores clave de tu crecimiento",
+    "items": [
+      {
+        "title": "Soporte y atención al cliente",
+        "description": "Asistencia multilingüe (FR/EN/AR), centros de soporte externalizados, gestión de tickets y seguimiento de satisfacción del cliente."
+      },
+      {
+        "title": "Marketing digital y comercio electrónico",
+        "description": "Gestión de comunidad, contenido de marca, SEO/SEA, campañas publicitarias (Google Ads, Meta Ads), gestión de tiendas en línea y marketplaces."
+      },
+      {
+        "title": "Desarrollo web e IT",
+        "description": "Desarrolladores full stack, front-end, back-end, integradores, administradores de sistemas y redes, mantenimiento de software y soporte técnico IT."
+      },
+      {
+        "title": "Gestión administrativa y contable",
+        "description": "Gestión de facturación, seguimiento de clientes, recordatorios, contabilidad básica, conciliaciones bancarias, gestión de nómina y cumplimiento de RRHH."
+      },
+      {
+        "title": "Diseño, comunicación y creación",
+        "description": "Diseño gráfico, diseño UX/UI, motion design, redacción web, storytelling, producción de video, identidad visual y carta gráfica."
+      },
+      {
+        "title": "Oficios técnicos e ingeniería",
+        "description": "Dibujantes industriales (CAD/CAM/CAE), ingenieros de métodos, mecánica, electricidad, modeladores 3D, diseñadores de productos, responsables de estudios y coordinadores de proyectos técnicos."
+      }
+    ]
+  },
+  "talentsShowcase": {
+    "title": "Vitrinas de trabajadores",
+    "description": "Descubre perfiles internacionales <strong>pre-cualificados y supervisados</strong> por Global Work Hub, disponibles en sectores clave: salud, logística, construcción, administración y tecnología. Están listos para unirse a tus equipos y contribuir a tus proyectos, con apoyo de RRHH integrado en más de 15 países.",
+    "talentNames": [
+      "Perfil pre-cualificado",
+      "Talento 15+ países",
+      "Sector salud",
+      "Logística y construcción",
+      "Administración y tecnología",
+      "Supervisado por RRHH Global Work Hub"
+    ],
+    "talentAlts": [
+      "Profesional internacional pre-cualificado para reclutamiento y externalización de RRHH - Global Work Hub",
+      "Red de talentos internacionales disponible en 15+ países para reclutamiento internacional - Global Work Hub",
+      "Profesional del sector salud reclutado vía Global Work Hub para externalización de RRHH internacional",
+      "Experto en logística y construcción disponible para reclutamiento internacional y externalización de RRHH - Global Work Hub",
+      "Talento en administración y tecnología para reclutamiento internacional - Global Work Hub externalización de RRHH",
+      "Talento internacional supervisado por Global Work Hub para reclutamiento y externalización de RRHH con apoyo completo"
+    ],
+    "categories": [
+      "Todos los oficios",
+      "Comercio, ventas y servicios",
+      "Construcción, ingeniería y producción",
+      "Enseñanza y educación infantil",
+      "Gestión administrativa y de oficina",
+      "Hostelería, restauración y turismo",
+      "Informática y tecnología",
+      "Sector de la salud"
+    ]
+  },
+  "testimonials": {
+    "overline": "Resultados",
+    "title": "Transformaron su crecimiento con Global Work Hub",
+    "items": [
+      {
+        "title": "Comunicación y marketing",
+        "description": "Desarrollo de la comunicación de una plataforma en línea con duplicación de ingresos en menos de un año (+2 millones €).",
+        "highlight": "duplicación de ingresos en menos de un año (+2 millones €)"
+      },
+      {
+        "title": "Logística",
+        "description": "Externalización completa del back-office logístico con indicadores de rendimiento incluidos.",
+        "highlight": ""
+      },
+      {
+        "title": "Time-to-market",
+        "description": "Aceleración del time-to-market en un proyecto web de 3 meses reducido a 6 semanas.",
+        "highlight": "de 3 meses reducido a 6 semanas"
+      },
+      {
+        "title": "Soporte al cliente",
+        "description": "Reducción del 40% de los costos de un servicio de soporte al cliente manteniendo la calidad.",
+        "highlight": "Reducción del 40% de los costos"
+      }
+    ]
+  },
+  "pillars": {
+    "title": "Siete pilares para tu éxito",
+    "subtitle": "Nuestro compromiso: un solo interlocutor, un equipo mundial, cero restricciones",
+    "column1": [
+      "Reclutamiento internacional rápido llave en mano",
+      "Informes e indicadores de rendimiento mensuales",
+      "Soporte humano y multilingüe (FR/EN/AR)"
+    ],
+    "column2": [
+      "Cumplimiento jurídico y fiscal garantizado",
+      "Soluciones personalizadas según tu estructura y necesidades"
+    ],
+    "column3": [
+      "Supervisión y seguimiento diario de talentos",
+      "Contrato claro, sin compromiso, sin costos ocultos"
+    ]
+  },
+  "newsletter": {
+    "overline": "Recursos",
+    "title": "Newsletter Global Work Hub",
+    "description": "Recibe nuestras novedades, artículos de blog y respuestas a tus preguntas más frecuentes.",
+    "emailLabel": "Tu dirección de correo electrónico",
+    "emailPlaceholder": "nombre.apellido@ejemplo.com",
+    "subscribeButton": "Suscribirme",
+    "privacyText": "Al suscribirte, aceptas nuestra política de privacidad.",
+    "messages": {
+      "emailRequired": "La dirección de correo electrónico es obligatoria.",
+      "emailInvalid": "Por favor ingresa una dirección de correo electrónico válida.",
+      "emailAlreadySubscribed": "Este correo electrónico ya está suscrito a nuestro newsletter.",
+      "subscribeSuccess": "Suscripción exitosa. Recibirás nuestras próximas novedades."
+    }
+  },
+  "cta": {
+    "title": "¿Listo para acelerar tu crecimiento internacional?",
+    "subtitle": "Hablemos de tu proyecto. Nuestro equipo de expertos responderá rápidamente con una solución personalizada.",
+    "buttonSchedule": "Programar una llamada de descubrimiento",
+    "buttonDownload": "Descargar nuestro folleto"
+  },
+  "contact": {
+    "overline": "Contacto",
+    "title": "Contáctanos",
+    "subtitle": "¿Tienes una pregunta sobre nuestros servicios? ¿Tienes un proyecto en mente? Nuestro equipo responderá rápidamente.",
+    "form": {
+      "subjectLabel": "Asunto de tu solicitud",
+      "subjectItems": [
+        "Solicitud de información general",
+        "Solicitud de cotización personalizada",
+        "Solicitud de soporte técnico",
+        "Solicitud de asociación",
+        "Otro"
+      ],
+      "messageLabel": "Especifica tu solicitud",
+      "emailLabel": "Tu dirección de correo electrónico",
+      "phoneLabel": "Tu número de teléfono (opcional)",
+      "submitButton": "Enviar tu solicitud"
+    },
+    "info": {
+      "title": "Nuestros datos de contacto",
+      "address": {
+        "company": "GlobalKey Partners Ltd",
+        "street": "128 City Road",
+        "city": "London EC1V 2NX",
+        "country": "United Kingdom"
+      },
+      "emailLabel": "Correo electrónico",
+      "phoneLabel": "Teléfono",
+      "hoursLabel": "Horarios",
+      "hours": "Lun - Vie: 9h - 18h (CET)"
+    },
+    "messages": {
+      "emailRequired": "La dirección de correo electrónico es obligatoria.",
+      "emailInvalid": "Por favor ingresa una dirección de correo electrónico válida.",
+      "messageRequired": "El mensaje es obligatorio.",
+      "phoneInvalid": "El número de teléfono no es válido.",
+      "submitSuccess": "Tu mensaje ha sido enviado con éxito. Responderemos rápidamente."
+    }
+  },
+  "layout": {
+    "nav": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "services": "Nuestros servicios",
+      "resources": "Recursos",
+      "account": "Mi cuenta"
+    },
+    "navSubmenu": {
+      "home": {
+        "whyGlobalWorkHub": "Por qué Global Work Hub",
+        "testimonials": "Lo que dicen de nosotros"
+      },
+      "about": {
+        "mission": "Nuestra misión",
+        "method": "Nuestro método"
+      },
+      "services": {
+        "recruitment": "Reclutamiento internacional",
+        "talentPortage": "Porte de talentos (EOR)",
+        "coManagement": "Gestión de co",
+        "hrAdmin": "RRHH y administrativo",
+        "accompaniment": "Acompañamiento / Consultoría"
+      },
+      "resources": {
+        "blog": "Novedades / Blog",
+        "faq": "FAQ",
+        "privacy": "Política de privacidad",
+        "pricing": "Condiciones y Tarificación",
+        "security": "Estructura y Seguridad",
+        "legal": "Aviso legal",
+        "terms": "Términos de Uso",
+        "gdpr": "RGPD"
+      },
+      "account": {
+        "login": "Iniciar sesión",
+        "register": "Registrarse"
+      }
+    },
+    "buttons": {
+      "clientSpace": "Espacio cliente",
+      "contactUs": "Contáctanos"
+    },
+    "footer": {
+      "cta": {
+        "title": "¿Listo para acelerar tu crecimiento internacional?",
+        "subtitle": "El mundo es tu fuente de talento. Transformamos tu visión en equipos de alto rendimiento.",
+        "button": "Contáctanos"
+      },
+      "sections": {
+        "resources": "Recursos",
+        "legal": "Avisos y políticas",
+        "contact": "Nuestros datos de contacto",
+        "contactInfo": "Contacto"
+      },
+      "links": {
+        "blog": "Nuestro blog",
+        "whoWeAre": "Quiénes somos",
+        "ourServices": "Nuestros servicios"
+      },
+      "copyright": "Todos los derechos reservados.",
+      "maintenance": {
+        "title": "Página en mantenimiento",
+        "message": "Esta página está actualmente en mantenimiento. Estamos trabajando duro para mejorar su experiencia. Por favor, inténtelo de nuevo más tarde.",
+        "close": "Cerrar"
+      }
+    }
+  }
+}

@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import HeaderLanding from '@/components/layout/HeaderLanding.vue'
+import { supportedLocales, type SupportedLocale, setLocale } from '@/plugins/i18n'
+import { addLocaleToPath, removeLocaleFromPath } from '@/router/i18n-routes'
 
 const router = useRouter()
 const route = useRoute()
+const { locale, t } = useI18n()
 
-const isLandingPage = computed(() => route.path === '/')
+// Détecter la landing page : /fr, /en, /es ou / (redirigé vers /fr)
+const isLandingPage = computed(() => {
+  const path = route.path
+  return path === '/' || path === '/fr' || path === '/en' || path === '/es'
+})
 
 const menuAccueil = ref(false)
 const menuAPropos = ref(false)
@@ -15,31 +23,112 @@ const menuRessources = ref(false)
 const menuCompte = ref(false)
 const isScrolled = ref(false)
 const mobileMenu = ref(false)
+const languageMenu = ref(false)
+const maintenanceDialog = ref(false)
+
+const currentLocale = computed(() => locale.value as SupportedLocale)
+
+// URLs des drapeaux depuis un CDN
+const flagUrls = {
+  fr: 'https://flagcdn.com/w20/fr.png',
+  en: 'https://flagcdn.com/w20/gb.png',
+  es: 'https://flagcdn.com/w20/es.png',
+}
+
+function changeLanguage(newLocale: SupportedLocale) {
+  if (newLocale === currentLocale.value) return
+
+  setLocale(newLocale)
+  languageMenu.value = false
+
+  // Mettre à jour l'URL avec la nouvelle locale
+  const currentPath = removeLocaleFromPath(route.path)
+  const newPath = addLocaleToPath(currentPath, newLocale)
+  router.push(newPath)
+}
+
+// Helper pour générer un lien localisé
+function getLocalizedPath(path: string): string {
+  return addLocaleToPath(path, currentLocale.value)
+}
+
+// Fonction pour afficher le dialog de maintenance au lieu de naviguer
+function showMaintenanceDialog(event?: Event) {
+  if (event) {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+  maintenanceDialog.value = true
+}
 
 const isAccueilActive = () => {
   // Accueil est actif sur la page d'accueil et ses sous-pages
+  const path = route.path
   return (
-    route.path === '/' ||
-    route.path === '/pourquoi-global-work-hub' ||
-    route.path === '/ce-quon-dit-sur-nous'
+    path === '/' ||
+    path === '/fr' ||
+    path === '/en' ||
+    path === '/es' ||
+    path === '/pourquoi-global-work-hub' ||
+    path.startsWith('/fr/pourquoi-global-work-hub') ||
+    path.startsWith('/en/pourquoi-global-work-hub') ||
+    path.startsWith('/es/pourquoi-global-work-hub') ||
+    path === '/ce-quon-dit-sur-nous' ||
+    path.startsWith('/fr/ce-quon-dit-sur-nous') ||
+    path.startsWith('/en/ce-quon-dit-sur-nous') ||
+    path.startsWith('/es/ce-quon-dit-sur-nous')
   )
 }
 
 const isAProposActive = () => {
   // À propos est actif sur les pages Notre mission et Notre méthode
-  return route.path === '/notre-mission' || route.path === '/notre-methode'
+  const path = route.path
+  return (
+    path === '/notre-mission' ||
+    path.startsWith('/fr/notre-mission') ||
+    path.startsWith('/en/notre-mission') ||
+    path.startsWith('/es/notre-mission') ||
+    path === '/notre-methode' ||
+    path.startsWith('/fr/notre-methode') ||
+    path.startsWith('/en/notre-methode') ||
+    path.startsWith('/es/notre-methode')
+  )
 }
 
 const isDropdownItemActive = (to: string) => {
+  const path = route.path
   if (to.startsWith('/#')) {
     const hash = to.substring(1)
-    return route.hash === hash || (route.path === '/' && route.hash === hash)
+    return (
+      route.hash === hash ||
+      (path === '/' && route.hash === hash) ||
+      ((path === '/fr' || path === '/en' || path === '/es') && route.hash === hash)
+    )
   }
-  if (to === '/') return route.path === '/'
+  if (to === '/') return path === '/' || path === '/fr' || path === '/en' || path === '/es'
   // Connexion et inscription : un seul actif selon la page (pas les deux)
-  if (to === '/connexion') return route.path === '/connexion'
-  if (to === '/inscription') return route.path === '/inscription'
-  return route.path === to || route.path.startsWith(to)
+  if (to === '/connexion')
+    return (
+      path === '/connexion' ||
+      path.startsWith('/fr/connexion') ||
+      path.startsWith('/en/connexion') ||
+      path.startsWith('/es/connexion')
+    )
+  if (to === '/inscription')
+    return (
+      path === '/inscription' ||
+      path.startsWith('/fr/inscription') ||
+      path.startsWith('/en/inscription') ||
+      path.startsWith('/es/inscription')
+    )
+  // Vérifier si le chemin correspond exactement ou commence par le chemin localisé
+  return (
+    path === to ||
+    path.startsWith(to) ||
+    path.startsWith(`/fr${to}`) ||
+    path.startsWith(`/en${to}`) ||
+    path.startsWith(`/es${to}`)
+  )
 }
 
 function handleScroll() {
@@ -56,16 +145,47 @@ onUnmounted(() => {
 })
 
 function goToLogin() {
-  router.push('/connexion?role=client')
+  const loginPath = addLocaleToPath('/connexion', currentLocale.value)
+  router.push(`${loginPath}?role=client`)
   mobileMenu.value = false
 }
 
 function goToContact() {
-  router.push('/contactez-nous')
+  const contactPath = addLocaleToPath('/contactez-nous', currentLocale.value)
+  router.push(contactPath)
   mobileMenu.value = false
 }
 
 const year = new Date().getFullYear()
+
+// Arrays pour le menu mobile
+const mobileServices = computed(() => {
+  void locale.value // Pour la réactivité
+  return [
+    { to: '/recrutement', label: t('layout.navSubmenu.services.recruitment') },
+    { to: '/partage-salarial', label: t('layout.navSubmenu.services.talentPortage') },
+    { to: '/gestion-de-co', label: t('layout.navSubmenu.services.coManagement') },
+    { to: '/rh-et-administratif', label: t('layout.navSubmenu.services.hrAdmin') },
+    { to: '/accompagnement-conseil', label: t('layout.navSubmenu.services.accompaniment') },
+  ]
+})
+
+const mobileResources = computed(() => {
+  void locale.value // Pour la réactivité
+  return [
+    { to: '/blog-conseils', label: t('layout.navSubmenu.resources.blog') },
+    { to: '/faq', label: t('layout.navSubmenu.resources.faq') },
+    { to: '/politique-de-confidentialite', label: t('layout.navSubmenu.resources.privacy') },
+    { to: '/conditions-tarification', label: t('layout.navSubmenu.resources.pricing') },
+    { to: '/structure-securite', label: t('layout.navSubmenu.resources.security') },
+    { to: '/mentions-legales', label: t('layout.navSubmenu.resources.legal') },
+    { to: '/conditions-generales-utilisation', label: t('layout.navSubmenu.resources.terms') },
+    {
+      to: '/politique-de-protection-des-donnees-personnelles',
+      label: t('layout.navSubmenu.resources.gdpr'),
+    },
+  ]
+})
 </script>
 
 <template>
@@ -78,7 +198,17 @@ const year = new Date().getFullYear()
             <v-btn
               variant="text"
               class="logo-btn d-flex align-center px-0 text-none"
-              @click="router.push('/')"
+              @click="
+                router.push(
+                  route.path.startsWith('/fr')
+                    ? '/fr'
+                    : route.path.startsWith('/en')
+                      ? '/en'
+                      : route.path.startsWith('/es')
+                        ? '/es'
+                        : '/fr'
+                )
+              "
             >
               <img
                 src="/assets/hub-logo.png"
@@ -113,7 +243,7 @@ const year = new Date().getFullYear()
                   :class="{ 'nav-link-active': isAccueilActive() || menuAccueil }"
                   v-bind="props"
                 >
-                  Accueil
+                  {{ t('layout.nav.home') }}
                   <v-icon icon="mdi-chevron-down" size="16" class="ml-1" />
                 </v-btn>
               </template>
@@ -122,7 +252,7 @@ const year = new Date().getFullYear()
                 to="/"
                 :class="['dropdown-item', { 'dropdown-item-active': isDropdownItemActive('/') }]"
               >
-                Accueil
+                {{ t('layout.nav.home') }}
               </v-list-item> -->
                 <v-list-item
                   to="/pourquoi-global-work-hub"
@@ -131,7 +261,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/pourquoi-global-work-hub') },
                   ]"
                 >
-                  Pourquoi Global Work Hub
+                  {{ t('layout.navSubmenu.home.whyGlobalWorkHub') }}
                 </v-list-item>
                 <v-list-item
                   to="/ce-quon-dit-sur-nous"
@@ -140,7 +270,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/ce-quon-dit-sur-nous') },
                   ]"
                 >
-                  Ce qu'on dit sur nous
+                  {{ t('layout.navSubmenu.home.testimonials') }}
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -158,7 +288,7 @@ const year = new Date().getFullYear()
                   :class="{ 'nav-link-active': isAProposActive() || menuAPropos }"
                   v-bind="props"
                 >
-                  <span class="nav-link-text">À propos</span>
+                  <span class="nav-link-text">{{ t('layout.nav.about') }}</span>
                   <v-icon icon="mdi-chevron-down" size="16" class="ml-1" />
                 </v-btn>
               </template>
@@ -170,7 +300,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/notre-mission') },
                   ]"
                 >
-                  Notre mission
+                  {{ t('layout.navSubmenu.about.mission') }}
                 </v-list-item>
                 <v-list-item
                   to="/notre-methode"
@@ -179,7 +309,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/notre-methode') },
                   ]"
                 >
-                  Notre méthode
+                  {{ t('layout.navSubmenu.about.method') }}
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -206,7 +336,7 @@ const year = new Date().getFullYear()
                   }"
                   v-bind="props"
                 >
-                  <span class="nav-link-text">Nos services</span>
+                  <span class="nav-link-text">{{ t('layout.nav.services') }}</span>
                   <v-icon icon="mdi-chevron-down" size="16" class="ml-1" />
                 </v-btn>
               </template>
@@ -218,7 +348,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/recrutement') },
                   ]"
                 >
-                  Recrutement international
+                  {{ t('layout.navSubmenu.services.recruitment') }}
                 </v-list-item>
                 <v-list-item
                   to="/partage-salarial"
@@ -227,7 +357,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/partage-salarial') },
                   ]"
                 >
-                  Partage salarial (EOR)
+                  {{ t('layout.navSubmenu.services.talentPortage') }}
                 </v-list-item>
                 <v-list-item
                   to="/gestion-de-co"
@@ -236,7 +366,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/gestion-de-co') },
                   ]"
                 >
-                  Gestion de co
+                  {{ t('layout.navSubmenu.services.coManagement') }}
                 </v-list-item>
                 <v-list-item
                   to="/rh-et-administratif"
@@ -245,7 +375,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/rh-et-administratif') },
                   ]"
                 >
-                  RH & administratif
+                  {{ t('layout.navSubmenu.services.hrAdmin') }}
                 </v-list-item>
                 <v-list-item
                   to="/accompagnement-conseil"
@@ -254,7 +384,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/accompagnement-conseil') },
                   ]"
                 >
-                  Accompagnement / Conseil
+                  {{ t('layout.navSubmenu.services.accompaniment') }}
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -281,7 +411,7 @@ const year = new Date().getFullYear()
                   }"
                   v-bind="props"
                 >
-                  <span class="nav-link-text">Ressources</span>
+                  <span class="nav-link-text">{{ t('layout.nav.resources') }}</span>
                   <v-icon icon="mdi-chevron-down" size="16" class="ml-1" />
                 </v-btn>
               </template>
@@ -293,7 +423,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/blog-conseils') },
                   ]"
                 >
-                  Nouveautés / Blog
+                  {{ t('layout.navSubmenu.resources.blog') }}
                 </v-list-item>
                 <v-list-item
                   to="/faq"
@@ -302,7 +432,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/faq') },
                   ]"
                 >
-                  FAQ
+                  {{ t('layout.navSubmenu.resources.faq') }}
                 </v-list-item>
                 <v-list-item
                   to="/politique-de-confidentialite"
@@ -313,7 +443,7 @@ const year = new Date().getFullYear()
                     },
                   ]"
                 >
-                  Politique de confidentialité
+                  {{ t('layout.navSubmenu.resources.privacy') }}
                 </v-list-item>
                 <v-list-item
                   to="/conditions-tarification"
@@ -322,7 +452,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/conditions-tarification') },
                   ]"
                 >
-                  Conditions & Tarification
+                  {{ t('layout.navSubmenu.resources.pricing') }}
                 </v-list-item>
                 <v-list-item
                   to="/structure-securite"
@@ -331,7 +461,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/structure-securite') },
                   ]"
                 >
-                  Structure & Sécurité
+                  {{ t('layout.navSubmenu.resources.security') }}
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -352,7 +482,7 @@ const year = new Date().getFullYear()
                   }"
                   v-bind="props"
                 >
-                  <span class="nav-link-text">Mon compte</span>
+                  <span class="nav-link-text">{{ t('layout.nav.account') }}</span>
                   <v-icon icon="mdi-chevron-down" size="16" class="ml-1" />
                 </v-btn>
               </template>
@@ -364,7 +494,7 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/connexion') },
                   ]"
                 >
-                  Se connecter
+                  {{ t('layout.navSubmenu.account.login') }}
                 </v-list-item>
                 <v-list-item
                   to="/inscription"
@@ -373,28 +503,65 @@ const year = new Date().getFullYear()
                     { 'dropdown-item-active': isDropdownItemActive('/inscription') },
                   ]"
                 >
-                  S'inscrire
+                  {{ t('layout.navSubmenu.account.register') }}
                 </v-list-item>
               </v-list>
             </v-menu>
           </div>
 
-          <div class="nav-right d-none d-md-flex">
+          <div class="nav-right d-none d-md-flex align-center">
+            <!-- Sélecteur de langue avec drapeaux -->
+            <v-menu v-model="languageMenu" location="bottom end" offset-y>
+              <template #activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  variant="text"
+                  class="language-selector text-none"
+                  size="small"
+                  min-width="auto"
+                >
+                  <img
+                    :src="flagUrls[currentLocale]"
+                    :alt="currentLocale.toUpperCase()"
+                    class="flag-icon"
+                  />
+                </v-btn>
+              </template>
+              <v-list class="language-menu">
+                <v-list-item
+                  v-for="loc in supportedLocales"
+                  :key="loc"
+                  :active="currentLocale === loc"
+                  @click="changeLanguage(loc)"
+                  class="language-item"
+                >
+                  <template #prepend>
+                    <img :src="flagUrls[loc]" :alt="loc.toUpperCase()" class="flag-icon-menu" />
+                  </template>
+                  <v-list-item-title>
+                    {{
+                      t(`common.${loc === 'fr' ? 'french' : loc === 'en' ? 'english' : 'spanish'}`)
+                    }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+
             <v-btn
               color="success"
               variant="flat"
               class="cta-btn cta-btn-left text-none font-weight-bold"
-              @click="router.push('/inscription')"
+              @click="router.push(getLocalizedPath('/inscription'))"
             >
-              Espace client
+              {{ t('layout.buttons.clientSpace') }}
             </v-btn>
             <v-btn
               color="secondary"
               variant="flat"
               class="cta-btn cta-btn-right text-none font-weight-bold"
-              @click="router.push('/contactez-nous')"
+              @click="router.push(getLocalizedPath('/contactez-nous'))"
             >
-              Contactez-nous
+              {{ t('layout.buttons.contactUs') }}
             </v-btn>
           </div>
         </div>
@@ -412,7 +579,7 @@ const year = new Date().getFullYear()
                   v-bind="props"
                   :class="['mobile-menu-item', { 'mobile-menu-item-active': isAccueilActive() }]"
                 >
-                  <v-list-item-title>Accueil</v-list-item-title>
+                  <v-list-item-title>{{ t('layout.nav.home') }}</v-list-item-title>
                 </v-list-item>
               </template>
               <v-list-item
@@ -423,9 +590,9 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item"
-                  >Pourquoi Global Work Hub</v-list-item-title
-                >
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.home.whyGlobalWorkHub')
+                }}</v-list-item-title>
               </v-list-item>
               <v-list-item
                 :to="'/ce-quon-dit-sur-nous'"
@@ -435,7 +602,9 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item">Ce qu'on dit sur nous</v-list-item-title>
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.home.testimonials')
+                }}</v-list-item-title>
               </v-list-item>
             </v-list-group>
 
@@ -448,7 +617,7 @@ const year = new Date().getFullYear()
                   v-bind="props"
                   :class="['mobile-menu-item', { 'mobile-menu-item-active': isAProposActive() }]"
                 >
-                  <v-list-item-title>À propos</v-list-item-title>
+                  <v-list-item-title>{{ t('layout.nav.about') }}</v-list-item-title>
                 </v-list-item>
               </template>
               <v-list-item
@@ -459,7 +628,9 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item">Notre mission</v-list-item-title>
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.about.mission')
+                }}</v-list-item-title>
               </v-list-item>
               <v-list-item
                 :to="'/notre-methode'"
@@ -469,7 +640,9 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item">Notre méthode</v-list-item-title>
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.about.method')
+                }}</v-list-item-title>
               </v-list-item>
             </v-list-group>
 
@@ -500,17 +673,11 @@ const year = new Date().getFullYear()
                       route.path === '/accompagnement-conseil',
                   }"
                 >
-                  <v-list-item-title>Nos services</v-list-item-title>
+                  <v-list-item-title>{{ t('layout.nav.services') }}</v-list-item-title>
                 </v-list-item>
               </template>
               <v-list-item
-                v-for="service in [
-                  { to: '/recrutement', label: 'Recrutement international' },
-                  { to: '/partage-salarial', label: 'Partage salarial (EOR)' },
-                  { to: '/gestion-de-co', label: 'Gestion de co' },
-                  { to: '/rh-et-administratif', label: 'RH & administratif' },
-                  { to: '/accompagnement-conseil', label: 'Accompagnement / Conseil' },
-                ]"
+                v-for="service in mobileServices"
                 :key="service.to"
                 :to="service.to"
                 :class="[
@@ -556,20 +723,11 @@ const year = new Date().getFullYear()
                       route.path === '/politique-de-protection-des-donnees-personnelles',
                   }"
                 >
-                  <v-list-item-title>Ressources</v-list-item-title>
+                  <v-list-item-title>{{ t('layout.nav.resources') }}</v-list-item-title>
                 </v-list-item>
               </template>
               <v-list-item
-                v-for="resource in [
-                  { to: '/blog-conseils', label: 'Nouveautés / Blog' },
-                  { to: '/faq', label: 'FAQ' },
-                  { to: '/politique-de-confidentialite', label: 'Politique de confidentialité' },
-                  { to: '/conditions-tarification', label: 'Conditions & Tarification' },
-                  { to: '/structure-securite', label: 'Structure & Sécurité' },
-                  { to: '/mentions-legales', label: 'Mentions légales' },
-                  { to: '/conditions-generales-utilisation', label: 'CGU' },
-                  { to: '/politique-de-protection-des-donnees-personnelles', label: 'RGPD' },
-                ]"
+                v-for="resource in mobileResources"
                 :key="resource.to"
                 :to="resource.to"
                 :class="[
@@ -600,7 +758,7 @@ const year = new Date().getFullYear()
                       route.path === '/connexion' || route.path === '/inscription',
                   }"
                 >
-                  <v-list-item-title>Mon compte</v-list-item-title>
+                  <v-list-item-title>{{ t('layout.nav.account') }}</v-list-item-title>
                 </v-list-item>
               </template>
               <v-list-item
@@ -611,7 +769,9 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item">Se connecter</v-list-item-title>
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.account.login')
+                }}</v-list-item-title>
               </v-list-item>
               <v-list-item
                 :to="'/inscription'"
@@ -621,10 +781,33 @@ const year = new Date().getFullYear()
                 ]"
                 @click="mobileMenu = false"
               >
-                <v-list-item-title class="mobile-sub-item">S'inscrire</v-list-item-title>
+                <v-list-item-title class="mobile-sub-item">{{
+                  t('layout.navSubmenu.account.register')
+                }}</v-list-item-title>
               </v-list-item>
             </v-list-group>
           </v-list>
+
+          <v-divider class="my-4" />
+
+          <!-- Sélecteur de langue mobile -->
+          <div class="mobile-language-selector pa-4">
+            <div class="text-caption text-medium-emphasis mb-2">{{ t('common.language') }}</div>
+            <div class="d-flex gap-2">
+              <v-btn
+                v-for="loc in supportedLocales"
+                :key="loc"
+                :variant="currentLocale === loc ? 'flat' : 'outlined'"
+                :color="currentLocale === loc ? 'primary' : 'default'"
+                size="small"
+                class="language-flag-btn"
+                @click="changeLanguage(loc)"
+              >
+                <img :src="flagUrls[loc]" :alt="loc.toUpperCase()" class="flag-icon-mobile" />
+                <span class="ml-2">{{ loc.toUpperCase() }}</span>
+              </v-btn>
+            </div>
+          </div>
 
           <v-divider class="my-4" />
 
@@ -638,7 +821,7 @@ const year = new Date().getFullYear()
               class="mb-3 text-none font-weight-bold"
               @click="goToLogin"
             >
-              Espace client
+              {{ t('layout.buttons.clientSpace') }}
             </v-btn>
             <v-btn
               color="secondary"
@@ -648,7 +831,7 @@ const year = new Date().getFullYear()
               class="text-none font-weight-bold"
               @click="goToContact"
             >
-              Contactez-nous
+              {{ t('layout.buttons.contactUs') }}
             </v-btn>
           </div>
         </div>
@@ -675,11 +858,10 @@ const year = new Date().getFullYear()
                 </div>
                 <div class="footer-cta-question">
                   <h3 class="text-h6 text-md-h5 font-weight-bold">
-                    Prêt à accélérer votre croissance internationale ?
+                    {{ t('layout.footer.cta.title') }}
                   </h3>
                   <p class="text-body-2 mt-2 mb-0" style="opacity: 0.9">
-                    Le monde est votre vivier de talents. Nous transformons votre vision en équipes
-                    performantes.
+                    {{ t('layout.footer.cta.subtitle') }}
                   </p>
                 </div>
                 <div class="footer-cta-button">
@@ -688,9 +870,9 @@ const year = new Date().getFullYear()
                     variant="flat"
                     size="large"
                     class="footer-contact-btn text-none font-weight-bold"
-                    @click="router.push('/contactez-nous')"
+                    @click="router.push(getLocalizedPath('/contactez-nous'))"
                   >
-                    Contactez-nous
+                    {{ t('layout.footer.cta.button') }}
                   </v-btn>
                 </div>
               </div>
@@ -700,44 +882,56 @@ const year = new Date().getFullYear()
           <!-- Row 2 : 4 colonnes de liens -->
           <v-row class="footer-main-section">
             <v-col cols="12" sm="6" md="3">
-              <div class="footer-column-header mb-4">Ressources</div>
+              <div class="footer-column-header mb-4">
+                {{ t('layout.footer.sections.resources') }}
+              </div>
               <div class="d-flex flex-column ga-3">
-                <router-link to="/blog-conseils" class="footer-link">Notre blog</router-link>
-                <router-link to="/faq" class="footer-link">FAQ</router-link>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.footer.links.blog')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.resources.faq')
+                }}</a>
               </div>
             </v-col>
 
             <v-col cols="12" sm="6" md="3">
-              <div class="footer-column-header mb-4">Mentions et politiques</div>
+              <div class="footer-column-header mb-4">{{ t('layout.footer.sections.legal') }}</div>
               <div class="d-flex flex-column ga-3">
-                <router-link to="/mentions-legales" class="footer-link"
-                  >Mentions légales</router-link
-                >
-                <router-link to="/politique-de-confidentialite" class="footer-link"
-                  >Politique de confidentialité</router-link
-                >
-                <router-link to="/conditions-generales-utilisation" class="footer-link"
-                  >CGU</router-link
-                >
-                <router-link
-                  to="/politique-de-protection-des-donnees-personnelles"
-                  class="footer-link"
-                  >RGPD</router-link
-                >
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.resources.legal')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.resources.privacy')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.resources.terms')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.resources.gdpr')
+                }}</a>
               </div>
             </v-col>
 
             <v-col cols="12" sm="6" md="3">
-              <div class="footer-column-header mb-4">Nos coordonnées</div>
+              <div class="footer-column-header mb-4">{{ t('layout.footer.sections.contact') }}</div>
               <div class="d-flex flex-column ga-3">
-                <router-link to="/notre-mission" class="footer-link">Qui sommes-nous</router-link>
-                <a href="/notre-mission" class="footer-link">Nos services</a>
-                <router-link to="/notre-methode" class="footer-link">Notre méthode</router-link>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.footer.links.whoWeAre')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.footer.links.ourServices')
+                }}</a>
+                <a href="#" class="footer-link" @click.prevent="showMaintenanceDialog">{{
+                  t('layout.navSubmenu.about.method')
+                }}</a>
               </div>
             </v-col>
 
             <v-col cols="12" sm="6" md="3">
-              <div class="footer-column-header mb-4">Contact</div>
+              <div class="footer-column-header mb-4">
+                {{ t('layout.footer.sections.contactInfo') }}
+              </div>
               <div class="d-flex flex-column ga-3 footer-address">
                 <div class="d-flex align-center ga-2">
                   <v-icon icon="mdi-email" size="18" color="white" />
@@ -765,7 +959,7 @@ const year = new Date().getFullYear()
             <v-col cols="12">
               <div class="footer-copyright">
                 <div class="text-center text-body-2">
-                  © {{ year }} Global Work Hub. Tous droits réservés.
+                  © {{ year }} Global Work Hub. {{ t('layout.footer.copyright') }}
                 </div>
               </div>
             </v-col>
@@ -773,6 +967,32 @@ const year = new Date().getFullYear()
         </v-col>
       </v-container>
     </v-footer>
+
+    <!-- Dialog de maintenance -->
+    <v-dialog v-model="maintenanceDialog" max-width="500" persistent>
+      <v-card>
+        <v-card-title class="d-flex align-center">
+          <v-icon icon="mdi-wrench" color="warning" class="mr-3" size="32"></v-icon>
+          <span class="text-h6">{{ t('layout.footer.maintenance.title') }}</span>
+        </v-card-title>
+        <v-card-text class="pt-4">
+          <p class="text-body-1">
+            {{ t('layout.footer.maintenance.message') }}
+          </p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            variant="flat"
+            @click="maintenanceDialog = false"
+            class="text-none"
+          >
+            {{ t('layout.footer.maintenance.close') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -882,7 +1102,46 @@ const year = new Date().getFullYear()
 .nav-right {
   flex-shrink: 0;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-selector {
+  min-width: auto;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.language-selector:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.flag-icon {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.language-menu {
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.language-item {
+  border-radius: 8px;
+  margin: 2px 0;
+  padding: 8px 12px;
+}
+
+.flag-icon-menu {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-right: 8px;
 }
 
 .cta-btn {
@@ -1334,6 +1593,24 @@ const year = new Date().getFullYear()
 .mobile-sub-item {
   padding-left: 24px !important;
   font-size: 14px !important;
+}
+
+.mobile-language-selector {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.language-flag-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag-icon-mobile {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
 }
 
 .mobile-cta-buttons {

@@ -1,17 +1,23 @@
 <script setup lang="ts">
-const column1 = [
-  'Recrutement international rapide clé en main',
-  'Reporting et indicateurs de performance mensuels',
-  'Support humain et multilingue (FR/EN/AR)',
-]
-const column2 = [
-  'Conformité juridique et fiscale garantie',
-  'Solutions personnalisées selon votre structure et vos besoins',
-]
-const column3 = [
-  'Encadrement et suivi quotidien des talents',
-  'Contrat clair, sans engagement, sans frais cachés',
-]
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, tm, locale } = useI18n()
+
+const column1 = computed(() => {
+  void locale.value // Pour la réactivité
+  return tm('pillars.column1') as string[]
+})
+
+const column2 = computed(() => {
+  void locale.value // Pour la réactivité
+  return tm('pillars.column2') as string[]
+})
+
+const column3 = computed(() => {
+  void locale.value // Pour la réactivité
+  return tm('pillars.column3') as string[]
+})
 </script>
 
 <template>
@@ -19,10 +25,10 @@ const column3 = [
     <v-container class="py-16">
       <div class="text-center mb-10" v-reveal="{ variant: 'up', delay: 0 }">
         <h2 class="pillars-title text-white font-weight-bold mb-4">
-          Sept piliers pour votre réussite
+          {{ t('pillars.title') }}
         </h2>
         <p class="pillars-subtitle text-white">
-          Notre engagement : un seul interlocuteur, une équipe mondiale, zéro contrainte
+          {{ t('pillars.subtitle') }}
         </p>
       </div>
       <v-row justify="center" class="pillars-grid">
